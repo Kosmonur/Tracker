@@ -158,7 +158,6 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-
 extension TrackersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {

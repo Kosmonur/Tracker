@@ -1,13 +1,13 @@
 //
-//  SupplementaryView.swift
+//  CollectionSupplementaryView.swift
 //  Tracker
 //
-//  Created by Александр Пичугин on 01.08.2023.
+//  Created by Александр Пичугин on 07.08.2023.
 //
 
 import UIKit
 
-final class SupplementaryView: UICollectionReusableView {
+final class CollectionSupplementaryView: UICollectionReusableView {
     let headerLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -17,10 +17,11 @@ final class SupplementaryView: UICollectionReusableView {
         headerLabel.textColor = UIColor(named: "YP_Black")
         addSubview(headerLabel)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 40),
+            headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24)
         ])
     }
     
@@ -28,4 +29,3 @@ final class SupplementaryView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-

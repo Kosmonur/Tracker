@@ -1,14 +1,14 @@
 //
-//  ColorCollectionViewCell.swift
+//  CollectionViewCell.swift
 //  Tracker
 //
-//  Created by Александр Пичугин on 06.08.2023.
+//  Created by Александр Пичугин on 09.08.2023.
 //
 
 import UIKit
 
-final class ColorCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "colorCell"
+final class CollectionViewCell: UICollectionViewCell {
+    static let reuseIdentifier = "cell"
     let cellView = UIView()
     let cellLabel = UILabel()
     
@@ -18,6 +18,8 @@ final class ColorCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(cellView)
         contentView.addSubview(cellLabel)
         
+        cellLabel.font = UIFont.systemFont(ofSize: 32)
+        cellLabel.textAlignment = .center
         cellView.layer.masksToBounds = true
         cellView.layer.borderWidth = 3
         cellView.layer.cornerRadius = 8
@@ -42,7 +44,11 @@ final class ColorCollectionViewCell: UICollectionViewCell {
     }
     
     func isSelected(_ isSelect: Bool = false) {
-        cellView.layer.borderColor = isSelect ? cellLabel.backgroundColor?.withAlphaComponent(0.3).cgColor : cellLabel.backgroundColor?.withAlphaComponent(0).cgColor
+        if cellLabel.text == nil {
+            cellView.layer.borderColor = isSelect ? cellLabel.backgroundColor?.withAlphaComponent(0.3).cgColor : cellLabel.backgroundColor?.withAlphaComponent(0).cgColor
+        } else {
+            cellView.backgroundColor = isSelect ? UIColor(named: "YP_LightGray") : .clear
+        }
     }
     
     required init?(coder: NSCoder) {
