@@ -10,22 +10,26 @@ import UIKit
 
 final class NewTrackerViewController: UIViewController {
     
-    var isIrregularEvent: Bool = false
-    var trackerName: String? = nil
-    
     convenience init(isIrregularEvent: Bool) {
         self.init()
         self.isIrregularEvent = isIrregularEvent
     }
     
-    private var cellTitles = ["Категория", "Расписание"]
-    private var header = ["Emoji", "Цвет"]
-    private var cell = UITableViewCell()
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
                           "😇", "😡", "🥶", "🤔", "🙌", "🍔",
                           "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     
     private let colors: [UIColor] = (1...18).map { UIColor(named:"Color selection \($0)") ?? .clear }
+    
+    private var isIrregularEvent: Bool = false
+    private var trackerName: String? = nil
+    
+    private var cellTitles = ["Категория", "Расписание"]
+    private var header = ["Emoji", "Цвет"]
+    private var indexOfSelectedEmoji: IndexPath?
+    private var indexOfSelectedColor: IndexPath?
+    
+    private var cell = UITableViewCell()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.bounds)
@@ -155,7 +159,6 @@ final class NewTrackerViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.allowsMultipleSelection = true
         
     }
     
@@ -274,13 +277,21 @@ extension NewTrackerViewController: UICollectionViewDelegateFlowLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if let selectedCell = indexOfSelectedEmoji {
+                let cell = collectionView.cellForItem(at: selectedCell) as? CollectionViewCell
+                cell?.isSelected(false)
+            }
+            indexOfSelectedEmoji = indexPath
+        } else {
+            if let selectedCell = indexOfSelectedColor {
+                let cell = collectionView.cellForItem(at: selectedCell) as? CollectionViewCell
+                cell?.isSelected(false)
+            }
+            indexOfSelectedColor = indexPath
+        }
         let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell
         cell?.isSelected(true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell
-        cell?.isSelected(false)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -308,7 +319,6 @@ extension NewTrackerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return section == 0 ? emojis.count : colors.count
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
