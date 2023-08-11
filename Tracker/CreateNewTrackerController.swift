@@ -9,15 +9,6 @@ import UIKit
 
 final class CreateNewTrackerController: UIViewController {
     
-    private lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textColor = UIColor(named: "YP_Black")
-        titleLabel.text = "Создание трекера"
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
-    }()
-    
     private lazy var newHabitButton: UIButton = {
         let newHabitButton = UIButton()
         newHabitButton.addTarget(self,
@@ -55,24 +46,23 @@ final class CreateNewTrackerController: UIViewController {
     }()
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor(named: "YP_White")
+
         setupContent()
         setupConstraints()
     }
     
     private func setupContent() {
-        view.addSubview(titleLabel)
-        view.addSubview(buttonsStack)
+        view.backgroundColor = UIColor(named: "YP_White")
+        navigationItem.setHidesBackButton(true, animated: true)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
+        title = "Создание трекера"
         buttonsStack.addArrangedSubview(newHabitButton)
         buttonsStack.addArrangedSubview(irregularEventButton)
-        
+        view.addSubview(buttonsStack)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            
             newHabitButton.heightAnchor.constraint(equalToConstant: 60),
             irregularEventButton.heightAnchor.constraint(equalToConstant: 60),
             
@@ -85,13 +75,12 @@ final class CreateNewTrackerController: UIViewController {
     @objc
     private func didTapNewHabitButton() {
         let newHabitViewController = NewTrackerViewController(isIrregularEvent: false)
-        present(newHabitViewController, animated: true)
+        navigationController?.pushViewController(newHabitViewController, animated: true)
     }
     
     @objc
     private func didTapNewEventButton() {
         let newIrregularEventViewController = NewTrackerViewController(isIrregularEvent: true)
-        present(newIrregularEventViewController, animated: true)
+        navigationController?.pushViewController(newIrregularEventViewController, animated: true)
     }
-    
 }

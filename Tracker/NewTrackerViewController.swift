@@ -36,15 +36,6 @@ final class NewTrackerViewController: UIViewController {
         return scrollView
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textColor = UIColor(named: "YP_Black")
-        titleLabel.text = isIrregularEvent ? "Новое нерегулярное событие" : "Новая привычка"
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        return titleLabel
-    }()
-    
     private lazy var trackerNameField: UITextField = {
         let trackerNameField = UITextField()
         trackerNameField.layer.cornerRadius = 16
@@ -73,6 +64,7 @@ final class NewTrackerViewController: UIViewController {
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -80,6 +72,7 @@ final class NewTrackerViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -123,29 +116,31 @@ final class NewTrackerViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        
         if isIrregularEvent {
-            cellTitles = ["Категория"]
+            cellTitles.removeLast()
         }
         
         setupContent()
         setupConstraints()
-        
     }
     
     private func setupContent() {
+        view.backgroundColor = UIColor(named: "YP_White")
+        navigationItem.setHidesBackButton(true, animated: true)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
+        title = isIrregularEvent ? "Новое нерегулярное событие" : "Новая привычка"
         
         view.addSubview(scrollView)
         
-        scrollView.addSubview(titleLabel)
         scrollView.addSubview(trackerNameField)
         scrollView.addSubview(resrtictionLabel)
         scrollView.addSubview(tableView)
         scrollView.addSubview(collectionView)
         
-        scrollView.addSubview(buttonsStack)
         buttonsStack.addArrangedSubview(cancelButton)
         buttonsStack.addArrangedSubview(createButton)
+        scrollView.addSubview(buttonsStack)
         
         resrtictionLabel.isHidden = true
         tableView.dataSource = self
@@ -169,11 +164,8 @@ final class NewTrackerViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            titleLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 24),
-            
             trackerNameField.heightAnchor.constraint(equalToConstant: 75),
-            trackerNameField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
+            trackerNameField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 24),
             trackerNameField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             trackerNameField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
@@ -184,8 +176,8 @@ final class NewTrackerViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
-            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 16),
-            collectionView.heightAnchor.constraint(equalToConstant: 508),
+            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: -8),
+            collectionView.heightAnchor.constraint(equalToConstant: 500),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
             
@@ -198,9 +190,22 @@ final class NewTrackerViewController: UIViewController {
         ])
     }
     
+    private func setCreateButtonState() {
+        if let trackerName = trackerName,
+           !trackerName.isEmpty,
+           (indexOfSelectedEmoji != nil),
+           (indexOfSelectedColor != nil) {
+            createButton.isEnabled = true
+            createButton.backgroundColor = UIColor(named: "YP_Black")
+        } else {
+            createButton.isEnabled = false
+            createButton.backgroundColor = UIColor(named: "YP_Gray")
+        }
+    }
+    
     @objc
     private func didTapCancelButton() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc
@@ -219,16 +224,15 @@ final class NewTrackerViewController: UIViewController {
         } else {
             resrtictionLabel.isHidden = true
         }
-        if let trackerName = trackerName,
-           !trackerName.isEmpty,
-           currentLenght <= maxLenght {
-            createButton.isEnabled = true
-            createButton.backgroundColor = UIColor(named: "YP_Black")
-        } else {
-            createButton.isEnabled = false
-            createButton.backgroundColor = UIColor(named: "YP_Gray")
+        
+        if currentLenght <= maxLenght {
+            setCreateButtonState()
         }
+        
     }
+    
+    
+    
     
 }
 
@@ -249,15 +253,26 @@ extension NewTrackerViewController: UITableViewDataSource {
         
         let title = cellTitles[indexPath.row]
         cell.textLabel?.text = title
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)}
         return cell
     }
-    
 }
 
 extension NewTrackerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let categoryViewController = CategoryViewController()
+            navigationController?.pushViewController(categoryViewController, animated: true)
+        } else {
+            let scheduleViewController = ScheduleViewController()
+            navigationController?.pushViewController(scheduleViewController, animated: true)
+        }
     }
 }
 
@@ -275,7 +290,6 @@ extension NewTrackerViewController: UICollectionViewDelegateFlowLayout {
         0
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if let selectedCell = indexOfSelectedEmoji {
@@ -292,6 +306,7 @@ extension NewTrackerViewController: UICollectionViewDelegateFlowLayout {
         }
         let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell
         cell?.isSelected(true)
+        setCreateButtonState()
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -308,7 +323,6 @@ extension NewTrackerViewController: UICollectionViewDelegateFlowLayout {
                                                   withHorizontalFittingPriority: .required,
                                                   verticalFittingPriority: .fittingSizeLevel)
     }
-    
 }
 
 extension NewTrackerViewController: UICollectionViewDataSource {
@@ -337,9 +351,9 @@ extension NewTrackerViewController: UICollectionViewDataSource {
         
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                    withReuseIdentifier: "header",
-                                                                   for: indexPath) as! CollectionSupplementaryView
-        view.headerLabel.text = header[indexPath.section]
-        return view
+                                                                   for: indexPath) as? CollectionSupplementaryView
+        view?.headerLabel.text = header[indexPath.section]
+        return view ?? CollectionSupplementaryView()
     }
     
 }

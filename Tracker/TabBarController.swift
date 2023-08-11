@@ -20,7 +20,8 @@ final class TabBarController: UITabBarController {
         statisticViewController.tabBarItem.image = UIImage(named: "stats_icon")
         statisticViewController.title = "Статистика"
         
-        viewControllers = [trackersViewController, statisticViewController]
+        let navigationController = UINavigationController(rootViewController: trackersViewController)
+        
+        viewControllers = [navigationController, statisticViewController]
     }
 }
-

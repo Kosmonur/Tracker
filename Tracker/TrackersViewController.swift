@@ -31,32 +31,21 @@ final class TrackersViewController: UIViewController {
         return questionLabel
     }()
     
-    private lazy var addButton: UIButton = {
-        let addButton = UIButton.systemButton(with: UIImage(named:"plus_icon") ?? UIImage(),
-                                              target: self,
-                                              action: #selector(addTracker))
+    private var addButton: UIBarButtonItem = {
+        let addButton = UIBarButtonItem()
         addButton.tintColor = UIColor(named: "YP_Black")
-        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.image = UIImage(named: "plus_icon")
+        addButton.action = #selector(addTracker)
         return addButton
     }()
     
-    private lazy var datePicker: UIDatePicker = {
+    private lazy var dateButton: UIBarButtonItem = {
         let datePicker = UIDatePicker()
         datePicker.locale = Locale(identifier: "ru")
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(selectDate), for: .valueChanged)
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        return datePicker
-    }()
-    
-    private lazy var headingLabel: UILabel = {
-        let headingLabel = UILabel()
-        headingLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        headingLabel.textColor = UIColor(named: "YP_Black")
-        headingLabel.text = "Трекеры"
-        headingLabel.translatesAutoresizingMaskIntoConstraints = false
-        return headingLabel
+        return UIBarButtonItem(customView: datePicker)
     }()
     
     private lazy var searchField: UISearchTextField = {
@@ -76,10 +65,27 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "YP_White")
         setupContent()
         setupConstraints()
+    }
+    
+    private func setupContent() {
+        view.backgroundColor = UIColor(named: "YP_White")
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = "Трекеры"
+        addButton.target = self
+        navigationItem.leftBarButtonItem = addButton
+        navigationItem.rightBarButtonItem = dateButton
         
+        view.addSubview(stub)
+        view.addSubview(questionLabel)
+        showStub(true)
+        view.addSubview(searchField)
+        view.addSubview(collectionView)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     private func setupConstraints() {
@@ -92,52 +98,18 @@ final class TrackersViewController: UIViewController {
             stub.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
             questionLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 40+8+9),
-            questionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            questionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            
-            addButton.widthAnchor.constraint(equalToConstant: 42),
-            addButton.heightAnchor.constraint(equalToConstant: 42),
-            addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1),
-            addButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 6),
-            
-            datePicker.widthAnchor.constraint(equalToConstant: 110),
-            datePicker.heightAnchor.constraint(equalToConstant: 34),
-            datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            
-            headingLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 1),
-            headingLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            headingLabel.trailingAnchor.constraint(equalTo: datePicker.leadingAnchor, constant: 12),
+            questionLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
             searchField.heightAnchor.constraint(equalToConstant: 36),
-            searchField.topAnchor.constraint(equalTo: headingLabel.bottomAnchor, constant: 7),
+            searchField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             searchField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
-            collectionView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 18),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
-    }
-    
-    private func setupContent() {
-        
-        view.addSubview(stub)
-        view.addSubview(questionLabel)
-        view.addSubview(addButton)
-        view.addSubview(datePicker)
-        view.addSubview(headingLabel)
-        view.addSubview(searchField)
-        view.addSubview(collectionView)
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
-        
-        showStub(true)
     }
     
     private func showStub (_ visible: Bool) {
@@ -148,7 +120,8 @@ final class TrackersViewController: UIViewController {
     @objc
     private func addTracker() {
         let createNewTrackerController = CreateNewTrackerController()
-        present(createNewTrackerController, animated: true)
+        let navigationController = UINavigationController(rootViewController: createNewTrackerController)
+        present(navigationController, animated: true)
     }
     
     @objc
@@ -181,9 +154,9 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                    withReuseIdentifier: "header",
-                                                                   for: indexPath) as! SupplementaryView
-        view.headerLabel.text = visibleCategories[indexPath.section].header
-        return view
+                                                                   for: indexPath) as? SupplementaryView
+        view?.headerLabel.text = visibleCategories[indexPath.section].header
+        return view ?? SupplementaryView()
     }
     
 }
