@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol TrackerCellDelegate: AnyObject {
+    func completeTracker(id: UUID, at indexPath: IndexPath)
+    func uncompleteTracker(id: UUID, at indexPath: IndexPath)
+}
+
 final class TrackerViewCell: UICollectionViewCell {
     
     private lazy var viewCell: UIView = {
@@ -63,7 +68,11 @@ final class TrackerViewCell: UICollectionViewCell {
         return plusButton
     }()
     
-    private var done = false
+    private var isCompletedToday = false
+    private var trackerId: UUID?
+    private var indexPath: IndexPath?
+    
+    weak var delegate: TrackerCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -119,29 +128,54 @@ final class TrackerViewCell: UICollectionViewCell {
         ])
     }
     
-    private func setupButtonState() {
-        let buttonImage = done ? UIImage(named: "done_button") : UIImage(named: "plus_button")
-        plusButton.setImage(buttonImage, for: .normal)
-    }
-    
-    func setupCell(tracker: Tracker) {
+    func setupCell(tracker: Tracker,
+                   isCompletedToday: Bool,
+                   completedDays: Int,
+                   indexPath: IndexPath) {
+        self.isCompletedToday = isCompletedToday
+        self.trackerId = tracker.id
+        self.indexPath = indexPath
         
         viewCell.backgroundColor = tracker.color
         plusButton.tintColor = tracker.color
         
-        setupButtonState()
+        let buttonImage = isCompletedToday ? UIImage(named: "done_button") : UIImage(named: "plus_button")
+        plusButton.setImage(buttonImage, for: .normal)
         
         emojiLabel.text = tracker.emoji
         textLabel.text = tracker.name
-        dayLabel.text = "4 дня"
         
+        let correctWord: String = {
+            var ended = ""
+            let cheсk = completedDays % 10
+            if "1".contains("\(cheсk)") {
+                ended =  "день"
+            }
+            if "234".contains("\(cheсk)") {
+                ended =  "дня"
+            }
+            if "567890".contains("\(cheсk)") {
+                ended =  "дней"
+            }
+            if 11...14 ~= completedDays % 100 {
+                ended =  "дней"
+            }
+            return ended
+        }()
+        
+        dayLabel.text = "\(completedDays) \(correctWord)"
     }
     
     @objc
     private func tapPlusButton() {
-        print (#function)
-        done = !done
-        setupButtonState()
+        guard let trackerId = trackerId,
+              let indexPath = indexPath else {
+            return
+        }
+        if isCompletedToday {
+            delegate?.uncompleteTracker(id: trackerId, at: indexPath)
+        } else {
+            delegate?.completeTracker(id: trackerId, at: indexPath)
+        }
     }
-    
 }
