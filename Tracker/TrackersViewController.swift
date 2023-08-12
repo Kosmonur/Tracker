@@ -9,10 +9,9 @@ import UIKit
 
 final class TrackersViewController: UIViewController {
     
-    var categories: [TrackerCategory] = []
-    var visibleCategories: [TrackerCategory] = tempCategories
+    var categories: [TrackerCategory] = mockCategories
+    var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
-    var currentDate: Date = Date()
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
@@ -39,19 +38,22 @@ final class TrackersViewController: UIViewController {
         return addButton
     }()
     
-    private lazy var dateButton: UIBarButtonItem = {
+    private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.locale = Locale(identifier: "ru")
+        datePicker.calendar.firstWeekday = 2
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(selectDate), for: .valueChanged)
-        return UIBarButtonItem(customView: datePicker)
+        datePicker.addTarget(self, action: #selector(reloadVisibleCategories), for: .valueChanged)
+        return datePicker
     }()
     
     private lazy var searchField: UISearchTextField = {
         let searchField = UISearchTextField()
         searchField.placeholder = "Поиск"
         searchField.translatesAutoresizingMaskIntoConstraints = false
+        searchField.addTarget(self, action: #selector(reloadVisibleCategories), for: .allEditingEvents)
+        searchField.delegate = self
         return searchField
     }()
     
@@ -67,6 +69,8 @@ final class TrackersViewController: UIViewController {
         
         setupContent()
         setupConstraints()
+        visibleCategories = categories
+        reloadVisibleCategories()
     }
     
     private func setupContent() {
@@ -75,11 +79,10 @@ final class TrackersViewController: UIViewController {
         title = "Трекеры"
         addButton.target = self
         navigationItem.leftBarButtonItem = addButton
-        navigationItem.rightBarButtonItem = dateButton
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         view.addSubview(stub)
         view.addSubview(questionLabel)
-        showStub(true)
         view.addSubview(searchField)
         view.addSubview(collectionView)
         collectionView.dataSource = self
@@ -91,7 +94,6 @@ final class TrackersViewController: UIViewController {
     private func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            
             stub.widthAnchor.constraint(equalToConstant: 80),
             stub.heightAnchor.constraint(equalToConstant: 80),
             stub.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
@@ -112,9 +114,38 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func showStub (_ visible: Bool) {
-        stub.isHidden = !visible
-        questionLabel.isHidden = !visible
+    @objc
+    private func reloadVisibleCategories() {
+        let calendar = Calendar.current
+        let filterWeekDay = calendar.component(.weekday, from: datePicker.date)
+        let filterText = (searchField.text ?? "").lowercased()
+        
+        visibleCategories = categories.compactMap { category in
+            let trackers = category.trackers.filter { tracker in
+                let textCondition = filterText.isEmpty ||
+                tracker.name.lowercased().contains(filterText)
+                let dateCondition = tracker.schedule.contains { weekDay in
+                    weekDay.number == filterWeekDay
+                } == true
+                return textCondition && dateCondition
+            }
+            if trackers.isEmpty {
+                return nil
+            }
+            return TrackerCategory(header: category.header,
+                                   trackers: trackers)
+        }
+        
+        if visibleCategories.isEmpty {
+            stub.isHidden = false
+            questionLabel.isHidden = false
+        } else
+        {
+            stub.isHidden = true
+            questionLabel.isHidden = true
+        }
+        collectionView.reloadData()
+        dismiss(animated: true)
     }
     
     @objc
@@ -123,11 +154,12 @@ final class TrackersViewController: UIViewController {
         let navigationController = UINavigationController(rootViewController: createNewTrackerController)
         present(navigationController, animated: true)
     }
-    
-    @objc
-    private func selectDate(selectedDate: UIDatePicker) {
-        currentDate = selectedDate.date
-        dismiss(animated: true)
+}
+
+extension TrackersViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        reloadVisibleCategories()
+        return textField.resignFirstResponder()
     }
 }
 

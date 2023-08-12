@@ -110,13 +110,12 @@ extension ScheduleViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor(named: "YP_Background")
             
             let switchView = UISwitch(frame: .zero)
-            switchView.setOn(false, animated: true)
+            switchView.setOn(true, animated: true)
             switchView.onTintColor = UIColor(named: "YP_Blue")
             switchView.tag = indexPath.row
             switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
             cell.accessoryView = switchView
-            
-            cell.textLabel?.text = "Понедельник"
+            cell.textLabel?.text = WeekDay.allCases[indexPath.row].rawValue
             
             if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)

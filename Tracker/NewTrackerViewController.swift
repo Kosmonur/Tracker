@@ -355,6 +355,12 @@ extension NewTrackerViewController: UICollectionViewDataSource {
         view?.headerLabel.text = header[indexPath.section]
         return view ?? CollectionSupplementaryView()
     }
-    
+}
+
+extension UITextField {
+    func indent(_ size:CGFloat) {
+        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: size, height: self.frame.height))
+        self.leftViewMode = .always
+    }
 }
 
