@@ -9,6 +9,8 @@ import UIKit
 
 final class TrackersViewController: UIViewController {
     
+    weak var delegate: NewTrackerViewControllerDelegate?
+    
     var categories: [TrackerCategory] = mockCategories
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
@@ -114,6 +116,17 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
+    private func isTrackerCompletedToday(id: UUID) -> Bool {
+        completedTrackers.contains { trackerRecord in
+            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
+        }
+    }
+    
+    private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
+        let isSameDay = Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
+        return isSameDay && trackerRecord.idRecord == id
+    }
+    
     @objc
     private func reloadVisibleCategories() {
         let calendar = Calendar.current
@@ -132,8 +145,7 @@ final class TrackersViewController: UIViewController {
             if trackers.isEmpty {
                 return nil
             }
-            return TrackerCategory(header: category.header,
-                                   trackers: trackers)
+            return TrackerCategory(header: category.header, trackers: trackers)
         }
         
         if visibleCategories.isEmpty {
@@ -151,12 +163,14 @@ final class TrackersViewController: UIViewController {
     @objc
     private func addTracker() {
         let createNewTrackerController = CreateNewTrackerController()
+        createNewTrackerController.delegate = self
         let navigationController = UINavigationController(rootViewController: createNewTrackerController)
         present(navigationController, animated: true)
     }
 }
 
 extension TrackersViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         reloadVisibleCategories()
         return textField.resignFirstResponder()
@@ -190,17 +204,6 @@ extension TrackersViewController: UICollectionViewDataSource {
         return cell ?? UICollectionViewCell()
     }
     
-    private func isTrackerCompletedToday(id: UUID) -> Bool {
-        completedTrackers.contains { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
-        }
-    }
-    
-    private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
-        let isSameDay = Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
-        return isSameDay && trackerRecord.idRecord == id
-    }
-    
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -214,8 +217,22 @@ extension TrackersViewController: UICollectionViewDataSource {
 }
 
 extension TrackersViewController: TrackerCellDelegate {
+    
     func completeTracker(id: UUID, at indexPath: IndexPath) {
-        let trackerRecord = TrackerRecord(dateRecord: datePicker.date, idRecord: id)
+        if datePicker.date > Date() {
+            let alert = UIAlertController(
+                title: "Будущее зависит от того, что вы делаете сегодня",
+                message: "Но сегодня нельзя выполнить то, что предстоит сделать завтра…",
+                preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ок", style: .cancel) { _ in
+                self.dismiss(animated: false)
+            }
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
         completedTrackers.append(trackerRecord)
         collectionView.reloadItems(at: [indexPath])
     }
@@ -226,8 +243,6 @@ extension TrackersViewController: TrackerCellDelegate {
         }
         collectionView.reloadItems(at: [indexPath])
     }
-    
-    
 }
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
@@ -253,6 +268,14 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                                                          height: UIView.layoutFittingExpandedSize.height),
                                                   withHorizontalFittingPriority: .required,
                                                   verticalFittingPriority: .fittingSizeLevel)
+    }
+}
+
+extension TrackersViewController: NewTrackerViewControllerDelegate {
+    
+    func addNewCategory(newCategory: TrackerCategory) {
+        categories.append(newCategory)
+        reloadVisibleCategories()
     }
 }
 

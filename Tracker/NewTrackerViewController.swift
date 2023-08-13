@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol NewTrackerViewControllerDelegate: AnyObject {
+    func addNewCategory(newCategory: TrackerCategory)
+}
+
 final class NewTrackerViewController: UIViewController {
+    
+    weak var delegate: NewTrackerViewControllerDelegate?
     
     convenience init(isIrregularEvent: Bool) {
         self.init()
@@ -211,6 +217,20 @@ final class NewTrackerViewController: UIViewController {
     @objc
     private func didTapCreateButton() {
         print(#function)
+        
+        let newTracker = Tracker(id: UUID(),
+                                 name: trackerNameField.text ?? "",
+                                 color: colors[indexOfSelectedColor?.row ?? 0],
+                                 emoji: emojis[indexOfSelectedEmoji?.row ?? 0],
+                                 schedule: [WeekDay.sunday, WeekDay.monday, WeekDay.tuesday, WeekDay.wednesday, WeekDay.thurshday, WeekDay.friday, WeekDay.saturday])
+        
+        let newCategory = TrackerCategory(header: "New temporary category",
+                                          trackers: [newTracker])
+        
+        delegate?.addNewCategory(newCategory: newCategory)
+        
+        
+        dismiss(animated: true)
     }
     
     @objc
@@ -230,10 +250,6 @@ final class NewTrackerViewController: UIViewController {
         }
         
     }
-    
-    
-    
-    
 }
 
 extension NewTrackerViewController: UITableViewDataSource {

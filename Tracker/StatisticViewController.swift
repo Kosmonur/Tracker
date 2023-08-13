@@ -13,7 +13,7 @@ final class StatisticViewController: UIViewController {
         super.viewDidLoad()
         
         // To do...
-        view.backgroundColor = .cyan
+        view.backgroundColor = .gray
         
     }
 }

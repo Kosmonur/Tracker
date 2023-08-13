@@ -12,6 +12,11 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let lineView = UIView()
+        lineView.backgroundColor = UIColor(named: "YP_Gray")
+        lineView.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1)
+        tabBar.addSubview(lineView)
+        
         let trackersViewController = TrackersViewController()
         trackersViewController.tabBarItem.image = UIImage(named: "trackers_icon")
         trackersViewController.title = "Трекеры"

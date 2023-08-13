@@ -43,6 +43,6 @@ struct TrackerCategory {
 }
 
 struct TrackerRecord {
-    let dateRecord: Date
     let idRecord: UUID
+    let dateRecord: Date
 }

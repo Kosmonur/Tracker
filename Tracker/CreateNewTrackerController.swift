@@ -9,6 +9,8 @@ import UIKit
 
 final class CreateNewTrackerController: UIViewController {
     
+    weak var delegate: NewTrackerViewControllerDelegate?
+    
     private lazy var newHabitButton: UIButton = {
         let newHabitButton = UIButton()
         newHabitButton.addTarget(self,
@@ -75,12 +77,21 @@ final class CreateNewTrackerController: UIViewController {
     @objc
     private func didTapNewHabitButton() {
         let newHabitViewController = NewTrackerViewController(isIrregularEvent: false)
+        newHabitViewController.delegate = self
         navigationController?.pushViewController(newHabitViewController, animated: true)
     }
     
     @objc
     private func didTapNewEventButton() {
         let newIrregularEventViewController = NewTrackerViewController(isIrregularEvent: true)
+        newIrregularEventViewController.delegate = self
         navigationController?.pushViewController(newIrregularEventViewController, animated: true)
     }
 }
+
+extension CreateNewTrackerController: NewTrackerViewControllerDelegate {
+    func addNewCategory(newCategory: TrackerCategory) {
+        delegate?.addNewCategory(newCategory: newCategory)
+    }
+}
+
