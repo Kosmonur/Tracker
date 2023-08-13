@@ -9,16 +9,20 @@
 import UIKit
 
 protocol NewTrackerViewControllerDelegate: AnyObject {
-    func addNewCategory(newCategory: TrackerCategory)
+    func updateCategory(newCategory: TrackerCategory)
 }
 
 final class NewTrackerViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    convenience init(isIrregularEvent: Bool) {
-        self.init()
-        self.isIrregularEvent = isIrregularEvent
+    init(_ trackerType: TrackerType) {
+        self.trackerType = trackerType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
@@ -27,10 +31,11 @@ final class NewTrackerViewController: UIViewController {
     
     private let colors: [UIColor] = (1...18).map { UIColor(named:"Color selection \($0)") ?? .clear }
     
-    private var isIrregularEvent: Bool = false
-    private var trackerName: String? = nil
+    private var trackerType: TrackerType
+    private var trackerName: String?
+    private var categoryName: String?
+    private var sheduleList: [WeekDay]? = [WeekDay.monday, WeekDay.friday, WeekDay.sunday]
     
-    private var cellTitles = ["Категория", "Расписание"]
     private var header = ["Emoji", "Цвет"]
     private var indexOfSelectedEmoji: IndexPath?
     private var indexOfSelectedColor: IndexPath?
@@ -71,6 +76,7 @@ final class NewTrackerViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
+        
         return tableView
     }()
     
@@ -123,20 +129,15 @@ final class NewTrackerViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        if isIrregularEvent {
-            cellTitles.removeLast()
-        }
-        
         setupContent()
         setupConstraints()
+        setupTypeTracker()
     }
     
     private func setupContent() {
         view.backgroundColor = UIColor(named: "YP_White")
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
-        title = isIrregularEvent ? "Новое нерегулярное событие" : "Новая привычка"
-        
         view.addSubview(scrollView)
         
         scrollView.addSubview(trackerNameField)
@@ -163,10 +164,18 @@ final class NewTrackerViewController: UIViewController {
         
     }
     
+    private func setupTypeTracker() {
+        switch trackerType {
+        case .habit:
+            title = "Новая привычка"
+            tableView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        case .event:
+            title = "Новое нерегулярное событие"
+            tableView.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        }
+    }
+    
     private func setupConstraints() {
-        
-        tableView.heightAnchor.constraint(equalToConstant: 75).isActive = isIrregularEvent
-        tableView.heightAnchor.constraint(equalToConstant: 150).isActive = !isIrregularEvent
         
         NSLayoutConstraint.activate([
             
@@ -200,7 +209,8 @@ final class NewTrackerViewController: UIViewController {
         if let trackerName = trackerName,
            !trackerName.isEmpty,
            (indexOfSelectedEmoji != nil),
-           (indexOfSelectedColor != nil) {
+           (indexOfSelectedColor != nil),
+           categoryName != nil {
             createButton.isEnabled = true
             createButton.backgroundColor = UIColor(named: "YP_Black")
         } else {
@@ -222,14 +232,13 @@ final class NewTrackerViewController: UIViewController {
                                  name: trackerNameField.text ?? "",
                                  color: colors[indexOfSelectedColor?.row ?? 0],
                                  emoji: emojis[indexOfSelectedEmoji?.row ?? 0],
-                                 schedule: [WeekDay.sunday, WeekDay.monday, WeekDay.tuesday, WeekDay.wednesday, WeekDay.thurshday, WeekDay.friday, WeekDay.saturday])
+                                 schedule: sheduleList ?? [])
         
-        let newCategory = TrackerCategory(header: "New temporary category",
+        guard let categoryName = categoryName else { return }
+        let newCategory = TrackerCategory(header: categoryName,
                                           trackers: [newTracker])
         
-        delegate?.addNewCategory(newCategory: newCategory)
-        
-        
+        delegate?.updateCategory(newCategory: newCategory)
         dismiss(animated: true)
     }
     
@@ -248,14 +257,18 @@ final class NewTrackerViewController: UIViewController {
         if currentLenght <= maxLenght {
             setCreateButtonState()
         }
-        
     }
 }
 
 extension NewTrackerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cellTitles.count
+        switch trackerType {
+        case .habit:
+            return 2
+        case .event:
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -267,8 +280,40 @@ extension NewTrackerViewController: UITableViewDataSource {
             cell.accessoryType = .disclosureIndicator
         }
         
-        let title = cellTitles[indexPath.row]
-        cell.textLabel?.text = title
+        var stringWithNewAtributes = NSMutableAttributedString()
+        var textLabel: String
+        cell.textLabel?.numberOfLines = 0
+        
+        if indexPath.row == 0 {
+            textLabel = "Категория"
+            if let categoryName = categoryName {
+                textLabel += "\n" + categoryName}
+        } else {
+            textLabel = "Расписание"
+            if let sheduleList = sheduleList,
+               !sheduleList.isEmpty {
+                textLabel += "\n"
+                let days = sheduleList.map { $0.shortName }
+                days.forEach { day in
+                    textLabel += day
+                    if day != days.last {
+                        textLabel += ", "
+                    }
+                }
+            }
+        }
+        
+        stringWithNewAtributes = NSMutableAttributedString(string: textLabel, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular)])
+        
+        stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "YP_Black") ?? .black, range: NSRange(location:0,length: textLabel.count))
+        
+        if textLabel.contains("\n") {
+            let position = textLabel.distance(from: textLabel.startIndex, to: textLabel.firstIndex(of: "\n") ?? textLabel.startIndex)
+            stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "YP_Gray") ?? .gray, range: NSRange(location: position, length: textLabel.count - position))
+        }
+        
+        cell.textLabel?.attributedText = stringWithNewAtributes
+        
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)}
         return cell
@@ -284,9 +329,17 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
+            categoryViewController.selectCategoryName = { [weak self] category in
+                guard let self else { return }
+                self.categoryName = category
+                setCreateButtonState()
+                tableView.reloadData()
+            }
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
+            scheduleViewController.delegate = self
+            scheduleViewController.selectedDay = sheduleList
             navigationController?.pushViewController(scheduleViewController, animated: true)
         }
     }
@@ -370,6 +423,14 @@ extension NewTrackerViewController: UICollectionViewDataSource {
                                                                    for: indexPath) as? CollectionSupplementaryView
         view?.headerLabel.text = header[indexPath.section]
         return view ?? CollectionSupplementaryView()
+    }
+}
+
+extension NewTrackerViewController: ScheduleViewControllerDelegate {
+    func updateShedule(daysOfWeek: [WeekDay]?) {
+        sheduleList = daysOfWeek
+        setCreateButtonState()
+        tableView.reloadData()
     }
 }
 

@@ -48,7 +48,7 @@ final class CreateNewTrackerController: UIViewController {
     }()
     
     override func viewDidLoad() {
-
+        
         setupContent()
         setupConstraints()
     }
@@ -76,22 +76,22 @@ final class CreateNewTrackerController: UIViewController {
     
     @objc
     private func didTapNewHabitButton() {
-        let newHabitViewController = NewTrackerViewController(isIrregularEvent: false)
+        let newHabitViewController = NewTrackerViewController(.habit)
         newHabitViewController.delegate = self
         navigationController?.pushViewController(newHabitViewController, animated: true)
     }
     
     @objc
     private func didTapNewEventButton() {
-        let newIrregularEventViewController = NewTrackerViewController(isIrregularEvent: true)
+        let newIrregularEventViewController = NewTrackerViewController(.event)
         newIrregularEventViewController.delegate = self
         navigationController?.pushViewController(newIrregularEventViewController, animated: true)
     }
 }
 
 extension CreateNewTrackerController: NewTrackerViewControllerDelegate {
-    func addNewCategory(newCategory: TrackerCategory) {
-        delegate?.addNewCategory(newCategory: newCategory)
+    func updateCategory(newCategory: TrackerCategory) {
+        delegate?.updateCategory(newCategory: newCategory)
     }
 }
 

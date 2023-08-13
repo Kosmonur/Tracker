@@ -9,11 +9,13 @@ import UIKit
 
 final class CategoryViewController: UIViewController {
     
+    var selectCategoryName: ((String?) -> Void)?
+    
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
         addCategoryButton.addTarget(self,
-                               action: #selector(didTapAddCategoryButton),
-                               for: .touchUpInside)
+                                    action: #selector(didTapAddCategoryButton),
+                                    for: .touchUpInside)
         addCategoryButton.backgroundColor = UIColor(named: "YP_Black")
         addCategoryButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
         addCategoryButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -79,12 +81,16 @@ final class CategoryViewController: UIViewController {
             addCategoryButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             addCategoryButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-
+            
         ])
     }
     
     @objc
     private func didTapAddCategoryButton() {
+        
+        let mockCategory = ["Развлечения", "Спорт", "Учёба"].randomElement()
+        
+        selectCategoryName?(mockCategory)
         navigationController?.popViewController(animated: true)
     }
     

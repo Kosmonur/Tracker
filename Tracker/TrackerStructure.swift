@@ -23,7 +23,7 @@ enum WeekDay: String, CaseIterable {
     case friday = "Пятница"
     case saturday = "Суббота"
     case sunday = "Воскресенье"
-
+    
     var number: Int {
         switch self {
         case .monday: return 2
@@ -35,6 +35,19 @@ enum WeekDay: String, CaseIterable {
         case .sunday: return 1
         }
     }
+    
+    var shortName: String {
+        switch self {
+        case .monday: return "Пн"
+        case .tuesday: return "Вт"
+        case .wednesday: return "Ср"
+        case .thurshday: return "Чт"
+        case .friday: return "Пт"
+        case .saturday: return "Сб"
+        case .sunday: return "Вс"
+        }
+    }
+    
 }
 
 struct TrackerCategory {
@@ -45,4 +58,9 @@ struct TrackerCategory {
 struct TrackerRecord {
     let idRecord: UUID
     let dateRecord: Date
+}
+
+enum TrackerType {
+    case habit
+    case event
 }

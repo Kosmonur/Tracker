@@ -273,9 +273,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
     
-    func addNewCategory(newCategory: TrackerCategory) {
+    func updateCategory(newCategory: TrackerCategory) {
         categories.append(newCategory)
         reloadVisibleCategories()
     }
 }
-
