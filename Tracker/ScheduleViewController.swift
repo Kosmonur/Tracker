@@ -8,14 +8,14 @@
 import UIKit
 
 protocol ScheduleViewControllerDelegate: AnyObject {
-    func updateShedule(daysOfWeek: [WeekDay]?)
+    func updateNewShedule(daysOfWeek: [WeekDay])
 }
 
 final class ScheduleViewController: UIViewController, UITableViewDelegate {
     
     weak var delegate: ScheduleViewControllerDelegate?
     
-    var selectedDay: [WeekDay]?
+    var selectedDay: [WeekDay] = []
     
     private var cell = UITableViewCell()
     
@@ -94,20 +94,21 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
     
     @objc
     private func didTapReadyButton() {
-        delegate?.updateShedule(daysOfWeek: selectedDay)
+        delegate?.updateNewShedule(daysOfWeek: selectedDay)
         navigationController?.popViewController(animated: true)
     }
     
     @objc
     private func switchChanged(_ sender: UISwitch) {
-        guard var selectedDay = selectedDay else { return }
         let dayForChange = WeekDay.allCases[sender.tag]
         if sender.isOn {
             selectedDay.append(dayForChange)
+            //сделать сортировку
+//            print (WeekDay.allCases)
+            
         } else {
             selectedDay = selectedDay.filter { $0 != dayForChange }
         }
-        self.selectedDay = selectedDay
     }
 }
 
@@ -126,7 +127,7 @@ extension ScheduleViewController: UITableViewDataSource {
             cell.backgroundColor = UIColor(named: "YP_Background")
             
             let switchView = UISwitch(frame: .zero)
-            switchView.setOn(selectedDay?.contains(WeekDay.allCases[indexPath.row]) ?? false, animated: true)
+            switchView.setOn(selectedDay.contains(WeekDay.allCases[indexPath.row]), animated: true)
             switchView.onTintColor = UIColor(named: "YP_Blue")
             switchView.tag = indexPath.row
             switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)

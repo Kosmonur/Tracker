@@ -34,7 +34,7 @@ final class NewTrackerViewController: UIViewController {
     private var trackerType: TrackerType
     private var trackerName: String?
     private var categoryName: String?
-    private var sheduleList: [WeekDay]? = [WeekDay.monday, WeekDay.friday, WeekDay.sunday]
+    private var sheduleList: [WeekDay] = []
     
     private var header = ["Emoji", "Цвет"]
     private var indexOfSelectedEmoji: IndexPath?
@@ -210,7 +210,8 @@ final class NewTrackerViewController: UIViewController {
            !trackerName.isEmpty,
            (indexOfSelectedEmoji != nil),
            (indexOfSelectedColor != nil),
-           categoryName != nil {
+           categoryName != nil,
+           trackerType == .event || trackerType == .habit && !sheduleList.isEmpty {
             createButton.isEnabled = true
             createButton.backgroundColor = UIColor(named: "YP_Black")
         } else {
@@ -232,7 +233,7 @@ final class NewTrackerViewController: UIViewController {
                                  name: trackerNameField.text ?? "",
                                  color: colors[indexOfSelectedColor?.row ?? 0],
                                  emoji: emojis[indexOfSelectedEmoji?.row ?? 0],
-                                 schedule: sheduleList ?? [])
+                                 schedule: sheduleList)
         
         guard let categoryName = categoryName else { return }
         let newCategory = TrackerCategory(header: categoryName,
@@ -290,16 +291,8 @@ extension NewTrackerViewController: UITableViewDataSource {
                 textLabel += "\n" + categoryName}
         } else {
             textLabel = "Расписание"
-            if let sheduleList = sheduleList,
-               !sheduleList.isEmpty {
-                textLabel += "\n"
-                let days = sheduleList.map { $0.shortName }
-                days.forEach { day in
-                    textLabel += day
-                    if day != days.last {
-                        textLabel += ", "
-                    }
-                }
+            if !sheduleList.isEmpty {
+                textLabel += "\n" + sheduleList.map({ $0.shortName }).joined(separator: ", ")
             }
         }
         
@@ -329,12 +322,7 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewController.selectCategoryName = { [weak self] category in
-                guard let self else { return }
-                self.categoryName = category
-                setCreateButtonState()
-                tableView.reloadData()
-            }
+            categoryViewController.delegate = self
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
@@ -427,8 +415,16 @@ extension NewTrackerViewController: UICollectionViewDataSource {
 }
 
 extension NewTrackerViewController: ScheduleViewControllerDelegate {
-    func updateShedule(daysOfWeek: [WeekDay]?) {
+    func updateNewShedule(daysOfWeek: [WeekDay]) {
         sheduleList = daysOfWeek
+        setCreateButtonState()
+        tableView.reloadData()
+    }
+}
+
+extension NewTrackerViewController: CategoryViewControllerDelegate {
+    func updateNewCategory(newCategoryName: String?) {
+        categoryName = newCategoryName
         setCreateButtonState()
         tableView.reloadData()
     }

@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol CategoryViewControllerDelegate: AnyObject {
+    func updateNewCategory(newCategoryName: String?)
+}
+
 final class CategoryViewController: UIViewController {
     
-    var selectCategoryName: ((String?) -> Void)?
+    weak var delegate: CategoryViewControllerDelegate?
+    
+    var selectedCategoryName: String?
     
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
@@ -89,8 +95,8 @@ final class CategoryViewController: UIViewController {
     private func didTapAddCategoryButton() {
         
         let mockCategory = ["Развлечения", "Спорт", "Учёба"].randomElement()
+        delegate?.updateNewCategory(newCategoryName: mockCategory)
         
-        selectCategoryName?(mockCategory)
         navigationController?.popViewController(animated: true)
     }
     
