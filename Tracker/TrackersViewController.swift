@@ -134,7 +134,8 @@ final class TrackersViewController: UIViewController {
     
     private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
         let isSameDay = Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
-        return isSameDay && trackerRecord.idRecord == id
+        let isIrregularEvent = !(visibleCategories.filter {!($0.trackers.filter {$0.id == id && $0.schedule.isEmpty}).isEmpty}).isEmpty
+        return trackerRecord.idRecord == id && (isSameDay || isIrregularEvent)
     }
     
     @objc
