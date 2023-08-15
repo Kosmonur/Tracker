@@ -34,13 +34,13 @@ final class NewTrackerViewController: UIViewController {
     private var trackerType: TrackerType
     private var trackerName: String?
     private var categoryName: String?
-    private var sheduleList: [WeekDay] = []
+    private lazy var sheduleList: [WeekDay] = []
     
-    private var header = ["Emoji", "Цвет"]
+    private lazy var header = ["Emoji", "Цвет"]
     private var indexOfSelectedEmoji: IndexPath?
     private var indexOfSelectedColor: IndexPath?
     
-    private var cell = UITableViewCell()
+    private lazy var cell = UITableViewCell()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.bounds)

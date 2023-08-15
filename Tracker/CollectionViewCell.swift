@@ -9,8 +9,8 @@ import UIKit
 
 final class CollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "cell"
-    let cellView = UIView()
-    let cellLabel = UILabel()
+    private lazy var cellView = UIView()
+    lazy var cellLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

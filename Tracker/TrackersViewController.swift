@@ -11,25 +11,23 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    var categories: [TrackerCategory] = mockCategories
+    var categories: [TrackerCategory] = [] //mockCategories
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
-        stub.image = UIImage(named: "stub")
         stub.translatesAutoresizingMaskIntoConstraints = false
         return stub
     }()
     
-    private lazy var questionLabel: UILabel = {
-        let questionLabel = UILabel()
-        questionLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        questionLabel.textColor = UIColor(named: "YP_Black")
-        questionLabel.text = "Что будем отслеживать?"
-        questionLabel.textAlignment = .center
-        questionLabel.translatesAutoresizingMaskIntoConstraints = false
-        return questionLabel
+    private lazy var stubLabel: UILabel = {
+        let stubLabel = UILabel()
+        stubLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        stubLabel.textColor = UIColor(named: "YP_Black")
+        stubLabel.textAlignment = .center
+        stubLabel.translatesAutoresizingMaskIntoConstraints = false
+        return stubLabel
     }()
     
     private var addButton: UIBarButtonItem = {
@@ -75,6 +73,18 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
     }
     
+    private func showStub(stubImageName: String, stubText: String) {
+        stub.image = UIImage(named: stubImageName)
+        stubLabel.text = stubText
+        stub.isHidden = false
+        stubLabel.isHidden = false
+    }
+    
+    private func hideStub() {
+        stub.isHidden = true
+        stubLabel.isHidden = true
+    }
+    
     private func setupContent() {
         view.backgroundColor = UIColor(named: "YP_White")
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -84,7 +94,7 @@ final class TrackersViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         view.addSubview(stub)
-        view.addSubview(questionLabel)
+        view.addSubview(stubLabel)
         view.addSubview(searchField)
         view.addSubview(collectionView)
         collectionView.dataSource = self
@@ -101,8 +111,8 @@ final class TrackersViewController: UIViewController {
             stub.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             stub.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
-            questionLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 40+8+9),
-            questionLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            stubLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 40+8+9),
+            stubLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
             searchField.heightAnchor.constraint(equalToConstant: 36),
             searchField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -139,7 +149,7 @@ final class TrackersViewController: UIViewController {
                 tracker.name.lowercased().contains(filterText)
                 let dateCondition = tracker.schedule.contains { weekDay in
                     weekDay.number == filterWeekDay
-                } == true
+                } == true || tracker.schedule.isEmpty
                 return textCondition && dateCondition
             }
             if trackers.isEmpty {
@@ -148,13 +158,16 @@ final class TrackersViewController: UIViewController {
             return TrackerCategory(header: category.header, trackers: trackers)
         }
         
+        if categories.isEmpty {
+            showStub(stubImageName: "stub_star",
+                     stubText: "Что будем отслеживать?")
+        } else
         if visibleCategories.isEmpty {
-            stub.isHidden = false
-            questionLabel.isHidden = false
+            showStub(stubImageName: "stub_not_found",
+                     stubText: "Ничего не найдено")
         } else
         {
-            stub.isHidden = true
-            questionLabel.isHidden = true
+            hideStub()
         }
         collectionView.reloadData()
         dismiss(animated: true)

@@ -12,21 +12,29 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLine()
+        let trackersViewController = setControllers(viewController: TrackersViewController(),
+                                                    title: "Трекеры",
+                                                    imageName: "trackers_icon")
+        let statisticViewController = setControllers(viewController: StatisticViewController(),
+                                                     title: "Статистика",
+                                                     imageName: "stats_icon")
+        let navigationController = UINavigationController(rootViewController: trackersViewController)
+        viewControllers = [navigationController, statisticViewController]
+    }
+    
+    private func setupLine() {
         let lineView = UIView()
         lineView.backgroundColor = UIColor(named: "YP_Gray")
         lineView.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1)
         tabBar.addSubview(lineView)
-        
-        let trackersViewController = TrackersViewController()
-        trackersViewController.tabBarItem.image = UIImage(named: "trackers_icon")
-        trackersViewController.title = "Трекеры"
-        
-        let statisticViewController = StatisticViewController()
-        statisticViewController.tabBarItem.image = UIImage(named: "stats_icon")
-        statisticViewController.title = "Статистика"
-        
-        let navigationController = UINavigationController(rootViewController: trackersViewController)
-        
-        viewControllers = [navigationController, statisticViewController]
+    }
+    
+    private func setControllers (viewController: UIViewController,
+                                 title: String,
+                                 imageName: String) -> UIViewController {
+        viewController.tabBarItem.image = UIImage(named: imageName)
+        viewController.title = title
+        return viewController
     }
 }

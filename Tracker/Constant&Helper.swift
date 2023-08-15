@@ -7,8 +7,6 @@
 
 import UIKit
 
-let iPhoneSE: Bool = UIScreen.main.bounds.height <= 667
-
 var mockCategories: [TrackerCategory] = [TrackerCategory(header: "Домашние дела",
                                                          trackers: [Tracker(id: UUID(),
                                                                             name: "Дудеть в дудку",
@@ -21,7 +19,7 @@ var mockCategories: [TrackerCategory] = [TrackerCategory(header: "Домашни
                                                                             name: "Плевать в потолок",
                                                                             color: UIColor(named: "Color selection 1")!,
                                                                             emoji: "🥝",
-                                                                            schedule: [WeekDay.saturday,WeekDay.thurshday]),
+                                                                            schedule: []),
                                                                     Tracker(id: UUID(),
                                                                             name: "Бесить начальника",
                                                                             color: UIColor(named: "Color selection 8")!,
@@ -46,7 +44,7 @@ var mockCategories: [TrackerCategory] = [TrackerCategory(header: "Домашни
                                                                             name: "Смотреть долго в окно",
                                                                             color: UIColor(named: "Color selection 5")!,
                                                                             emoji: "🥥",
-                                                                            schedule: [WeekDay.saturday,WeekDay.thurshday])]
+                                                                            schedule: [])]
                                                         ),
                                          TrackerCategory(header: "Отдых",
                                                          trackers: [Tracker(id: UUID(),

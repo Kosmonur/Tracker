@@ -15,9 +15,9 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
     
     weak var delegate: ScheduleViewControllerDelegate?
     
-    var selectedDay: [WeekDay] = []
+    lazy var selectedDay: [WeekDay] = []
     
-    private var cell = UITableViewCell()
+    private lazy var cell = UITableViewCell()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.bounds)
