@@ -103,9 +103,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
         let dayForChange = WeekDay.allCases[sender.tag]
         if sender.isOn {
             selectedDay.append(dayForChange)
-            //сделать сортировку
-//            print (WeekDay.allCases)
-            
+            selectedDay = WeekDay.allCases.filter { selectedDay.contains($0) }
         } else {
             selectedDay = selectedDay.filter { $0 != dayForChange }
         }
