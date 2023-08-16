@@ -74,9 +74,9 @@ final class NewTrackerViewController: UIViewController {
         let tableView = UITableView()
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
-        
         return tableView
     }()
     
@@ -132,6 +132,9 @@ final class NewTrackerViewController: UIViewController {
         setupContent()
         setupConstraints()
         setupTypeTracker()
+        
+        trackerNameField.delegate = self
+        initializeHideKeyboard()
     }
     
     private func setupContent() {
@@ -273,14 +276,11 @@ extension NewTrackerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let reusedCell = tableView.dequeueReusableCell(withIdentifier: "tableCell") {
-            cell = reusedCell
-        } else {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "tableCell")
-            cell.backgroundColor = UIColor(named: "YP_Background")
-            cell.accessoryType = .disclosureIndicator
-        }
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell",
+                                                 for: indexPath)
+        cell.backgroundColor = UIColor(named: "YP_Background")
+        cell.accessoryType = .disclosureIndicator
         var stringWithNewAtributes = NSMutableAttributedString()
         var textLabel: String
         cell.textLabel?.numberOfLines = 0
@@ -434,6 +434,26 @@ extension UITextField {
     func indent(_ size:CGFloat) {
         self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: size, height: self.frame.height))
         self.leftViewMode = .always
+    }
+}
+
+extension NewTrackerViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+}
+
+extension NewTrackerViewController {
+    private func initializeHideKeyboard(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissMyKeyboard(){
+        view.endEditing(true)
     }
 }
 

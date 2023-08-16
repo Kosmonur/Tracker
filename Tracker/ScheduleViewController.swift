@@ -30,6 +30,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "weekDayCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
         tableView.allowsSelection = false
@@ -118,23 +119,19 @@ extension ScheduleViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let reusedCell = tableView.dequeueReusableCell(withIdentifier: "weekDayCell") {
-            cell = reusedCell
-        } else {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "weekDayCell")
-            cell.backgroundColor = UIColor(named: "YP_Background")
-            
-            let switchView = UISwitch(frame: .zero)
-            switchView.setOn(selectedDay.contains(WeekDay.allCases[indexPath.row]), animated: true)
-            switchView.onTintColor = UIColor(named: "YP_Blue")
-            switchView.tag = indexPath.row
-            switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.textLabel?.text = WeekDay.allCases[indexPath.row].rawValue
-            
-            if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "weekDayCell",
+                                                 for: indexPath)
+        cell.backgroundColor = UIColor(named: "YP_Background")
+        let switchView = UISwitch(frame: .zero)
+        switchView.setOn(selectedDay.contains(WeekDay.allCases[indexPath.row]), animated: true)
+        switchView.onTintColor = UIColor(named: "YP_Blue")
+        switchView.tag = indexPath.row
+        switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        cell.accessoryView = switchView
+        cell.textLabel?.text = WeekDay.allCases[indexPath.row].rawValue
+        
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }
         return cell
     }
