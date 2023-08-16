@@ -288,7 +288,14 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: NewTrackerViewControllerDelegate {
     
     func updateCategory(newCategory: TrackerCategory) {
-        categories.append(newCategory)
+        if let index = categories.firstIndex(where: {$0.header == newCategory.header}) {
+            let updatedCategories = TrackerCategory(header: categories[index].header,
+                                                    trackers: newCategory.trackers +  categories[index].trackers)
+            categories.insert(updatedCategories, at: index)
+            categories.remove(at: index + 1)
+        } else {
+            categories.insert(newCategory, at: 0)
+        }
         reloadVisibleCategories()
     }
 }
