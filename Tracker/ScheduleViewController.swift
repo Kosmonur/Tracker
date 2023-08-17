@@ -12,11 +12,10 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 }
 
 final class ScheduleViewController: UIViewController, UITableViewDelegate {
-    
+
     weak var delegate: ScheduleViewControllerDelegate?
-    
     lazy var selectedDay: [WeekDay] = []
-    
+    private let tableViewReusableCell =  "weekDayCell"
     private lazy var cell = UITableViewCell()
     
     private lazy var scrollView: UIScrollView = {
@@ -30,7 +29,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "weekDayCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewReusableCell)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
         tableView.allowsSelection = false
@@ -42,10 +41,10 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
         readyButton.addTarget(self,
                               action: #selector(didTapReadyButton),
                               for: .touchUpInside)
-        readyButton.backgroundColor = UIColor(named: "YP_Black")
-        readyButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
+        readyButton.backgroundColor = Color.ypBlack
+        readyButton.setTitleColor(Color.ypWhite, for: .normal)
         readyButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        readyButton.setTitle("Готово", for: .normal)
+        readyButton.setTitle(Constant.readyButtonTitle, for: .normal)
         readyButton.layer.cornerRadius = 16
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         return readyButton
@@ -54,17 +53,17 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         setupContent()
         setupConstraints()
         
     }
     
     private func setupContent() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
-        title = "Расписание"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        title = Constant.scheduleTitle
         
         view.addSubview(scrollView)
         scrollView.addSubview(tableView)
@@ -119,12 +118,12 @@ extension ScheduleViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "weekDayCell",
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewReusableCell,
                                                  for: indexPath)
-        cell.backgroundColor = UIColor(named: "YP_Background")
+        cell.backgroundColor = Color.ypBackground
         let switchView = UISwitch(frame: .zero)
         switchView.setOn(selectedDay.contains(WeekDay.allCases[indexPath.row]), animated: true)
-        switchView.onTintColor = UIColor(named: "YP_Blue")
+        switchView.onTintColor = Color.ypBlue
         switchView.tag = indexPath.row
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         cell.accessoryView = switchView

@@ -25,18 +25,13 @@ final class NewTrackerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
-                          "😇", "😡", "🥶", "🤔", "🙌", "🍔",
-                          "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
-    
-    private let colors: [UIColor] = (1...18).map { UIColor(named:"Color selection \($0)") ?? .clear }
+    private let newTableReusableCell =  "tableCell"
     
     private var trackerType: TrackerType
     private var trackerName: String?
     private var categoryName: String?
     private lazy var sheduleList: [WeekDay] = []
     
-    private lazy var header = ["Emoji", "Цвет"]
     private var indexOfSelectedEmoji: IndexPath?
     private var indexOfSelectedColor: IndexPath?
     
@@ -52,8 +47,8 @@ final class NewTrackerViewController: UIViewController {
         trackerNameField.layer.cornerRadius = 16
         trackerNameField.indent(16)
         trackerNameField.clearButtonMode = .whileEditing
-        trackerNameField.placeholder = "Введите название трекера"
-        trackerNameField.backgroundColor = UIColor(named: "YP_Background")
+        trackerNameField.placeholder = Constant.newTrackerNameFieldPlaceholder
+        trackerNameField.backgroundColor = Color.ypBackground
         trackerNameField.addTarget(self,
                                    action: #selector(trackerNameChanged(_:)),
                                    for: .editingChanged)
@@ -64,8 +59,8 @@ final class NewTrackerViewController: UIViewController {
     private lazy var resrtictionLabel: UILabel = {
         let resrtictionLabel = UILabel()
         resrtictionLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        resrtictionLabel.textColor = UIColor(named: "YP_Red")
-        resrtictionLabel.text = "Ограничение 38 символов"
+        resrtictionLabel.textColor = Color.ypRed
+        resrtictionLabel.text = Constant.newTrackerResrtictionLabel
         resrtictionLabel.translatesAutoresizingMaskIntoConstraints = false
         return resrtictionLabel
     }()
@@ -74,7 +69,7 @@ final class NewTrackerViewController: UIViewController {
         let tableView = UITableView()
         tableView.layer.cornerRadius = 16
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: newTableReusableCell)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
         return tableView
@@ -102,9 +97,9 @@ final class NewTrackerViewController: UIViewController {
         cancelButton.addTarget(self,
                                action: #selector(didTapCancelButton),
                                for: .touchUpInside)
-        cancelButton.backgroundColor = UIColor(named: "YP_White")
-        cancelButton.setTitleColor(UIColor(named: "YP_Red"), for: .normal)
-        cancelButton.layer.borderColor = UIColor(named: "YP_Red")?.cgColor
+        cancelButton.backgroundColor = Color.ypWhite
+        cancelButton.setTitleColor(Color.ypRed, for: .normal)
+        cancelButton.layer.borderColor = Color.ypRed?.cgColor
         cancelButton.layer.borderWidth = 1
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         cancelButton.setTitle("Отменить", for: .normal)
@@ -118,8 +113,8 @@ final class NewTrackerViewController: UIViewController {
         createButton.addTarget(self,
                                action: #selector(didTapCreateButton),
                                for: .touchUpInside)
-        createButton.backgroundColor = UIColor(named: "YP_Gray")
-        createButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
+        createButton.backgroundColor = Color.ypGray
+        createButton.setTitleColor(Color.ypWhite, for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         createButton.setTitle("Cоздать", for: .normal)
         createButton.layer.cornerRadius = 16
@@ -138,9 +133,9 @@ final class NewTrackerViewController: UIViewController {
     }
     
     private func setupContent() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
         view.addSubview(scrollView)
         
         scrollView.addSubview(trackerNameField)
@@ -160,7 +155,7 @@ final class NewTrackerViewController: UIViewController {
                                 forCellWithReuseIdentifier: CollectionViewCell.reuseIdentifier)
         collectionView.register(CollectionSupplementaryView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: "header")
+                                withReuseIdentifier: CollectionSupplementaryView.reuseIdentifier)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -216,10 +211,10 @@ final class NewTrackerViewController: UIViewController {
            categoryName != nil,
            trackerType == .event || trackerType == .habit && !sheduleList.isEmpty {
             createButton.isEnabled = true
-            createButton.backgroundColor = UIColor(named: "YP_Black")
+            createButton.backgroundColor = Color.ypBlack
         } else {
             createButton.isEnabled = false
-            createButton.backgroundColor = UIColor(named: "YP_Gray")
+            createButton.backgroundColor = Color.ypGray
         }
     }
     
@@ -234,8 +229,8 @@ final class NewTrackerViewController: UIViewController {
         
         let newTracker = Tracker(id: UUID(),
                                  name: trackerNameField.text ?? "",
-                                 color: colors[indexOfSelectedColor?.row ?? 0],
-                                 emoji: emojis[indexOfSelectedEmoji?.row ?? 0],
+                                 color: Color.colorsArray[indexOfSelectedColor?.row ?? 0],
+                                 emoji: Constant.emojis[indexOfSelectedEmoji?.row ?? 0],
                                  schedule: sheduleList)
         
         guard let categoryName = categoryName else { return }
@@ -277,20 +272,20 @@ extension NewTrackerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell",
+        let cell = tableView.dequeueReusableCell(withIdentifier: newTableReusableCell,
                                                  for: indexPath)
-        cell.backgroundColor = UIColor(named: "YP_Background")
+        cell.backgroundColor = Color.ypBackground
         cell.accessoryType = .disclosureIndicator
         var stringWithNewAtributes = NSMutableAttributedString()
         var textLabel: String
         cell.textLabel?.numberOfLines = 0
         
         if indexPath.row == 0 {
-            textLabel = "Категория"
+            textLabel = Constant.categoryTitle
             if let categoryName = categoryName {
                 textLabel += "\n" + categoryName}
         } else {
-            textLabel = "Расписание"
+            textLabel = Constant.scheduleTitle
             if !sheduleList.isEmpty {
                 textLabel += "\n" + sheduleList.map({ $0.shortName }).joined(separator: ", ")
             }
@@ -298,11 +293,11 @@ extension NewTrackerViewController: UITableViewDataSource {
         
         stringWithNewAtributes = NSMutableAttributedString(string: textLabel, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular)])
         
-        stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "YP_Black") ?? .black, range: NSRange(location:0,length: textLabel.count))
+        stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: Color.ypBlack ?? .black, range: NSRange(location:0,length: textLabel.count))
         
         if textLabel.contains("\n") {
             let position = textLabel.distance(from: textLabel.startIndex, to: textLabel.firstIndex(of: "\n") ?? textLabel.startIndex)
-            stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "YP_Gray") ?? .gray, range: NSRange(location: position, length: textLabel.count - position))
+            stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: Color.ypGray ?? .gray, range: NSRange(location: position, length: textLabel.count - position))
         }
         
         cell.textLabel?.attributedText = stringWithNewAtributes
@@ -385,19 +380,19 @@ extension NewTrackerViewController: UICollectionViewDelegateFlowLayout {
 extension NewTrackerViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        header.count
+        Constant.newTrackerHeaders.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? emojis.count : colors.count
+        return section == 0 ? Constant.emojis.count : Color.colorsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseIdentifier, for: indexPath) as? CollectionViewCell
         if indexPath.section == 0 {
-            cell?.cellLabel.text = emojis[indexPath.row]
+            cell?.cellLabel.text = Constant.emojis[indexPath.row]
         } else {
-            cell?.cellLabel.backgroundColor = colors[indexPath.row]
+            cell?.cellLabel.backgroundColor = Color.colorsArray[indexPath.row]
         }
         return cell ?? UICollectionViewCell()
     }
@@ -407,9 +402,9 @@ extension NewTrackerViewController: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                   withReuseIdentifier: "header",
+                                                                   withReuseIdentifier: CollectionSupplementaryView.reuseIdentifier,
                                                                    for: indexPath) as? CollectionSupplementaryView
-        view?.headerLabel.text = header[indexPath.section]
+        view?.headerLabel.text = Constant.newTrackerHeaders[indexPath.section]
         return view ?? CollectionSupplementaryView()
     }
 }

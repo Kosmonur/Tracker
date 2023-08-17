@@ -8,13 +8,15 @@
 import UIKit
 
 final class SupplementaryView: UICollectionReusableView {
+    
+    static let reuseIdentifier = "SupplementaryView"
     lazy var headerLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        headerLabel.textColor = UIColor(named: "YP_Black")
+        headerLabel.textColor = Color.ypBlack
         addSubview(headerLabel)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

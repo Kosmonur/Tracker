@@ -14,10 +14,10 @@ final class TabBarController: UITabBarController {
         
         setupLine()
         let trackersViewController = setControllers(viewController: TrackersViewController(),
-                                                    title: "Трекеры",
+                                                    title: Constant.trackerTitle,
                                                     imageName: "trackers_icon")
         let statisticViewController = setControllers(viewController: StatisticViewController(),
-                                                     title: "Статистика",
+                                                     title: Constant.rightTabBarTitle,
                                                      imageName: "stats_icon")
         let navigationController = UINavigationController(rootViewController: trackersViewController)
         viewControllers = [navigationController, statisticViewController]
@@ -25,7 +25,7 @@ final class TabBarController: UITabBarController {
     
     private func setupLine() {
         let lineView = UIView()
-        lineView.backgroundColor = UIColor(named: "YP_Gray")
+        lineView.backgroundColor = Color.ypGray
         lineView.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1)
         tabBar.addSubview(lineView)
     }

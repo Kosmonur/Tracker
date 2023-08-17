@@ -1,8 +1,8 @@
 //
-//  Constant&Helper.swift
+//  MockData.swift
 //  Tracker
 //
-//  Created by Александр Пичугин on 04.08.2023.
+//  Created by Александр Пичугин on 17.08.2023.
 //
 
 import UIKit
@@ -86,4 +86,5 @@ var mockCategories: [TrackerCategory] = [TrackerCategory(header: "Домашни
                                                                             schedule: [WeekDay.saturday,WeekDay.thurshday])]
                                                         )
 ]
+
 

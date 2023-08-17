@@ -22,10 +22,10 @@ final class CategoryViewController: UIViewController {
         addCategoryButton.addTarget(self,
                                     action: #selector(didTapAddCategoryButton),
                                     for: .touchUpInside)
-        addCategoryButton.backgroundColor = UIColor(named: "YP_Black")
-        addCategoryButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
+        addCategoryButton.backgroundColor = Color.ypBlack
+        addCategoryButton.setTitleColor(Color.ypWhite, for: .normal)
         addCategoryButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        addCategoryButton.setTitle("Добавить категорию", for: .normal)
+        addCategoryButton.setTitle(Constant.addCategoryButtonTitle, for: .normal)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         return addCategoryButton
@@ -33,7 +33,7 @@ final class CategoryViewController: UIViewController {
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
-        stub.image = UIImage(named: "stub")
+        stub.image = UIImage(named: "stub_star")
         stub.translatesAutoresizingMaskIntoConstraints = false
         return stub
     }()
@@ -41,9 +41,9 @@ final class CategoryViewController: UIViewController {
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        textLabel.textColor = UIColor(named: "YP_Black")
+        textLabel.textColor = Color.ypBlack
         textLabel.numberOfLines = 2
-        textLabel.text = "Привычки и события можно \nобъединить по смыслу"
+        textLabel.text = Constant.stubLabelText
         textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
@@ -52,17 +52,17 @@ final class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         setupContent()
         setupConstraints()
         
     }
     
     private func setupContent() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
-        title = "Категория"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        title = Constant.categoryTitle
         
         view.addSubview(addCategoryButton)
         

@@ -14,10 +14,12 @@ protocol TrackerCellDelegate: AnyObject {
 
 final class TrackerViewCell: UICollectionViewCell {
     
+    static let reuseIdentifier = "TrackerViewCell"
+    
     private lazy var viewCell: UIView = {
         let viewCell = UIView()
         viewCell.layer.cornerRadius = 16
-        viewCell.layer.borderColor = UIColor(named: "YP_CellBorderColor")?.cgColor
+        viewCell.layer.borderColor = Color.ypCellBorderColor?.cgColor
         viewCell.layer.borderWidth = 1
         viewCell.translatesAutoresizingMaskIntoConstraints = false
         return viewCell
@@ -29,7 +31,7 @@ final class TrackerViewCell: UICollectionViewCell {
         emojiLabel.layer.cornerRadius = 12
         emojiLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         emojiLabel.textAlignment = .center
-        emojiLabel.backgroundColor = UIColor(named: "YP_EmojiBgColor")
+        emojiLabel.backgroundColor = Color.ypEmojiBgColor
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         return emojiLabel
     }()
@@ -53,7 +55,7 @@ final class TrackerViewCell: UICollectionViewCell {
     private lazy var dayLabel: UILabel = {
         let dayLabel = UILabel()
         dayLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        dayLabel.textColor = UIColor(named: "YP_Black")
+        dayLabel.textColor = Color.ypBlack
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         return dayLabel
     }()
@@ -62,7 +64,7 @@ final class TrackerViewCell: UICollectionViewCell {
         let plusButton = UIButton.systemButton(with: UIImage(),
                                                target: self,
                                                action: #selector(tapPlusButton))
-        plusButton.backgroundColor = UIColor(named: "YP_White")
+        plusButton.backgroundColor = Color.ypWhite
         plusButton.layer.cornerRadius = 17
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         return plusButton
@@ -149,16 +151,16 @@ final class TrackerViewCell: UICollectionViewCell {
             var ended = ""
             let cheсk = completedDays % 10
             if "1".contains("\(cheсk)") {
-                ended =  "день"
+                ended =  Constant.wordOneDay
             }
             if "234".contains("\(cheсk)") {
-                ended =  "дня"
+                ended =  Constant.wordDay
             }
             if "567890".contains("\(cheсk)") {
-                ended =  "дней"
+                ended =  Constant.wordDays
             }
             if 11...14 ~= completedDays % 100 {
-                ended =  "дней"
+                ended =  Constant.wordDays
             }
             return ended
         }()

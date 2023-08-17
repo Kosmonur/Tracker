@@ -24,7 +24,7 @@ final class TrackersViewController: UIViewController {
     private lazy var stubLabel: UILabel = {
         let stubLabel = UILabel()
         stubLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        stubLabel.textColor = UIColor(named: "YP_Black")
+        stubLabel.textColor = Color.ypBlack
         stubLabel.textAlignment = .center
         stubLabel.translatesAutoresizingMaskIntoConstraints = false
         return stubLabel
@@ -32,7 +32,7 @@ final class TrackersViewController: UIViewController {
     
     private var addButton: UIBarButtonItem = {
         let addButton = UIBarButtonItem()
-        addButton.tintColor = UIColor(named: "YP_Black")
+        addButton.tintColor = Color.ypBlack
         addButton.image = UIImage(named: "plus_icon")
         addButton.action = #selector(addTracker)
         return addButton
@@ -50,7 +50,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var searchField: UISearchTextField = {
         let searchField = UISearchTextField()
-        searchField.placeholder = "Поиск"
+        searchField.placeholder = Constant.searchPlaceholder
         searchField.translatesAutoresizingMaskIntoConstraints = false
         searchField.addTarget(self, action: #selector(reloadVisibleCategories), for: .allEditingEvents)
         searchField.delegate = self
@@ -86,9 +86,9 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupContent() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Трекеры"
+        title = Constant.trackerTitle
         addButton.target = self
         navigationItem.leftBarButtonItem = addButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
@@ -99,8 +99,8 @@ final class TrackersViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: TrackerViewCell.reuseIdentifier)
+        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SupplementaryView.reuseIdentifier)
     }
     
     private func setupConstraints() {
@@ -161,11 +161,11 @@ final class TrackersViewController: UIViewController {
         
         if categories.isEmpty {
             showStub(stubImageName: "stub_star",
-                     stubText: "Что будем отслеживать?")
+                     stubText: Constant.stubStarText)
         } else
         if visibleCategories.isEmpty {
             showStub(stubImageName: "stub_not_found",
-                     stubText: "Ничего не найдено")
+                     stubText: Constant.stubNotFoundText)
         } else
         {
             hideStub()
@@ -203,7 +203,7 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TrackerViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerViewCell.reuseIdentifier, for: indexPath) as? TrackerViewCell
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         
         cell?.delegate = self
@@ -223,7 +223,7 @@ extension TrackersViewController: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
         
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                   withReuseIdentifier: "header",
+                                                                   withReuseIdentifier: SupplementaryView.reuseIdentifier,
                                                                    for: indexPath) as? SupplementaryView
         view?.headerLabel.text = visibleCategories[indexPath.section].header
         return view ?? SupplementaryView()
@@ -235,10 +235,10 @@ extension TrackersViewController: TrackerCellDelegate {
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if datePicker.date > Date() {
             let alert = UIAlertController(
-                title: "Будущее зависит от того, что вы делаете сегодня",
-                message: "Но сегодня нельзя выполнить то, что предстоит сделать завтра…",
+                title: Constant.futureAlertTitle,
+                message: Constant.futureAlertMessage,
                 preferredStyle: .alert)
-            let action = UIAlertAction(title: "Ок", style: .cancel) { _ in
+            let action = UIAlertAction(title: Constant.actionOk, style: .cancel) { _ in
                 self.dismiss(animated: false)
             }
             alert.addAction(action)

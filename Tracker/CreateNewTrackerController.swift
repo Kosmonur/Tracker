@@ -16,10 +16,10 @@ final class CreateNewTrackerController: UIViewController {
         newHabitButton.addTarget(self,
                                  action: #selector(didTapNewHabitButton),
                                  for: .touchUpInside)
-        newHabitButton.backgroundColor = UIColor(named: "YP_Black")
-        newHabitButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
+        newHabitButton.backgroundColor = Color.ypBlack
+        newHabitButton.setTitleColor(Color.ypWhite, for: .normal)
         newHabitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        newHabitButton.setTitle("Привычка", for: .normal)
+        newHabitButton.setTitle(Constant.newHabitButtonTitle, for: .normal)
         newHabitButton.layer.cornerRadius = 16
         newHabitButton.translatesAutoresizingMaskIntoConstraints = false
         return newHabitButton
@@ -30,10 +30,10 @@ final class CreateNewTrackerController: UIViewController {
         irregularEventButton.addTarget(self,
                                        action: #selector(didTapNewEventButton),
                                        for: .touchUpInside)
-        irregularEventButton.backgroundColor = UIColor(named: "YP_Black")
-        irregularEventButton.setTitleColor(UIColor(named: "YP_White"), for: .normal)
+        irregularEventButton.backgroundColor = Color.ypBlack
+        irregularEventButton.setTitleColor(Color.ypWhite, for: .normal)
         irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        irregularEventButton.setTitle("Нерегулярное событие", for: .normal)
+        irregularEventButton.setTitle(Constant.irregularEventButtonTitle, for: .normal)
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
         return irregularEventButton
@@ -54,10 +54,10 @@ final class CreateNewTrackerController: UIViewController {
     }
     
     private func setupContent() {
-        view.backgroundColor = UIColor(named: "YP_White")
+        view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor(named: "YP_Black") ?? .label]
-        title = "Создание трекера"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        title = Constant.newTrackerControllerTitle
         buttonsStack.addArrangedSubview(newHabitButton)
         buttonsStack.addArrangedSubview(irregularEventButton)
         view.addSubview(buttonsStack)

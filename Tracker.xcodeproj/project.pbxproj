@@ -18,7 +18,9 @@
 		F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */; };
 		F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */; };
 		F26345EA2A7D807500139468 /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E92A7D807500139468 /* NewTrackerViewController.swift */; };
-		F26345EC2A7D933C00139468 /* Constant&Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345EB2A7D933C00139468 /* Constant&Helper.swift */; };
+		F26345EC2A7D933C00139468 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345EB2A7D933C00139468 /* Constant.swift */; };
+		F2BAC2312A8E6FC90009920F /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2302A8E6FC90009920F /* MockData.swift */; };
+		F2BAC2332A8E70550009920F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2322A8E70550009920F /* Colors.swift */; };
 		F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C32A73008E005EE4EB /* AppDelegate.swift */; };
 		F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C72A73008E005EE4EB /* TrackersViewController.swift */; };
 		F2C203CD2A73008F005EE4EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C203CC2A73008F005EE4EB /* Assets.xcassets */; };
@@ -37,7 +39,9 @@
 		F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTrackerController.swift; sourceTree = "<group>"; };
 		F26345E92A7D807500139468 /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
-		F26345EB2A7D933C00139468 /* Constant&Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constant&Helper.swift"; sourceTree = "<group>"; };
+		F26345EB2A7D933C00139468 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		F2BAC2302A8E6FC90009920F /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		F2BAC2322A8E70550009920F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F2C203C02A73008E005EE4EB /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C203C32A73008E005EE4EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C203C72A73008E005EE4EB /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +61,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F2BAC22F2A8E6F9C0009920F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F26345EB2A7D933C00139468 /* Constant.swift */,
+				F2BAC2302A8E6FC90009920F /* MockData.swift */,
+				F2BAC2322A8E70550009920F /* Colors.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		F2C203B72A73008E005EE4EB = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +90,7 @@
 		F2C203C22A73008E005EE4EB /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				F2BAC22F2A8E6F9C0009920F /* Helpers */,
 				F2C203C32A73008E005EE4EB /* AppDelegate.swift */,
 				F24FF4032A76AC9600CDD96F /* TabBarController.swift */,
 				F2C203C72A73008E005EE4EB /* TrackersViewController.swift */,
@@ -83,13 +98,12 @@
 				F22C50952A79764700FE23C1 /* TrackerStructure.swift */,
 				F22C50912A79611800FE23C1 /* TrackerViewCell.swift */,
 				F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */,
-				F224145F2A854FFA0045E50C /* ScheduleViewController.swift */,
 				F22414612A859B560045E50C /* CategoryViewController.swift */,
+				F224145F2A854FFA0045E50C /* ScheduleViewController.swift */,
 				F26345E92A7D807500139468 /* NewTrackerViewController.swift */,
 				F22414592A8186270045E50C /* CollectionSupplementaryView.swift */,
 				F224145D2A82E77B0045E50C /* CollectionViewCell.swift */,
 				F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */,
-				F26345EB2A7D933C00139468 /* Constant&Helper.swift */,
 				F2C203CC2A73008F005EE4EB /* Assets.xcassets */,
 				F2C203CE2A73008F005EE4EB /* LaunchScreen.storyboard */,
 				F2C203D12A73008F005EE4EB /* Info.plist */,
@@ -171,15 +185,17 @@
 				F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */,
 				F22414622A859B560045E50C /* CategoryViewController.swift in Sources */,
 				F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */,
+				F2BAC2312A8E6FC90009920F /* MockData.swift in Sources */,
 				F22C50942A79729100FE23C1 /* SupplementaryView.swift in Sources */,
 				F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */,
 				F26345EA2A7D807500139468 /* NewTrackerViewController.swift in Sources */,
 				F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */,
+				F2BAC2332A8E70550009920F /* Colors.swift in Sources */,
 				F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */,
 				F224145A2A8186270045E50C /* CollectionSupplementaryView.swift in Sources */,
 				F224145E2A82E77B0045E50C /* CollectionViewCell.swift in Sources */,
 				F22C50922A79611800FE23C1 /* TrackerViewCell.swift in Sources */,
-				F26345EC2A7D933C00139468 /* Constant&Helper.swift in Sources */,
+				F26345EC2A7D933C00139468 /* Constant.swift in Sources */,
 				F22C50962A79764700FE23C1 /* TrackerStructure.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

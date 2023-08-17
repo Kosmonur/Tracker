@@ -8,7 +8,7 @@
 import UIKit
 
 final class CollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "cell"
+    static let reuseIdentifier = "CollectionViewCell"
     private lazy var cellView = UIView()
     lazy var cellLabel = UILabel()
     
@@ -47,7 +47,7 @@ final class CollectionViewCell: UICollectionViewCell {
         if cellLabel.text == nil {
             cellView.layer.borderColor = isSelect ? cellLabel.backgroundColor?.withAlphaComponent(0.3).cgColor : cellLabel.backgroundColor?.withAlphaComponent(0).cgColor
         } else {
-            cellView.backgroundColor = isSelect ? UIColor(named: "YP_LightGray") : .clear
+            cellView.backgroundColor = isSelect ? Color.ypLightGray : .clear
         }
     }
     
