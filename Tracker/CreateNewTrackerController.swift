@@ -18,7 +18,7 @@ final class CreateNewTrackerController: UIViewController {
                                  for: .touchUpInside)
         newHabitButton.backgroundColor = Color.ypBlack
         newHabitButton.setTitleColor(Color.ypWhite, for: .normal)
-        newHabitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        newHabitButton.titleLabel?.font = Font.medium16
         newHabitButton.setTitle(Constant.newHabitButtonTitle, for: .normal)
         newHabitButton.layer.cornerRadius = 16
         newHabitButton.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ final class CreateNewTrackerController: UIViewController {
                                        for: .touchUpInside)
         irregularEventButton.backgroundColor = Color.ypBlack
         irregularEventButton.setTitleColor(Color.ypWhite, for: .normal)
-        irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        irregularEventButton.titleLabel?.font = Font.medium16
         irregularEventButton.setTitle(Constant.irregularEventButtonTitle, for: .normal)
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +56,7 @@ final class CreateNewTrackerController: UIViewController {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
         title = Constant.newTrackerControllerTitle
         buttonsStack.addArrangedSubview(newHabitButton)
         buttonsStack.addArrangedSubview(irregularEventButton)

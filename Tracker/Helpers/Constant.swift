@@ -17,7 +17,6 @@ enum Constant {
     // TrackersViewController
     
     static let searchPlaceholder = "Поиск"
- //   static let vcTitle = "Трекеры"
     static let futureAlertTitle = "Будущее зависит от того, что вы делаете сегодня"
     static let futureAlertMessage = "Но сегодня нельзя выполнить то, что предстоит сделать завтра…"
     static let actionOk = "Ок"

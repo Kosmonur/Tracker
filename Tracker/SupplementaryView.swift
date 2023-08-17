@@ -15,7 +15,7 @@ final class SupplementaryView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        headerLabel.font = Font.bold19
         headerLabel.textColor = Color.ypBlack
         addSubview(headerLabel)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

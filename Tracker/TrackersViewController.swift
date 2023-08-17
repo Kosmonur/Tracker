@@ -11,7 +11,7 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    var categories: [TrackerCategory] = [] //mockCategories
+    var categories: [TrackerCategory] = mockCategories
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
@@ -23,7 +23,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var stubLabel: UILabel = {
         let stubLabel = UILabel()
-        stubLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        stubLabel.font = Font.medium12
         stubLabel.textColor = Color.ypBlack
         stubLabel.textAlignment = .center
         stubLabel.translatesAutoresizingMaskIntoConstraints = false

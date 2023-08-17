@@ -29,7 +29,7 @@ final class TrackerViewCell: UICollectionViewCell {
         let emojiLabel = UILabel()
         emojiLabel.layer.masksToBounds = true
         emojiLabel.layer.cornerRadius = 12
-        emojiLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        emojiLabel.font = Font.medium13
         emojiLabel.textAlignment = .center
         emojiLabel.backgroundColor = Color.ypEmojiBgColor
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ final class TrackerViewCell: UICollectionViewCell {
     
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        textLabel.font = Font.medium12
         textLabel.textColor = .white
         textLabel.contentMode = .bottomLeft
         textLabel.numberOfLines = 2
@@ -54,7 +54,7 @@ final class TrackerViewCell: UICollectionViewCell {
     
     private lazy var dayLabel: UILabel = {
         let dayLabel = UILabel()
-        dayLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        dayLabel.font = Font.medium12
         dayLabel.textColor = Color.ypBlack
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         return dayLabel

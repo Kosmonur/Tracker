@@ -58,7 +58,7 @@ final class NewTrackerViewController: UIViewController {
     
     private lazy var resrtictionLabel: UILabel = {
         let resrtictionLabel = UILabel()
-        resrtictionLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        resrtictionLabel.font = Font.regular17
         resrtictionLabel.textColor = Color.ypRed
         resrtictionLabel.text = Constant.newTrackerResrtictionLabel
         resrtictionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +101,7 @@ final class NewTrackerViewController: UIViewController {
         cancelButton.setTitleColor(Color.ypRed, for: .normal)
         cancelButton.layer.borderColor = Color.ypRed?.cgColor
         cancelButton.layer.borderWidth = 1
-        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        cancelButton.titleLabel?.font = Font.medium16
         cancelButton.setTitle("Отменить", for: .normal)
         cancelButton.layer.cornerRadius = 16
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -115,7 +115,7 @@ final class NewTrackerViewController: UIViewController {
                                for: .touchUpInside)
         createButton.backgroundColor = Color.ypGray
         createButton.setTitleColor(Color.ypWhite, for: .normal)
-        createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        createButton.titleLabel?.font = Font.medium16
         createButton.setTitle("Cоздать", for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +135,7 @@ final class NewTrackerViewController: UIViewController {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
         view.addSubview(scrollView)
         
         scrollView.addSubview(trackerNameField)
@@ -291,7 +291,7 @@ extension NewTrackerViewController: UITableViewDataSource {
             }
         }
         
-        stringWithNewAtributes = NSMutableAttributedString(string: textLabel, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular)])
+        stringWithNewAtributes = NSMutableAttributedString(string: textLabel, attributes: [NSAttributedString.Key.font: Font.regular17])
         
         stringWithNewAtributes.addAttribute(NSAttributedString.Key.foregroundColor, value: Color.ypBlack ?? .black, range: NSRange(location:0,length: textLabel.count))
         

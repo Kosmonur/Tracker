@@ -24,7 +24,7 @@ final class CategoryViewController: UIViewController {
                                     for: .touchUpInside)
         addCategoryButton.backgroundColor = Color.ypBlack
         addCategoryButton.setTitleColor(Color.ypWhite, for: .normal)
-        addCategoryButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        addCategoryButton.titleLabel?.font = Font.medium16
         addCategoryButton.setTitle(Constant.addCategoryButtonTitle, for: .normal)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ final class CategoryViewController: UIViewController {
     
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        textLabel.font = Font.medium12
         textLabel.textColor = Color.ypBlack
         textLabel.numberOfLines = 2
         textLabel.text = Constant.stubLabelText
@@ -61,7 +61,7 @@ final class CategoryViewController: UIViewController {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
         title = Constant.categoryTitle
         
         view.addSubview(addCategoryButton)

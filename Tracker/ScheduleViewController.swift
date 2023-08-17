@@ -43,7 +43,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
                               for: .touchUpInside)
         readyButton.backgroundColor = Color.ypBlack
         readyButton.setTitleColor(Color.ypWhite, for: .normal)
-        readyButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        readyButton.titleLabel?.font = Font.medium16
         readyButton.setTitle(Constant.readyButtonTitle, for: .normal)
         readyButton.layer.cornerRadius = 16
         readyButton.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +62,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: Color.ypBlack ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
         title = Constant.scheduleTitle
         
         view.addSubview(scrollView)
