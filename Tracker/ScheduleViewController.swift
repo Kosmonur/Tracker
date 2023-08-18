@@ -12,7 +12,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 }
 
 final class ScheduleViewController: UIViewController, UITableViewDelegate {
-
+    
     weak var delegate: ScheduleViewControllerDelegate?
     lazy var selectedDay: [WeekDay] = []
     private let tableViewReusableCell =  "weekDayCell"
