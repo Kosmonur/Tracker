@@ -11,7 +11,9 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    var categories: [TrackerCategory] = mockCategories
+    private let trackerCategoryStore = TrackerCategoryStore()
+    
+    var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
@@ -67,10 +69,22 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Развлечения", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
+        //
+        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Учёба", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
+        //
+        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Спорт", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
+        
         setupContent()
         setupConstraints()
+        loadData()
         visibleCategories = categories
         reloadVisibleCategories()
+    }
+    
+    private func loadData() {
+        trackerCategoryStore.delegate = self
+        categories = trackerCategoryStore.trackerCategories
     }
     
     private func showStub(stubImageName: String, stubText: String) {
@@ -285,16 +299,15 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-    
     func updateCategory(newCategory: TrackerCategory) {
-        if let index = categories.firstIndex(where: {$0.header == newCategory.header}) {
-            let updatedCategories = TrackerCategory(header: categories[index].header,
-                                                    trackers: newCategory.trackers +  categories[index].trackers)
-            categories.insert(updatedCategories, at: index)
-            categories.remove(at: index + 1)
-        } else {
-            categories.insert(newCategory, at: 0)
-        }
+        try! trackerCategoryStore.updateCategory(newCategory)
+        reloadVisibleCategories()
+    }
+}
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+    func didUpdateCategories() {
+        categories = trackerCategoryStore.trackerCategories
         reloadVisibleCategories()
     }
 }

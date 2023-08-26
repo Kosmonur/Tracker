@@ -55,6 +55,8 @@ enum Constant {
     static let newTrackerHeaders = ["Emoji", "Цвет"]
     static let newTrackerNameFieldPlaceholder = "Введите название трекера"
     static let newTrackerResrtictionLabel = "Ограничение 38 символов"
-    
+    static let newHabit = "Новая привычка"
+    static let newIrregularEvent = "Новое нерегулярное событие"
+    static var everyDay = "Каждый день"
 }
 
