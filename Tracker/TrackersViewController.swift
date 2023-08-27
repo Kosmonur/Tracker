@@ -12,10 +12,10 @@ final class TrackersViewController: UIViewController {
     weak var delegate: NewTrackerViewControllerDelegate?
     
     private let trackerCategoryStore = TrackerCategoryStore()
-    
-    var categories: [TrackerCategory] = []
-    var visibleCategories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    private let trackerRecordStore = TrackerRecordStore()
+    private var categories: [TrackerCategory] = []
+    private var visibleCategories: [TrackerCategory] = []
+    private var completedTrackers: [TrackerRecord] = []
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
@@ -69,22 +69,17 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Развлечения", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
-        //
-        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Учёба", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
-        //
-        //        try! trackerCategoryStore.removeCategory(TrackerCategory(header: "Спорт", trackers: [Tracker(id: UUID(), name: "", color: Color.colorsArray[1], emoji: Constant.emojis[1], schedule: [])]))
-        
         setupContent()
         setupConstraints()
-        loadData()
-        visibleCategories = categories
-        reloadVisibleCategories()
-    }
-    
-    private func loadData() {
+        
         trackerCategoryStore.delegate = self
         categories = trackerCategoryStore.trackerCategories
+        
+        trackerRecordStore.delegate = self
+        completedTrackers = trackerRecordStore.completedTrackers
+        
+        visibleCategories = categories
+        reloadVisibleCategories()
     }
     
     private func showStub(stubImageName: String, stubText: String) {
@@ -142,13 +137,8 @@ final class TrackersViewController: UIViewController {
     
     private func isTrackerCompletedToday(id: UUID) -> Bool {
         completedTrackers.contains { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
+            trackerRecord.idRecord == id && Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
         }
-    }
-    
-    private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
-        let isSameDay = Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
-        return trackerRecord.idRecord == id && isSameDay
     }
     
     @objc
@@ -197,7 +187,6 @@ final class TrackersViewController: UIViewController {
 }
 
 extension TrackersViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         reloadVisibleCategories()
         return textField.resignFirstResponder()
@@ -244,7 +233,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 }
 
 extension TrackersViewController: TrackerCellDelegate {
-    
+
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if datePicker.date > Date() {
             let alert = UIAlertController(
@@ -260,15 +249,14 @@ extension TrackersViewController: TrackerCellDelegate {
         }
         
         let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
-        completedTrackers.append(trackerRecord)
+        try? trackerRecordStore.addRecord(trackerRecord)
         collectionView.reloadItems(at: [indexPath])
     }
     
     func uncompleteTracker(id: UUID, at indexPath: IndexPath) {
-        completedTrackers.removeAll { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
-        }
-        collectionView.reloadItems(at: [indexPath])
+        let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
+            try? trackerRecordStore.removeRecord(trackerRecord)
+            collectionView.reloadItems(at: [indexPath])
     }
 }
 
@@ -300,7 +288,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
     func updateCategory(newCategory: TrackerCategory) {
-        try! trackerCategoryStore.updateCategory(newCategory)
+        try? trackerCategoryStore.updateCategory(newCategory)
         reloadVisibleCategories()
     }
 }
@@ -308,6 +296,11 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func didUpdateCategories() {
         categories = trackerCategoryStore.trackerCategories
-        reloadVisibleCategories()
+    }
+}
+
+extension TrackersViewController: TrackerRecordStoreDelegate {
+    func didUpdateRecords() {
+        completedTrackers = trackerRecordStore.completedTrackers
     }
 }

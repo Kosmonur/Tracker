@@ -19,7 +19,6 @@ enum TrackerCategoryError: Error {
 final class TrackerCategoryStore: NSObject {
     
     public weak var delegate: TrackerCategoryStoreDelegate?
-    
     private let context: NSManagedObjectContext
     private let trackerStore = TrackerStore()
     
@@ -85,14 +84,6 @@ final class TrackerCategoryStore: NSObject {
         }
         try context.save()
     }
-    
-     // пригодится потом
-    func removeCategory(_ removedCategory: TrackerCategory) throws {
-        guard let removedCategory = fetchedResultsController.fetchedObjects?.first(where: { $0.header == removedCategory.header }) else { return }
-        context.delete(removedCategory)
-        try context.save()
-    }
-    
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
