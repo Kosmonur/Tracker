@@ -165,10 +165,10 @@ final class NewTrackerViewController: UIViewController {
     private func setupTypeTracker() {
         switch trackerType {
         case .habit:
-            title = "Новая привычка"
+            title = Constant.newHabit
             tableView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         case .event:
-            title = "Новое нерегулярное событие"
+            title = Constant.newIrregularEvent
             tableView.heightAnchor.constraint(equalToConstant: 75).isActive = true
         }
     }
@@ -225,8 +225,6 @@ final class NewTrackerViewController: UIViewController {
     
     @objc
     private func didTapCreateButton() {
-        print(#function)
-        
         let newTracker = Tracker(id: UUID(),
                                  name: trackerNameField.text ?? "",
                                  color: Color.colorsArray[indexOfSelectedColor?.row ?? 0],
@@ -287,7 +285,8 @@ extension NewTrackerViewController: UITableViewDataSource {
         } else {
             textLabel = Constant.scheduleTitle
             if !sheduleList.isEmpty {
-                textLabel += "\n" + sheduleList.map({ $0.shortName }).joined(separator: ", ")
+                textLabel += "\n"
+                textLabel += sheduleList.count == WeekDay.allCases.count ? Constant.everyDay : sheduleList.map({ $0.shortName }).joined(separator: ", ")
             }
         }
         

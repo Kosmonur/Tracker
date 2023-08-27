@@ -11,9 +11,11 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    var categories: [TrackerCategory] = mockCategories
-    var visibleCategories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerRecordStore = TrackerRecordStore()
+    private var categories: [TrackerCategory] = []
+    private var visibleCategories: [TrackerCategory] = []
+    private var completedTrackers: [TrackerRecord] = []
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
@@ -69,6 +71,13 @@ final class TrackersViewController: UIViewController {
         
         setupContent()
         setupConstraints()
+        
+        trackerCategoryStore.delegate = self
+        categories = trackerCategoryStore.trackerCategories
+        
+        trackerRecordStore.delegate = self
+        completedTrackers = trackerRecordStore.completedTrackers
+        
         visibleCategories = categories
         reloadVisibleCategories()
     }
@@ -121,20 +130,15 @@ final class TrackersViewController: UIViewController {
             
             collectionView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 18),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
     private func isTrackerCompletedToday(id: UUID) -> Bool {
         completedTrackers.contains { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
+            trackerRecord.idRecord == id && Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
         }
-    }
-    
-    private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
-        let isSameDay = Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
-        return trackerRecord.idRecord == id && isSameDay
     }
     
     @objc
@@ -183,7 +187,6 @@ final class TrackersViewController: UIViewController {
 }
 
 extension TrackersViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         reloadVisibleCategories()
         return textField.resignFirstResponder()
@@ -230,7 +233,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 }
 
 extension TrackersViewController: TrackerCellDelegate {
-    
+
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if datePicker.date > Date() {
             let alert = UIAlertController(
@@ -246,26 +249,29 @@ extension TrackersViewController: TrackerCellDelegate {
         }
         
         let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
-        completedTrackers.append(trackerRecord)
+        try? trackerRecordStore.addRecord(trackerRecord)
         collectionView.reloadItems(at: [indexPath])
     }
     
     func uncompleteTracker(id: UUID, at indexPath: IndexPath) {
-        completedTrackers.removeAll { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
-        }
-        collectionView.reloadItems(at: [indexPath])
+        let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
+            try? trackerRecordStore.removeRecord(trackerRecord)
+            collectionView.reloadItems(at: [indexPath])
     }
 }
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.bounds.width / 2 - 5, height: 148)
+        CGSize(width: (collectionView.bounds.width - 16 - 9 - 16) / 2, height: 148)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 9
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -285,16 +291,20 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-    
     func updateCategory(newCategory: TrackerCategory) {
-        if let index = categories.firstIndex(where: {$0.header == newCategory.header}) {
-            let updatedCategories = TrackerCategory(header: categories[index].header,
-                                                    trackers: newCategory.trackers +  categories[index].trackers)
-            categories.insert(updatedCategories, at: index)
-            categories.remove(at: index + 1)
-        } else {
-            categories.insert(newCategory, at: 0)
-        }
+        try? trackerCategoryStore.updateCategory(newCategory)
         reloadVisibleCategories()
+    }
+}
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+    func didUpdateCategories() {
+        categories = trackerCategoryStore.trackerCategories
+    }
+}
+
+extension TrackersViewController: TrackerRecordStoreDelegate {
+    func didUpdateRecords() {
+        completedTrackers = trackerRecordStore.completedTrackers
     }
 }

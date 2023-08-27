@@ -19,9 +19,14 @@
 		F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */; };
 		F26345EA2A7D807500139468 /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E92A7D807500139468 /* NewTrackerViewController.swift */; };
 		F26345EC2A7D933C00139468 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345EB2A7D933C00139468 /* Constant.swift */; };
-		F2BAC2312A8E6FC90009920F /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2302A8E6FC90009920F /* MockData.swift */; };
 		F2BAC2332A8E70550009920F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2322A8E70550009920F /* Colors.swift */; };
 		F2BAC2352A8E78410009920F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2342A8E78410009920F /* Fonts.swift */; };
+		F2BAC2632A93FFB10009920F /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2622A93FFB10009920F /* TrackerStore.swift */; };
+		F2BAC2652A93FFD40009920F /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2642A93FFD40009920F /* TrackerCategoryStore.swift */; };
+		F2BAC2672A93FFEE0009920F /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2662A93FFEE0009920F /* TrackerRecordStore.swift */; };
+		F2BAC26A2A9400190009920F /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2682A9400190009920F /* Tracker.xcdatamodeld */; };
+		F2BAC26C2A9484ED0009920F /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC26B2A9484ED0009920F /* UIColorMarshalling.swift */; };
+		F2BAC26E2A9648E30009920F /* UIScheduleMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC26D2A9648E30009920F /* UIScheduleMarshalling.swift */; };
 		F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C32A73008E005EE4EB /* AppDelegate.swift */; };
 		F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C72A73008E005EE4EB /* TrackersViewController.swift */; };
 		F2C203CD2A73008F005EE4EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C203CC2A73008F005EE4EB /* Assets.xcassets */; };
@@ -41,9 +46,14 @@
 		F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTrackerController.swift; sourceTree = "<group>"; };
 		F26345E92A7D807500139468 /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
 		F26345EB2A7D933C00139468 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		F2BAC2302A8E6FC90009920F /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		F2BAC2322A8E70550009920F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F2BAC2342A8E78410009920F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		F2BAC2622A93FFB10009920F /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		F2BAC2642A93FFD40009920F /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
+		F2BAC2662A93FFEE0009920F /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		F2BAC2692A9400190009920F /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		F2BAC26B2A9484ED0009920F /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
+		F2BAC26D2A9648E30009920F /* UIScheduleMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScheduleMarshalling.swift; sourceTree = "<group>"; };
 		F2C203C02A73008E005EE4EB /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C203C32A73008E005EE4EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C203C72A73008E005EE4EB /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -67,11 +77,23 @@
 			isa = PBXGroup;
 			children = (
 				F26345EB2A7D933C00139468 /* Constant.swift */,
-				F2BAC2302A8E6FC90009920F /* MockData.swift */,
 				F2BAC2322A8E70550009920F /* Colors.swift */,
 				F2BAC2342A8E78410009920F /* Fonts.swift */,
+				F2BAC26B2A9484ED0009920F /* UIColorMarshalling.swift */,
+				F2BAC26D2A9648E30009920F /* UIScheduleMarshalling.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F2BAC2612A93FF960009920F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				F2BAC2622A93FFB10009920F /* TrackerStore.swift */,
+				F2BAC2642A93FFD40009920F /* TrackerCategoryStore.swift */,
+				F2BAC2662A93FFEE0009920F /* TrackerRecordStore.swift */,
+				F2BAC2682A9400190009920F /* Tracker.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		F2C203B72A73008E005EE4EB = {
@@ -93,6 +115,7 @@
 		F2C203C22A73008E005EE4EB /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				F2BAC2612A93FF960009920F /* CoreData */,
 				F2BAC22F2A8E6F9C0009920F /* Helpers */,
 				F2C203C32A73008E005EE4EB /* AppDelegate.swift */,
 				F24FF4032A76AC9600CDD96F /* TabBarController.swift */,
@@ -186,9 +209,10 @@
 			files = (
 				F22414602A854FFA0045E50C /* ScheduleViewController.swift in Sources */,
 				F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */,
+				F2BAC2632A93FFB10009920F /* TrackerStore.swift in Sources */,
 				F22414622A859B560045E50C /* CategoryViewController.swift in Sources */,
+				F2BAC2652A93FFD40009920F /* TrackerCategoryStore.swift in Sources */,
 				F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */,
-				F2BAC2312A8E6FC90009920F /* MockData.swift in Sources */,
 				F22C50942A79729100FE23C1 /* SupplementaryView.swift in Sources */,
 				F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */,
 				F2BAC2352A8E78410009920F /* Fonts.swift in Sources */,
@@ -196,8 +220,12 @@
 				F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */,
 				F2BAC2332A8E70550009920F /* Colors.swift in Sources */,
 				F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */,
+				F2BAC26C2A9484ED0009920F /* UIColorMarshalling.swift in Sources */,
 				F224145A2A8186270045E50C /* CollectionSupplementaryView.swift in Sources */,
+				F2BAC26E2A9648E30009920F /* UIScheduleMarshalling.swift in Sources */,
+				F2BAC2672A93FFEE0009920F /* TrackerRecordStore.swift in Sources */,
 				F224145E2A82E77B0045E50C /* CollectionViewCell.swift in Sources */,
+				F2BAC26A2A9400190009920F /* Tracker.xcdatamodeld in Sources */,
 				F22C50922A79611800FE23C1 /* TrackerViewCell.swift in Sources */,
 				F26345EC2A7D933C00139468 /* Constant.swift in Sources */,
 				F22C50962A79764700FE23C1 /* TrackerStructure.swift in Sources */,
@@ -418,6 +446,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F2BAC2682A9400190009920F /* Tracker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F2BAC2692A9400190009920F /* Tracker.xcdatamodel */,
+			);
+			currentVersion = F2BAC2692A9400190009920F /* Tracker.xcdatamodel */;
+			path = Tracker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F2C203B82A73008E005EE4EB /* Project object */;
 }
