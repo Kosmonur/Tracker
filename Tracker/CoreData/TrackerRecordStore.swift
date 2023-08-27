@@ -18,7 +18,7 @@ enum TrackerRecordError: Error {
 
 final class TrackerRecordStore: NSObject {
     
-    public weak var delegate: TrackerRecordStoreDelegate?
+    weak var delegate: TrackerRecordStoreDelegate?
     private let context: NSManagedObjectContext
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {

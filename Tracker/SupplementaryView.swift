@@ -20,7 +20,7 @@ final class SupplementaryView: UICollectionReusableView {
         addSubview(headerLabel)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
             headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])

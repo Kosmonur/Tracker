@@ -18,7 +18,7 @@ enum TrackerCategoryError: Error {
 
 final class TrackerCategoryStore: NSObject {
     
-    public weak var delegate: TrackerCategoryStoreDelegate?
+    weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
     private let trackerStore = TrackerStore()
     

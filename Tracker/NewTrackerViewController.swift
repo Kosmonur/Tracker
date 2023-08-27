@@ -286,7 +286,7 @@ extension NewTrackerViewController: UITableViewDataSource {
             textLabel = Constant.scheduleTitle
             if !sheduleList.isEmpty {
                 textLabel += "\n"
-                textLabel += sheduleList.count == 7 ? Constant.everyDay : sheduleList.map({ $0.shortName }).joined(separator: ", ")
+                textLabel += sheduleList.count == WeekDay.allCases.count ? Constant.everyDay : sheduleList.map({ $0.shortName }).joined(separator: ", ")
             }
         }
         
