@@ -58,5 +58,12 @@ enum Constant {
     static let newHabit = "Новая привычка"
     static let newIrregularEvent = "Новое нерегулярное событие"
     static var everyDay = "Каждый день"
+    
+    // OnboardingViewController
+    
+    static var buttonText = "Вот это технологии!"
+    static var blueLabel = "Отслеживайте только\nто, что хотите"
+    static var redLabel = "Даже если это\nне литры воды и йога"
+    
 }
 

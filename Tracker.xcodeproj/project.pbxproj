@@ -27,6 +27,7 @@
 		F2BAC26A2A9400190009920F /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2682A9400190009920F /* Tracker.xcdatamodeld */; };
 		F2BAC26C2A9484ED0009920F /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC26B2A9484ED0009920F /* UIColorMarshalling.swift */; };
 		F2BAC26E2A9648E30009920F /* UIScheduleMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC26D2A9648E30009920F /* UIScheduleMarshalling.swift */; };
+		F2BAC2B42AA3C0880009920F /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2B32AA3C0880009920F /* OnboardingViewController.swift */; };
 		F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C32A73008E005EE4EB /* AppDelegate.swift */; };
 		F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C72A73008E005EE4EB /* TrackersViewController.swift */; };
 		F2C203CD2A73008F005EE4EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C203CC2A73008F005EE4EB /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		F2BAC2692A9400190009920F /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 		F2BAC26B2A9484ED0009920F /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
 		F2BAC26D2A9648E30009920F /* UIScheduleMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScheduleMarshalling.swift; sourceTree = "<group>"; };
+		F2BAC2B32AA3C0880009920F /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F2C203C02A73008E005EE4EB /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C203C32A73008E005EE4EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C203C72A73008E005EE4EB /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				F2BAC2612A93FF960009920F /* CoreData */,
 				F2BAC22F2A8E6F9C0009920F /* Helpers */,
 				F2C203C32A73008E005EE4EB /* AppDelegate.swift */,
+				F2BAC2B32AA3C0880009920F /* OnboardingViewController.swift */,
 				F24FF4032A76AC9600CDD96F /* TabBarController.swift */,
 				F2C203C72A73008E005EE4EB /* TrackersViewController.swift */,
 				F22C50932A79729100FE23C1 /* SupplementaryView.swift */,
@@ -211,6 +214,7 @@
 				F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */,
 				F2BAC2632A93FFB10009920F /* TrackerStore.swift in Sources */,
 				F22414622A859B560045E50C /* CategoryViewController.swift in Sources */,
+				F2BAC2B42AA3C0880009920F /* OnboardingViewController.swift in Sources */,
 				F2BAC2652A93FFD40009920F /* TrackerCategoryStore.swift in Sources */,
 				F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */,
 				F22C50942A79729100FE23C1 /* SupplementaryView.swift in Sources */,

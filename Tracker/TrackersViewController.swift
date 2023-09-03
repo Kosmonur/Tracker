@@ -100,6 +100,7 @@ final class TrackersViewController: UIViewController {
         title = Constant.trackerTitle
         addButton.target = self
         navigationItem.leftBarButtonItem = addButton
+        navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         view.addSubview(stub)
