@@ -65,5 +65,10 @@ enum Constant {
     static var blueLabel = "Отслеживайте только\nто, что хотите"
     static var redLabel = "Даже если это\nне литры воды и йога"
     
+    // NewCategoryViewController
+    
+    static var categoryNew = "Новая категория"
+    static var newCategoryNameFieldPlaceholder = "Введите название категории"
+    
 }
 

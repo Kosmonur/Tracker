@@ -11,7 +11,8 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerCategoryStore = TrackerCategoryStore.shared
+    
     private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []

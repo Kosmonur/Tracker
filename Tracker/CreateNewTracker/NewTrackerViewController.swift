@@ -274,6 +274,7 @@ extension NewTrackerViewController: UITableViewDataSource {
                                                  for: indexPath)
         cell.backgroundColor = Color.ypBackground
         cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
         var stringWithNewAtributes = NSMutableAttributedString()
         var textLabel: String
         cell.textLabel?.numberOfLines = 0
@@ -302,7 +303,7 @@ extension NewTrackerViewController: UITableViewDataSource {
         cell.textLabel?.attributedText = stringWithNewAtributes
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)}
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)}
         return cell
     }
 }
@@ -317,6 +318,7 @@ extension NewTrackerViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
             categoryViewController.delegate = self
+            categoryViewController.selectedCategoryName = categoryName
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
@@ -421,13 +423,6 @@ extension NewTrackerViewController: CategoryViewControllerDelegate {
         categoryName = newCategoryName
         setCreateButtonState()
         tableView.reloadData()
-    }
-}
-
-extension UITextField {
-    func indent(_ size:CGFloat) {
-        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: size, height: self.frame.height))
-        self.leftViewMode = .always
     }
 }
 

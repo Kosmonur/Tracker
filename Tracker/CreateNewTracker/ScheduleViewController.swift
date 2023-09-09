@@ -53,7 +53,6 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Color.ypWhite
         setupContent()
         setupConstraints()
         
@@ -130,7 +129,7 @@ extension ScheduleViewController: UITableViewDataSource {
         cell.textLabel?.text = WeekDay.allCases[indexPath.row].rawValue
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
         }
         return cell
     }
