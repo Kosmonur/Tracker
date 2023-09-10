@@ -7,18 +7,10 @@
 
 import UIKit
 
-protocol CategoryViewControllerDelegate: AnyObject {
-    func updateNewCategory(newCategoryName: String?)
-}
-
 final class CategoryViewController: UIViewController {
     
-    weak var delegate: CategoryViewControllerDelegate?
-    var selectedCategoryName: String?
-    
-    private let trackerCategoryStore = TrackerCategoryStore.shared
-    private var categories: [String] = []
-    
+    private lazy var categoryViewModel = CategoryViewModel.shared
+
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
         addCategoryButton.addTarget(self,
@@ -63,10 +55,19 @@ final class CategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        categories = trackerCategoryStore.trackerCategories.map {$0.header}
         setupContent()
         setupConstraints()
         
+        categoryViewModel.$categories.bind { [weak self] _ in
+            guard let self else { return }
+            showStubIfNeed()
+            tableView.reloadData()
+        }
+        
+        categoryViewModel.$selectedCategory.bind { [weak self] _ in
+            guard let self else { return }
+            tableView.reloadData()
+        }
     }
     
     private func setupContent() {
@@ -115,22 +116,22 @@ final class CategoryViewController: UIViewController {
     }
     
     private func showStubIfNeed() {
-        stub.isHidden = categories.isEmpty ? false : true
-        stubLabel.isHidden = categories.isEmpty ? false : true
+        stub.isHidden = categoryViewModel.categories.isEmpty ? false : true
+        stubLabel.isHidden = categoryViewModel.categories.isEmpty ? false : true
     }
     
     @objc
     private func didTapAddCategoryButton() {
         
         let newCategoryViewController = NewCategoryViewController()
-        newCategoryViewController.delegate = self
+        newCategoryViewController.delegate = categoryViewModel
         navigationController?.pushViewController(newCategoryViewController, animated: true)
     }
 }
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+        categoryViewModel.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,7 +140,7 @@ extension CategoryViewController: UITableViewDataSource {
             withIdentifier: CategoryTableViewCell.reuseIdentifier,
             for: indexPath) as? CategoryTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = categories[indexPath.row]
+        cell.textLabel?.text = categoryViewModel.categories[indexPath.row].categoryName
         
         cell.layer.cornerRadius = 16
         cell.separatorInset.right = 16
@@ -161,7 +162,7 @@ extension CategoryViewController: UITableViewDataSource {
             }
         }
         
-        cell.accessoryType = selectedCategoryName == cell.textLabel?.text ? .checkmark : .none
+        cell.accessoryType = categoryViewModel.selectedCategory?.categoryName == cell.textLabel?.text ? .checkmark : .none
         
         return cell
     }
@@ -175,25 +176,9 @@ extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            selectedCategoryName = cell.textLabel?.text
-            cell.accessoryType = .checkmark
-            delegate?.updateNewCategory(newCategoryName: selectedCategoryName)
-            tableView.reloadData()
+            categoryViewModel.selected(categoryName: cell.textLabel?.text)
         }
         navigationController?.popViewController(animated: true)
     }
 }
 
-extension CategoryViewController: NewCategoryViewControllerDelegate {
-    func updateNewCategory(newCategoryName: String) {
-        
-        if !categories.contains(newCategoryName) {
-            categories.insert(newCategoryName, at: 0)
-            try? trackerCategoryStore.addNewCategoryName(newCategoryName)
-        }
-        selectedCategoryName = newCategoryName
-        delegate?.updateNewCategory(newCategoryName: selectedCategoryName)
-        showStubIfNeed()
-        tableView.reloadData()
-    }
-}

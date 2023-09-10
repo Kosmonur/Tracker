@@ -16,6 +16,8 @@ final class NewTrackerViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
+    private lazy var categoryViewModel = CategoryViewModel.shared
+    
     init(_ trackerType: TrackerType) {
         self.trackerType = trackerType
         super.init(nibName: nil, bundle: nil)
@@ -317,8 +319,8 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewController.delegate = self
-            categoryViewController.selectedCategoryName = categoryName
+            categoryViewModel.delegate = self
+            categoryViewModel.selected(categoryName: categoryName)
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
@@ -418,7 +420,7 @@ extension NewTrackerViewController: ScheduleViewControllerDelegate {
     }
 }
 
-extension NewTrackerViewController: CategoryViewControllerDelegate {
+extension NewTrackerViewController: CategoryViewModelDelegate {
     func updateNewCategory(newCategoryName: String?) {
         categoryName = newCategoryName
         setCreateButtonState()

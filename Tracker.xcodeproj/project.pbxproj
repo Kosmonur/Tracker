@@ -33,6 +33,7 @@
 		F2BAC2DF2AA4B6A20009920F /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BAC2DE2AA4B6A20009920F /* CategoryTableViewCell.swift */; };
 		F2BC13812AA7A020005D6120 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC13802AA7A020005D6120 /* NewCategoryViewController.swift */; };
 		F2BC13832AA7A3BC005D6120 /* Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC13822AA7A3BC005D6120 /* Extention.swift */; };
+		F2BC13892AADD9BB005D6120 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC13882AADD9BB005D6120 /* Observable.swift */; };
 		F2C203C42A73008E005EE4EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C32A73008E005EE4EB /* AppDelegate.swift */; };
 		F2C203C82A73008E005EE4EB /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C203C72A73008E005EE4EB /* TrackersViewController.swift */; };
 		F2C203CD2A73008F005EE4EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2C203CC2A73008F005EE4EB /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		F2BAC2DE2AA4B6A20009920F /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		F2BC13802AA7A020005D6120 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		F2BC13822AA7A3BC005D6120 /* Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extention.swift; sourceTree = "<group>"; };
+		F2BC13882AADD9BB005D6120 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		F2C203C02A73008E005EE4EB /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C203C32A73008E005EE4EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2C203C72A73008E005EE4EB /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				F2BAC2DE2AA4B6A20009920F /* CategoryTableViewCell.swift */,
 				F2BAC2DA2AA49DFA0009920F /* CategoryModel.swift */,
 				F2BAC2DC2AA49E420009920F /* CategoryViewModel.swift */,
+				F2BC13882AADD9BB005D6120 /* Observable.swift */,
 			);
 			path = "Category MVVM";
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				F2BAC26E2A9648E30009920F /* UIScheduleMarshalling.swift in Sources */,
 				F2BAC2672A93FFEE0009920F /* TrackerRecordStore.swift in Sources */,
 				F224145E2A82E77B0045E50C /* CollectionViewCell.swift in Sources */,
+				F2BC13892AADD9BB005D6120 /* Observable.swift in Sources */,
 				F2BAC26A2A9400190009920F /* Tracker.xcdatamodeld in Sources */,
 				F22C50922A79611800FE23C1 /* TrackerViewCell.swift in Sources */,
 				F26345EC2A7D933C00139468 /* Constant.swift in Sources */,
