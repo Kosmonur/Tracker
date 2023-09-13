@@ -20,5 +20,8 @@ enum Color {
     static let ypLightGray = UIColor(named: "YP_LightGray")
     static let ypRed = UIColor(named: "YP_Red")
     static let ypWhite = UIColor(named: "YP_White")
+    static let ypBlackConst = UIColor(named: "YP_Black_const")
+    static let ypBlackConstAlpha = ypBlackConst?.withAlphaComponent(0.3)
+    static let ypWhiteConst = UIColor(named: "YP_White_const")
     
 }

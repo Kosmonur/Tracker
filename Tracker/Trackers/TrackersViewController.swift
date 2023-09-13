@@ -11,7 +11,8 @@ final class TrackersViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerCategoryStore = TrackerCategoryStore.shared
+    
     private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -100,6 +101,7 @@ final class TrackersViewController: UIViewController {
         title = Constant.trackerTitle
         addButton.target = self
         navigationItem.leftBarButtonItem = addButton
+        navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         view.addSubview(stub)

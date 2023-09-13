@@ -274,6 +274,7 @@ extension NewTrackerViewController: UITableViewDataSource {
                                                  for: indexPath)
         cell.backgroundColor = Color.ypBackground
         cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
         var stringWithNewAtributes = NSMutableAttributedString()
         var textLabel: String
         cell.textLabel?.numberOfLines = 0
@@ -302,7 +303,7 @@ extension NewTrackerViewController: UITableViewDataSource {
         cell.textLabel?.attributedText = stringWithNewAtributes
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)}
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)}
         return cell
     }
 }
@@ -316,7 +317,8 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewController.delegate = self
+            categoryViewController.categoryViewModel.delegate = self
+            categoryViewController.categoryViewModel.selected(categoryName: categoryName)
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
@@ -416,18 +418,11 @@ extension NewTrackerViewController: ScheduleViewControllerDelegate {
     }
 }
 
-extension NewTrackerViewController: CategoryViewControllerDelegate {
+extension NewTrackerViewController: CategoryViewModelDelegate {
     func updateNewCategory(newCategoryName: String?) {
         categoryName = newCategoryName
         setCreateButtonState()
         tableView.reloadData()
-    }
-}
-
-extension UITextField {
-    func indent(_ size:CGFloat) {
-        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: size, height: self.frame.height))
-        self.leftViewMode = .always
     }
 }
 
@@ -437,17 +432,3 @@ extension NewTrackerViewController: UITextFieldDelegate {
         return false
     }
 }
-
-extension NewTrackerViewController {
-    private func initializeHideKeyboard(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(dismissMyKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    @objc func dismissMyKeyboard(){
-        view.endEditing(true)
-    }
-}
-

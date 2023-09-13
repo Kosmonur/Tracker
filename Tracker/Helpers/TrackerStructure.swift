@@ -59,8 +59,3 @@ struct TrackerRecord {
     let idRecord: UUID
     let dateRecord: Date
 }
-
-enum TrackerType {
-    case habit
-    case event
-}

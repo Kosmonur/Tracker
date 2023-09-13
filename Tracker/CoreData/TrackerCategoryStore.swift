@@ -18,6 +18,8 @@ enum TrackerCategoryError: Error {
 
 final class TrackerCategoryStore: NSObject {
     
+    static let shared = TrackerCategoryStore()
+    
     weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
     private let trackerStore = TrackerStore()
@@ -82,6 +84,12 @@ final class TrackerCategoryStore: NSObject {
             category.header = newCategory.header
             category.trackers = NSSet(array: [tracker])
         }
+        try context.save()
+    }
+    
+    func addNewCategoryName(_ categoryName: String) throws {
+        let category = TrackerCategoryCoreData(context: context)
+        category.header = categoryName
         try context.save()
     }
 }

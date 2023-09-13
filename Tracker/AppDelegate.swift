@@ -24,11 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         window = UIWindow()
-        window?.rootViewController = TabBarController()
+        if Constant.notFirstStart {
+            window?.rootViewController = TabBarController()
+        } else {
+            UserDefaults.standard.set(true, forKey: "notFirstStart")
+            window?.rootViewController = OnboardingViewController(transitionStyle: .scroll,
+                                                                  navigationOrientation: .horizontal)
+        }
         window?.makeKeyAndVisible()
-        
         return true
     }
 }
