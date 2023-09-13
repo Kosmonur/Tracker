@@ -8,6 +8,6 @@
 import Foundation
 
 struct CategoryModel {
-    let categoryName: String?
+    let categoryName: String
 }
 

@@ -125,15 +125,3 @@ extension NewCategoryViewController: UITextFieldDelegate {
     }
 }
 
-extension NewCategoryViewController {
-    private func initializeHideKeyboard(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(dismissMyKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    @objc func dismissMyKeyboard(){
-        view.endEditing(true)
-    }
-}

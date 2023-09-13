@@ -9,7 +9,7 @@ import UIKit
 
 final class CategoryViewController: UIViewController {
     
-    private lazy var categoryViewModel = CategoryViewModel.shared
+    lazy var categoryViewModel = CategoryViewModel()
 
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
@@ -73,7 +73,8 @@ final class CategoryViewController: UIViewController {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16,
+                                                                   .foregroundColor: Color.ypBlack ?? .label]
         title = Constant.categoryTitle
         
         view.addSubview(addCategoryButton)

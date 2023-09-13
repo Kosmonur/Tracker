@@ -13,3 +13,17 @@ extension UITextField {
         self.leftViewMode = .always
     }
 }
+
+extension UIViewController {
+    func initializeHideKeyboard(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissMyKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissMyKeyboard(){
+        view.endEditing(true)
+    }
+}
+

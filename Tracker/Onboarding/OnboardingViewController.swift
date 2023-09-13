@@ -9,50 +9,6 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController {
     
-    private lazy var bgBlueViewController: UIViewController = {
-        let bgBlueViewController = UIViewController()
-        let imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage (named: "back1")
-        imageView.center = view.center
-        bgBlueViewController.view.addSubview(imageView)
-        bgBlueViewController.view.addSubview(labelBlue)
-        return bgBlueViewController
-    }()
-    
-    private lazy var labelBlue: UILabel = {
-        let label = UILabel()
-        label.font = Font.bold32
-        label.textColor = Color.ypBlackConst
-        label.textAlignment = .center
-        label.text = Constant.blueLabel
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var bgRedViewController: UIViewController = {
-        let bgRedViewController = UIViewController()
-        let imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage (named: "back2")
-        imageView.center = view.center
-        bgRedViewController.view.addSubview(imageView)
-        bgRedViewController.view.addSubview(labelRed)
-        return bgRedViewController
-    }()
-    
-    private lazy var labelRed: UILabel = {
-        let label = UILabel()
-        label.font = Font.bold32
-        label.textColor = Color.ypBlackConst
-        label.textAlignment = .center
-        label.text = Constant.redLabel
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     private lazy var button: UIButton = {
         let button = UIButton()
         button.addTarget(self,
@@ -68,7 +24,11 @@ final class OnboardingViewController: UIPageViewController {
     }()
     
     private lazy var pages: [UIViewController] = {
-        return [bgBlueViewController, bgRedViewController]
+        return [PageViewController(title: Constant.blueLabel,
+                                   backgroundImage: UIImage (named: "back1") ?? UIImage()),
+                PageViewController(title: Constant.redLabel,
+                                   backgroundImage: UIImage (named: "back2") ?? UIImage())
+        ]
     }()
     
     private lazy var pageControl: UIPageControl = {
@@ -94,20 +54,11 @@ final class OnboardingViewController: UIPageViewController {
         view.addSubview(pageControl)
         view.addSubview(button)
         setupConstraints()
-        
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            labelBlue.leadingAnchor.constraint(equalTo: bgBlueViewController.view.leadingAnchor, constant: 16),
-            labelBlue.trailingAnchor.constraint(equalTo: bgBlueViewController.view.trailingAnchor, constant: -16),
-            labelBlue.bottomAnchor.constraint(equalTo: bgBlueViewController.view.safeAreaLayoutGuide.bottomAnchor, constant: -270),
-            
-            labelRed.leadingAnchor.constraint(equalTo: bgRedViewController.view.leadingAnchor, constant: 16),
-            labelRed.trailingAnchor.constraint(equalTo: bgRedViewController.view.trailingAnchor, constant: -16),
-            labelRed.bottomAnchor.constraint(equalTo: bgRedViewController.view.safeAreaLayoutGuide.bottomAnchor, constant: -270),
-
             pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -134),
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -134,14 +85,24 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
-        return viewControllerIndex == 1 ? pages.first : pages.last
+        
+        let previousIndex = viewControllerIndex - 1
+        guard previousIndex >= 0 else {
+            return pages.last
+        }
+        return pages[previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
-        return viewControllerIndex == 0 ? pages.last : pages.first
+        
+        let nextIndex = viewControllerIndex + 1
+        guard nextIndex < pages.count else {
+            return pages.first
+        }
+        return pages[nextIndex]
     }
 }
 

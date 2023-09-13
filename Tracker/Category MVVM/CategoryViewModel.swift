@@ -13,7 +13,6 @@ protocol CategoryViewModelDelegate: AnyObject {
 
 final class CategoryViewModel {
     
-    static let shared = CategoryViewModel()
     weak var delegate: CategoryViewModelDelegate?
     
     private let trackerCategoryStore = TrackerCategoryStore.shared
@@ -29,6 +28,7 @@ final class CategoryViewModel {
     }
     
     func selected(categoryName: String?) {
+        guard let categoryName else {return} 
         selectedCategory = CategoryModel(categoryName: categoryName)
         delegate?.updateNewCategory(newCategoryName: categoryName)
     }

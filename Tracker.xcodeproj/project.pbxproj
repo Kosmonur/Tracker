@@ -14,6 +14,7 @@
 		F22C50922A79611800FE23C1 /* TrackerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22C50912A79611800FE23C1 /* TrackerViewCell.swift */; };
 		F22C50942A79729100FE23C1 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22C50932A79729100FE23C1 /* SupplementaryView.swift */; };
 		F22C50962A79764700FE23C1 /* TrackerStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22C50952A79764700FE23C1 /* TrackerStructure.swift */; };
+		F23372B12AAF9C5800EB3D8E /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23372B02AAF9C5800EB3D8E /* PageViewController.swift */; };
 		F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4032A76AC9600CDD96F /* TabBarController.swift */; };
 		F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */; };
 		F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */; };
@@ -48,6 +49,7 @@
 		F22C50912A79611800FE23C1 /* TrackerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewCell.swift; sourceTree = "<group>"; };
 		F22C50932A79729100FE23C1 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		F22C50952A79764700FE23C1 /* TrackerStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStructure.swift; sourceTree = "<group>"; };
+		F23372B02AAF9C5800EB3D8E /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		F24FF4032A76AC9600CDD96F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTrackerController.swift; sourceTree = "<group>"; };
@@ -87,6 +89,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F23372B22AAFAECC00EB3D8E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F2BAC2B32AA3C0880009920F /* OnboardingViewController.swift */,
+				F23372B02AAF9C5800EB3D8E /* PageViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		F2BAC22F2A8E6F9C0009920F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,13 +177,13 @@
 		F2C203C22A73008E005EE4EB /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				F2BAC2612A93FF960009920F /* CoreData */,
 				F2BAC22F2A8E6F9C0009920F /* Helpers */,
+				F2BAC2612A93FF960009920F /* CoreData */,
+				F23372B22AAFAECC00EB3D8E /* Onboarding */,
 				F2BAC2D72AA49BDB0009920F /* Trackers */,
 				F2BAC2D82AA49C6F0009920F /* CreateNewTracker */,
 				F2BAC2D92AA49D1E0009920F /* Category MVVM */,
 				F2C203C32A73008E005EE4EB /* AppDelegate.swift */,
-				F2BAC2B32AA3C0880009920F /* OnboardingViewController.swift */,
 				F24FF4032A76AC9600CDD96F /* TabBarController.swift */,
 				F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */,
 				F2C203CC2A73008F005EE4EB /* Assets.xcassets */,
@@ -273,6 +284,7 @@
 				F224145A2A8186270045E50C /* CollectionSupplementaryView.swift in Sources */,
 				F2BAC2DD2AA49E420009920F /* CategoryViewModel.swift in Sources */,
 				F2BC13832AA7A3BC005D6120 /* Extention.swift in Sources */,
+				F23372B12AAF9C5800EB3D8E /* PageViewController.swift in Sources */,
 				F2BAC26E2A9648E30009920F /* UIScheduleMarshalling.swift in Sources */,
 				F2BAC2672A93FFEE0009920F /* TrackerRecordStore.swift in Sources */,
 				F224145E2A82E77B0045E50C /* CollectionViewCell.swift in Sources */,

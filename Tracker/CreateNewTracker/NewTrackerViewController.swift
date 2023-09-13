@@ -16,8 +16,6 @@ final class NewTrackerViewController: UIViewController {
     
     weak var delegate: NewTrackerViewControllerDelegate?
     
-    private lazy var categoryViewModel = CategoryViewModel.shared
-    
     init(_ trackerType: TrackerType) {
         self.trackerType = trackerType
         super.init(nibName: nil, bundle: nil)
@@ -319,8 +317,8 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewModel.delegate = self
-            categoryViewModel.selected(categoryName: categoryName)
+            categoryViewController.categoryViewModel.delegate = self
+            categoryViewController.categoryViewModel.selected(categoryName: categoryName)
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else {
             let scheduleViewController = ScheduleViewController()
@@ -434,17 +432,3 @@ extension NewTrackerViewController: UITextFieldDelegate {
         return false
     }
 }
-
-extension NewTrackerViewController {
-    private func initializeHideKeyboard(){
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(dismissMyKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    @objc func dismissMyKeyboard(){
-        view.endEditing(true)
-    }
-}
-

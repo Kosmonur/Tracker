@@ -9,6 +9,10 @@ import Foundation
 
 enum Constant {
     
+    // AppDelegate
+    
+    static var notFirstStart = UserDefaults.standard.bool(forKey: "notFirstStart")
+    
     // TabBarController
     
     static let trackerTitle = "Трекеры"
@@ -70,5 +74,10 @@ enum Constant {
     static var categoryNew = "Новая категория"
     static var newCategoryNameFieldPlaceholder = "Введите название категории"
     
+}
+
+enum TrackerType {
+    case habit
+    case event
 }
 
