@@ -26,12 +26,18 @@ enum Constant {
     static let actionOk = "Ок"
     static let stubStarText = "Что будем отслеживать?"
     static let stubNotFoundText = "Ничего не найдено"
+    static let areYouSureQuestion = "Уверены, что хотите удалить трекер?"
     
     // TrackerViewCell
     
     static let wordOneDay = "день"
     static let wordDay = "дня"
     static let wordDays = "дней"
+    static let pin = "Закрепить"
+    static let edit = "Редактировать"
+    static let delete = "Удалить"
+    
+    
     
     // CreateNewTrackerController
     
@@ -61,18 +67,20 @@ enum Constant {
     static let newTrackerResrtictionLabel = "Ограничение 38 символов"
     static let newHabit = "Новая привычка"
     static let newIrregularEvent = "Новое нерегулярное событие"
-    static var everyDay = "Каждый день"
+    static let everyDay = "Каждый день"
+    static let cancel = "Отменить"
+    static let create = "Cоздать"
     
     // OnboardingViewController
     
-    static var buttonText = "Вот это технологии!"
-    static var blueLabel = "Отслеживайте только\nто, что хотите"
-    static var redLabel = "Даже если это\nне литры воды и йога"
+    static let buttonText = "Вот это технологии!"
+    static let blueLabel = "Отслеживайте только\nто, что хотите"
+    static let redLabel = "Даже если это\nне литры воды и йога"
     
     // NewCategoryViewController
     
-    static var categoryNew = "Новая категория"
-    static var newCategoryNameFieldPlaceholder = "Введите название категории"
+    static let categoryNew = "Новая категория"
+    static let newCategoryNameFieldPlaceholder = "Введите название категории"
     
 }
 

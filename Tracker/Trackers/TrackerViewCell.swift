@@ -10,6 +10,7 @@ import UIKit
 protocol TrackerCellDelegate: AnyObject {
     func completeTracker(id: UUID, at indexPath: IndexPath)
     func uncompleteTracker(id: UUID, at indexPath: IndexPath)
+    func contextMenu(_ trackerId: UUID?) -> UIContextMenuConfiguration?
 }
 
 final class TrackerViewCell: UICollectionViewCell {
@@ -22,6 +23,8 @@ final class TrackerViewCell: UICollectionViewCell {
         viewCell.layer.borderColor = Color.ypCellBorderColor?.cgColor
         viewCell.layer.borderWidth = 1
         viewCell.translatesAutoresizingMaskIntoConstraints = false
+        let interaction = UIContextMenuInteraction(delegate: self)
+        viewCell.addInteraction(interaction)
         return viewCell
     }()
     
@@ -179,5 +182,12 @@ final class TrackerViewCell: UICollectionViewCell {
         } else {
             delegate?.completeTracker(id: trackerId, at: indexPath)
         }
+    }
+}
+
+extension TrackerViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        delegate?.contextMenu(trackerId)
     }
 }

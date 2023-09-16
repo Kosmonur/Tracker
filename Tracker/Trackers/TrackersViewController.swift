@@ -12,6 +12,7 @@ final class TrackersViewController: UIViewController {
     weak var delegate: NewTrackerViewControllerDelegate?
     
     private let trackerCategoryStore = TrackerCategoryStore.shared
+    private let trackerStore = TrackerStore.shared
     
     private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
@@ -235,7 +236,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 }
 
 extension TrackersViewController: TrackerCellDelegate {
-
+    
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if datePicker.date > Date() {
             let alert = UIAlertController(
@@ -246,7 +247,7 @@ extension TrackersViewController: TrackerCellDelegate {
                 self.dismiss(animated: false)
             }
             alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true)
             return
         }
         
@@ -257,8 +258,45 @@ extension TrackersViewController: TrackerCellDelegate {
     
     func uncompleteTracker(id: UUID, at indexPath: IndexPath) {
         let trackerRecord = TrackerRecord(idRecord: id, dateRecord: datePicker.date)
-            try? trackerRecordStore.removeRecord(trackerRecord)
-            collectionView.reloadItems(at: [indexPath])
+        try? trackerRecordStore.removeRecord(trackerRecord)
+        collectionView.reloadItems(at: [indexPath])
+    }
+    
+    func contextMenu(_ trackerId: UUID?) -> UIContextMenuConfiguration? {
+        
+        let pinTracker = UIAction(title: Constant.pin) { [weak self] _ in
+            print (trackerId as Any)
+            // TODO
+        }
+        
+        let editTracker = UIAction(title: Constant.edit) { [weak self] _ in
+            print (trackerId as Any)
+            // TODO
+        }
+        
+        let deleteTracker = UIAction(title: Constant.delete,
+                                    attributes: .destructive) { [weak self] _ in
+            let alert = UIAlertController(
+                title: "",
+                message: Constant.areYouSureQuestion,
+                preferredStyle: .actionSheet)
+            
+            alert.addAction(UIAlertAction(title: Constant.delete ,
+                                          style: .destructive) { _ in
+                try? self?.trackerStore.deleteTracker(trackerId)
+                self?.reloadVisibleCategories()
+                self?.dismiss(animated: false)
+            })
+            
+            alert.addAction(UIAlertAction(title: Constant.cancel,
+                                          style: .cancel))
+            self?.present(alert, animated: true)
+            return
+        }
+        
+        return UIContextMenuConfiguration(actionProvider: { _ in
+            UIMenu(children: [pinTracker, editTracker, deleteTracker])
+        })
     }
 }
 

@@ -8,15 +8,38 @@
 import UIKit
 import CoreData
 
+protocol TrackerStoreDelegate: AnyObject {
+    func didUpdateCategories()
+}
+
 enum TrackerStoreError: Error {
     case errorDecodingTracker
 }
 
 final class TrackerStore: NSObject {
     
-    private let context: NSManagedObjectContext
+    static let shared = TrackerStore()
+    
     private let uiColorMarshalling = UIColorMarshalling()
     private let uiScheduleMarshalling = UIScheduleMarshalling()
+    
+    weak var delegate: TrackerStoreDelegate?
+    
+    private let context: NSManagedObjectContext
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.id, ascending: true)]
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        fetchedResultsController.delegate = self
+        try? fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
     
     convenience override init() {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -57,4 +80,18 @@ final class TrackerStore: NSObject {
         trackerCoreData.schedule = uiScheduleMarshalling.int(from: tracker.schedule)
         return trackerCoreData
     }
+    
+    func deleteTracker(_ trackerID: UUID?) throws {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerID}) else { return }
+        context.delete(record)
+        try context.save()
+    }
 }
+
+extension TrackerStore: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.didUpdateCategories()
+    }
+}
+

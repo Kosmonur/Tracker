@@ -102,7 +102,7 @@ final class NewTrackerViewController: UIViewController {
         cancelButton.layer.borderColor = Color.ypRed?.cgColor
         cancelButton.layer.borderWidth = 1
         cancelButton.titleLabel?.font = Font.medium16
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(Constant.cancel, for: .normal)
         cancelButton.layer.cornerRadius = 16
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         return cancelButton
@@ -116,7 +116,7 @@ final class NewTrackerViewController: UIViewController {
         createButton.backgroundColor = Color.ypGray
         createButton.setTitleColor(Color.ypWhite, for: .normal)
         createButton.titleLabel?.font = Font.medium16
-        createButton.setTitle("Cоздать", for: .normal)
+        createButton.setTitle(Constant.create, for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         return createButton
