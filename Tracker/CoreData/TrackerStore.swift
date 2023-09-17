@@ -68,7 +68,8 @@ final class TrackerStore: NSObject {
                        name: name,
                        color: uiColorMarshalling.color(from: color),
                        emoji: emoji,
-                       schedule: uiScheduleMarshalling.weekDays(from: data.schedule))
+                       schedule: uiScheduleMarshalling.weekDays(from: data.schedule),
+                       isPinned: data.isPinned)
     }
     
     func newTracker(_ tracker: Tracker) -> TrackerCoreData {
@@ -78,6 +79,7 @@ final class TrackerStore: NSObject {
         trackerCoreData.color = uiColorMarshalling.hexString(from: tracker.color)
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = uiScheduleMarshalling.int(from: tracker.schedule)
+        trackerCoreData.isPinned = tracker.isPinned
         return trackerCoreData
     }
     

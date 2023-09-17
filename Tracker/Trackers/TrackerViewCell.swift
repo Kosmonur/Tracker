@@ -39,6 +39,13 @@ final class TrackerViewCell: UICollectionViewCell {
         return emojiLabel
     }()
     
+    private lazy var isPinned: UIImageView = {
+        let isPinned = UIImageView()
+        isPinned.image = UIImage(named: "isPinned")
+        isPinned.translatesAutoresizingMaskIntoConstraints = false
+        return isPinned
+    }()
+    
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = Font.medium12
@@ -95,6 +102,7 @@ final class TrackerViewCell: UICollectionViewCell {
         contentView.addSubview(viewCell)
         viewCell.addSubview(emojiLabel)
         viewCell.addSubview(textLabel)
+        viewCell.addSubview(isPinned)
         contentView.addSubview(footerView)
         footerView.addSubview(dayLabel)
         footerView.addSubview(plusButton)
@@ -116,6 +124,11 @@ final class TrackerViewCell: UICollectionViewCell {
             textLabel.bottomAnchor.constraint(equalTo: viewCell.bottomAnchor, constant: -12),
             textLabel.leadingAnchor.constraint(equalTo: viewCell.leadingAnchor, constant: 12),
             textLabel.trailingAnchor.constraint(equalTo: viewCell.trailingAnchor, constant: -12),
+            
+            isPinned.heightAnchor.constraint(equalToConstant: 24),
+            isPinned.widthAnchor.constraint(equalToConstant: 24),
+            isPinned.topAnchor.constraint(equalTo: emojiLabel.topAnchor),
+            isPinned.leadingAnchor.constraint(equalTo: emojiLabel.trailingAnchor, constant: 103),
             
             footerView.topAnchor.constraint(equalTo: viewCell.bottomAnchor),
             footerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -140,6 +153,7 @@ final class TrackerViewCell: UICollectionViewCell {
         self.isCompletedToday = isCompletedToday
         self.trackerId = tracker.id
         self.indexPath = indexPath
+        self.isPinned.isHidden = !tracker.isPinned
         
         viewCell.backgroundColor = tracker.color
         plusButton.tintColor = tracker.color

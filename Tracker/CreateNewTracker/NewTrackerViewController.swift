@@ -229,7 +229,8 @@ final class NewTrackerViewController: UIViewController {
                                  name: trackerNameField.text ?? "",
                                  color: Color.colorsArray[indexOfSelectedColor?.row ?? 0],
                                  emoji: Constant.emojis[indexOfSelectedEmoji?.row ?? 0],
-                                 schedule: sheduleList)
+                                 schedule: sheduleList,
+                                 isPinned: false)
         
         guard let categoryName = categoryName else { return }
         let newCategory = TrackerCategory(header: categoryName,
