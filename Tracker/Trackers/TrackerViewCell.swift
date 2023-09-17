@@ -10,7 +10,7 @@ import UIKit
 protocol TrackerCellDelegate: AnyObject {
     func completeTracker(id: UUID, at indexPath: IndexPath)
     func uncompleteTracker(id: UUID, at indexPath: IndexPath)
-    func contextMenu(_ trackerId: UUID?) -> UIContextMenuConfiguration?
+    func contextMenu(_ trackerId: UUID?, at indexPath: IndexPath) -> UIContextMenuConfiguration?
 }
 
 final class TrackerViewCell: UICollectionViewCell {
@@ -188,6 +188,7 @@ final class TrackerViewCell: UICollectionViewCell {
 extension TrackerViewCell: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
                                 configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        delegate?.contextMenu(trackerId)
+        guard let indexPath else { return UIContextMenuConfiguration()}
+        return delegate?.contextMenu(trackerId, at: indexPath)
     }
 }

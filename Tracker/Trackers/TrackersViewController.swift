@@ -144,6 +144,20 @@ final class TrackersViewController: UIViewController {
         }
     }
     
+    private func showStubIfNeed() {
+        if categories.isEmpty {
+            showStub(stubImageName: "stub_star",
+                     stubText: Constant.stubStarText)
+        } else
+        if visibleCategories.isEmpty {
+            showStub(stubImageName: "stub_not_found",
+                     stubText: Constant.stubNotFoundText)
+        } else
+        {
+            hideStub()
+        }
+    }
+    
     @objc
     private func reloadVisibleCategories() {
         let calendar = Calendar.current
@@ -165,17 +179,7 @@ final class TrackersViewController: UIViewController {
             return TrackerCategory(header: category.header, trackers: trackers)
         }
         
-        if categories.isEmpty {
-            showStub(stubImageName: "stub_star",
-                     stubText: Constant.stubStarText)
-        } else
-        if visibleCategories.isEmpty {
-            showStub(stubImageName: "stub_not_found",
-                     stubText: Constant.stubNotFoundText)
-        } else
-        {
-            hideStub()
-        }
+        showStubIfNeed()
         collectionView.reloadData()
         dismiss(animated: true)
     }
@@ -262,7 +266,7 @@ extension TrackersViewController: TrackerCellDelegate {
         collectionView.reloadItems(at: [indexPath])
     }
     
-    func contextMenu(_ trackerId: UUID?) -> UIContextMenuConfiguration? {
+    func contextMenu(_ trackerId: UUID?, at indexPath: IndexPath) -> UIContextMenuConfiguration? {
         
         let pinTracker = UIAction(title: Constant.pin) { [weak self] _ in
             print (trackerId as Any)
@@ -275,16 +279,35 @@ extension TrackersViewController: TrackerCellDelegate {
         }
         
         let deleteTracker = UIAction(title: Constant.delete,
-                                    attributes: .destructive) { [weak self] _ in
+                                     attributes: .destructive) { [weak self] _ in
             let alert = UIAlertController(
                 title: "",
                 message: Constant.areYouSureQuestion,
                 preferredStyle: .actionSheet)
             
             alert.addAction(UIAlertAction(title: Constant.delete ,
-                                          style: .destructive) { _ in
+                                          style: .destructive) { [self] _ in
                 try? self?.trackerStore.deleteTracker(trackerId)
-                self?.reloadVisibleCategories()
+                
+                let newVisibleCategories = self?.visibleCategories.map { category in
+                    let trackers = category.trackers.filter { $0.id != trackerId }
+                    return TrackerCategory(header: category.header, trackers: trackers)
+                }
+                
+                self?.visibleCategories = newVisibleCategories.map { category in
+                    category.filter { !$0.trackers.isEmpty }
+                } ?? []
+                
+                self?.collectionView.performBatchUpdates ({
+                    if self?.collectionView.numberOfItems(inSection: indexPath.section) == 1 {
+                        self?.collectionView.deleteSections(NSIndexSet(index: indexPath.section) as IndexSet)
+                    } else {
+                        self?.collectionView.deleteItems(at: [indexPath])
+                    }
+                }) {_ in
+                    self?.collectionView.reloadItems(at: (self?.collectionView.indexPathsForVisibleItems)!)
+                    self?.showStubIfNeed()
+                }
                 self?.dismiss(animated: false)
             })
             
