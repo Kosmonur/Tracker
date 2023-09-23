@@ -89,6 +89,13 @@ final class TrackerStore: NSObject {
         context.delete(record)
         try context.save()
     }
+    
+    func setTrackerPinnedState(_ trackerId: UUID?, isPinned: Bool) throws {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerId}) else { return }
+        record.isPinned = isPinned
+        try context.save()
+    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {

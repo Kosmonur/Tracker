@@ -27,15 +27,18 @@ enum Constant {
     static let stubStarText = "Что будем отслеживать?"
     static let stubNotFoundText = "Ничего не найдено"
     static let areYouSureQuestion = "Уверены, что хотите удалить трекер?"
+    static let pin = "Закрепить"
+    static let unpin = "Открепить"
+    static let edit = "Редактировать"
+    static let delete = "Удалить"
+    static let isPinned = "Закрепленные"
     
     // TrackerViewCell
     
     static let wordOneDay = "день"
     static let wordDay = "дня"
     static let wordDays = "дней"
-    static let pin = "Закрепить"
-    static let edit = "Редактировать"
-    static let delete = "Удалить"
+    
     
     
     

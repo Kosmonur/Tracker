@@ -18,6 +18,7 @@ final class TrackersViewController: UIViewController {
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
+    private var pinnedTrackers: [Tracker] = []
     
     private lazy var stub: UIImageView = {
         let stub = UIImageView()
@@ -75,12 +76,7 @@ final class TrackersViewController: UIViewController {
         setupConstraints()
         
         trackerCategoryStore.delegate = self
-        categories = trackerCategoryStore.trackerCategories
-        
         trackerRecordStore.delegate = self
-        completedTrackers = trackerRecordStore.completedTrackers
-        
-        visibleCategories = categories
         reloadVisibleCategories()
     }
     
@@ -160,6 +156,25 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func reloadVisibleCategories() {
+        
+        categories = trackerCategoryStore.trackerCategories
+        completedTrackers = trackerRecordStore.completedTrackers
+        pinnedTrackers = categories.flatMap({$0.trackers.filter({$0.isPinned})})
+        
+        if !pinnedTrackers.isEmpty {
+            categories = categories.compactMap { category in
+                let trackers = category.trackers.filter { !$0.isPinned }
+                if trackers.isEmpty {
+                    return nil
+                }
+                return TrackerCategory(header: category.header,
+                                       trackers: trackers)
+            }
+            categories.insert(TrackerCategory(header: Constant.isPinned,
+                                              trackers: pinnedTrackers),
+                              at: 0)
+        }
+        
         let calendar = Calendar.current
         let filterWeekDay = calendar.component(.weekday, from: datePicker.date)
         let filterText = (searchField.text ?? "").lowercased()
@@ -268,9 +283,13 @@ extension TrackersViewController: TrackerCellDelegate {
     
     func contextMenu(_ trackerId: UUID?, at indexPath: IndexPath) -> UIContextMenuConfiguration? {
         
-        let pinTracker = UIAction(title: Constant.pin) { [weak self] _ in
-            print (trackerId as Any)
-            // TODO
+        let trackerIsPinned = categories.contains(where: {category in
+            category.trackers.contains(where: {$0.id == trackerId && $0.isPinned})
+        })
+
+        let pinTracker = UIAction(title: trackerIsPinned ? Constant.unpin : Constant.pin) { [weak self] _ in
+            try? self?.trackerStore.setTrackerPinnedState(trackerId, isPinned: !trackerIsPinned)
+            self?.reloadVisibleCategories()
         }
         
         let editTracker = UIAction(title: Constant.edit) { [weak self] _ in
@@ -308,7 +327,6 @@ extension TrackersViewController: TrackerCellDelegate {
                     self?.collectionView.reloadItems(at: (self?.collectionView.indexPathsForVisibleItems)!)
                     self?.showStubIfNeed()
                 }
-                self?.dismiss(animated: false)
             })
             
             alert.addAction(UIAlertAction(title: Constant.cancel,
