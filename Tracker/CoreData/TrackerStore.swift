@@ -96,6 +96,24 @@ final class TrackerStore: NSObject {
         record.isPinned = isPinned
         try context.save()
     }
+    
+    func getTrackerFromID(_ trackerId: UUID?) throws  -> Tracker {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerId}),
+            let id = record.id,
+            let name = record.name,
+            let color = record.color,
+            let emoji = record.emoji
+        else {
+            throw TrackerStoreError.errorDecodingTracker
+        }
+        return Tracker(id: id,
+                       name: name,
+                       color: uiColorMarshalling.color(from: color),
+                       emoji: emoji,
+                       schedule: uiScheduleMarshalling.weekDays(from: record.schedule),
+                       isPinned: record.isPinned)
+    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {

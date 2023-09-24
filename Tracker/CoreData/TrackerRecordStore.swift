@@ -84,6 +84,10 @@ final class TrackerRecordStore: NSObject {
         context.delete(record)
         try context.save()
     }
+    
+    func comletedTrackerWithId(_ trackerId: UUID) throws  -> Int {
+        completedTrackers.filter({$0.idRecord == trackerId}).count
+    }
 }
 
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate {

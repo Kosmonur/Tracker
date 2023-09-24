@@ -39,9 +39,6 @@ enum Constant {
     static let wordDay = "дня"
     static let wordDays = "дней"
     
-    
-    
-    
     // CreateNewTrackerController
     
     static let newHabitButtonTitle = "Привычка"
@@ -84,6 +81,12 @@ enum Constant {
     
     static let categoryNew = "Новая категория"
     static let newCategoryNameFieldPlaceholder = "Введите название категории"
+    
+    // EditTrackerViewController
+    
+    static let editHabbit = "Редактирование привычки"
+    static let editEvent = "Редактирование события"
+    static let save = "Сохранить"
     
 }
 

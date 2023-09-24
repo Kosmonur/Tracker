@@ -286,15 +286,27 @@ extension TrackersViewController: TrackerCellDelegate {
         let trackerIsPinned = categories.contains(where: {category in
             category.trackers.contains(where: {$0.id == trackerId && $0.isPinned})
         })
-
+        
         let pinTracker = UIAction(title: trackerIsPinned ? Constant.unpin : Constant.pin) { [weak self] _ in
             try? self?.trackerStore.setTrackerPinnedState(trackerId, isPinned: !trackerIsPinned)
             self?.reloadVisibleCategories()
         }
         
         let editTracker = UIAction(title: Constant.edit) { [weak self] _ in
-            print (trackerId as Any)
-            // TODO
+            
+            let categoryName = try? self?.trackerCategoryStore.categoryNameIncludedTrackerWithId(trackerId)
+            let editedTracker = try? self?.trackerStore.getTrackerFromID(trackerId)
+            
+            guard let editedTracker,
+                  let categoryName else { return }
+
+            let editViewController = editedTracker.schedule.isEmpty ? EditTrackerViewController(.event, categoryName: categoryName, tracker: editedTracker) : EditTrackerViewController(.habit, categoryName: categoryName, tracker: editedTracker)
+            
+            editViewController.completedTrackerWithId = (try? self?.trackerRecordStore.comletedTrackerWithId(editedTracker.id)) ?? 0
+            editViewController.delegate = self
+            
+            let navigationController = UINavigationController(rootViewController: editViewController)
+            self?.present(navigationController, animated: true)
         }
         
         let deleteTracker = UIAction(title: Constant.delete,

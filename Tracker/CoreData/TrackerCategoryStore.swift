@@ -22,7 +22,7 @@ final class TrackerCategoryStore: NSObject {
     
     weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
-    private let trackerStore = TrackerStore.shared 
+    private let trackerStore = TrackerStore.shared
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
@@ -92,6 +92,11 @@ final class TrackerCategoryStore: NSObject {
         category.header = categoryName
         try context.save()
     }
+    
+    func categoryNameIncludedTrackerWithId(_ trackerId: UUID?) throws  -> String {
+        trackerCategories.first(where: {$0.trackers.contains(where: {$0.id == trackerId})})?.header ?? ""
+    }
+    
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {

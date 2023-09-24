@@ -163,26 +163,7 @@ final class TrackerViewCell: UICollectionViewCell {
         
         emojiLabel.text = tracker.emoji
         textLabel.text = tracker.name
-        
-        let correctWord: String = {
-            var ended = ""
-            let cheсk = completedDays % 10
-            if "1".contains("\(cheсk)") {
-                ended =  Constant.wordOneDay
-            }
-            if "234".contains("\(cheсk)") {
-                ended =  Constant.wordDay
-            }
-            if "567890".contains("\(cheсk)") {
-                ended =  Constant.wordDays
-            }
-            if 11...14 ~= completedDays % 100 {
-                ended =  Constant.wordDays
-            }
-            return ended
-        }()
-        
-        dayLabel.text = "\(completedDays) \(correctWord)"
+        dayLabel.text = "\(completedDays) \(TextHelper.correctDaysWord(for: completedDays))"
     }
     
     @objc
