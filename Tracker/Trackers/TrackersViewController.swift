@@ -45,7 +45,6 @@ final class TrackersViewController: UIViewController {
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        datePicker.locale = Locale(identifier: "ru")
         datePicker.calendar.firstWeekday = 2
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
@@ -55,7 +54,7 @@ final class TrackersViewController: UIViewController {
     
     private lazy var searchField: UISearchTextField = {
         let searchField = UISearchTextField()
-        searchField.placeholder = Constant.searchPlaceholder
+        searchField.placeholder = NSLocalizedString("searchPlaceholder", comment: "Text displayed on empty state")
         searchField.translatesAutoresizingMaskIntoConstraints = false
         searchField.addTarget(self, action: #selector(reloadVisibleCategories), for: .allEditingEvents)
         searchField.delegate = self
@@ -95,7 +94,7 @@ final class TrackersViewController: UIViewController {
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constant.trackerTitle
+        title = NSLocalizedString("trackerTitle", comment: "")
         addButton.target = self
         navigationItem.leftBarButtonItem = addButton
         navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
@@ -143,11 +142,11 @@ final class TrackersViewController: UIViewController {
     private func showStubIfNeed() {
         if categories.isEmpty {
             showStub(stubImageName: "stub_star",
-                     stubText: Constant.stubStarText)
+                     stubText: NSLocalizedString("stubStarText", comment: ""))
         } else
         if visibleCategories.isEmpty {
             showStub(stubImageName: "stub_not_found",
-                     stubText: Constant.stubNotFoundText)
+                     stubText: NSLocalizedString("stubNotFoundText", comment: ""))
         } else
         {
             hideStub()
@@ -170,7 +169,7 @@ final class TrackersViewController: UIViewController {
                 return TrackerCategory(header: category.header,
                                        trackers: trackers)
             }
-            categories.insert(TrackerCategory(header: Constant.isPinned,
+            categories.insert(TrackerCategory(header: NSLocalizedString("isPinned", comment: ""),
                                               trackers: pinnedTrackers),
                               at: 0)
         }
@@ -259,10 +258,11 @@ extension TrackersViewController: TrackerCellDelegate {
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if datePicker.date > Date() {
             let alert = UIAlertController(
-                title: Constant.futureAlertTitle,
-                message: Constant.futureAlertMessage,
+                title: NSLocalizedString("futureAlertTitle", comment: ""),
+                message: NSLocalizedString("futureAlertMessage", comment: ""),
                 preferredStyle: .alert)
-            let action = UIAlertAction(title: Constant.actionOk, style: .cancel) { _ in
+            let action = UIAlertAction(title: NSLocalizedString("actionOk", comment: ""),
+                                       style: .cancel) { _ in
                 self.dismiss(animated: false)
             }
             alert.addAction(action)
@@ -287,12 +287,12 @@ extension TrackersViewController: TrackerCellDelegate {
             category.trackers.contains(where: {$0.id == trackerId && $0.isPinned})
         })
         
-        let pinTracker = UIAction(title: trackerIsPinned ? Constant.unpin : Constant.pin) { [weak self] _ in
+        let pinTracker = UIAction(title: trackerIsPinned ? NSLocalizedString("unpin", comment: "") : NSLocalizedString("pin", comment: "")) { [weak self] _ in
             try? self?.trackerStore.setTrackerPinnedState(trackerId, isPinned: !trackerIsPinned)
             self?.reloadVisibleCategories()
         }
         
-        let editTracker = UIAction(title: Constant.edit) { [weak self] _ in
+        let editTracker = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
             
             let categoryName = try? self?.trackerCategoryStore.categoryNameIncludedTrackerWithId(trackerId)
             let editedTracker = try? self?.trackerStore.getTrackerFromID(trackerId)
@@ -309,14 +309,14 @@ extension TrackersViewController: TrackerCellDelegate {
             self?.present(navigationController, animated: true)
         }
         
-        let deleteTracker = UIAction(title: Constant.delete,
+        let deleteTracker = UIAction(title: NSLocalizedString("delete", comment: ""),
                                      attributes: .destructive) { [weak self] _ in
             let alert = UIAlertController(
                 title: "",
-                message: Constant.areYouSureQuestion,
+                message: NSLocalizedString("areYouSureQuestion", comment: ""),
                 preferredStyle: .actionSheet)
             
-            alert.addAction(UIAlertAction(title: Constant.delete ,
+            alert.addAction(UIAlertAction(title: NSLocalizedString("delete", comment: ""),
                                           style: .destructive) { [self] _ in
                 try? self?.trackerStore.deleteTracker(trackerId)
                 
@@ -341,7 +341,7 @@ extension TrackersViewController: TrackerCellDelegate {
                 }
             })
             
-            alert.addAction(UIAlertAction(title: Constant.cancel,
+            alert.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: ""),
                                           style: .cancel))
             self?.present(alert, animated: true)
             return

@@ -17,6 +17,8 @@
 		F23372B12AAF9C5800EB3D8E /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23372B02AAF9C5800EB3D8E /* PageViewController.swift */; };
 		F23372D92ABF69FF00EB3D8E /* EditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23372D82ABF69FF00EB3D8E /* EditTrackerViewController.swift */; };
 		F23372DB2AC0E05000EB3D8E /* TextHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23372DA2AC0E05000EB3D8E /* TextHelper.swift */; };
+		F23372E02AC0EA2D00EB3D8E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F23372E22AC0EA2D00EB3D8E /* Localizable.strings */; };
+		F23372E62AC0FA8D00EB3D8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F23372E82AC0FA8D00EB3D8E /* InfoPlist.strings */; };
 		F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4032A76AC9600CDD96F /* TabBarController.swift */; };
 		F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */; };
 		F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */; };
@@ -54,6 +56,11 @@
 		F23372B02AAF9C5800EB3D8E /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		F23372D82ABF69FF00EB3D8E /* EditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerViewController.swift; sourceTree = "<group>"; };
 		F23372DA2AC0E05000EB3D8E /* TextHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHelper.swift; sourceTree = "<group>"; };
+		F23372DF2AC0E94E00EB3D8E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F23372E12AC0EA2D00EB3D8E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F23372E32AC0EA3900EB3D8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F23372E72AC0FA8D00EB3D8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F23372E92AC0FA9200EB3D8E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F24FF4032A76AC9600CDD96F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTrackerController.swift; sourceTree = "<group>"; };
@@ -100,6 +107,15 @@
 				F23372B02AAF9C5800EB3D8E /* PageViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F23372DC2AC0E7B500EB3D8E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F23372E22AC0EA2D00EB3D8E /* Localizable.strings */,
+				F23372E82AC0FA8D00EB3D8E /* InfoPlist.strings */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		F2BAC22F2A8E6F9C0009920F /* Helpers */ = {
@@ -183,6 +199,7 @@
 		F2C203C22A73008E005EE4EB /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				F23372DC2AC0E7B500EB3D8E /* Resources */,
 				F2BAC22F2A8E6F9C0009920F /* Helpers */,
 				F2BAC2612A93FF960009920F /* CoreData */,
 				F23372B22AAFAECC00EB3D8E /* Onboarding */,
@@ -241,6 +258,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = F2C203B72A73008E005EE4EB;
 			productRefGroup = F2C203C12A73008E005EE4EB /* Products */;
@@ -258,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C203D02A73008F005EE4EB /* LaunchScreen.storyboard in Resources */,
+				F23372E62AC0FA8D00EB3D8E /* InfoPlist.strings in Resources */,
+				F23372E02AC0EA2D00EB3D8E /* Localizable.strings in Resources */,
 				F2C203CD2A73008F005EE4EB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,10 +327,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		F23372E22AC0EA2D00EB3D8E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F23372E12AC0EA2D00EB3D8E /* ru */,
+				F23372E32AC0EA3900EB3D8E /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F23372E82AC0FA8D00EB3D8E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F23372E72AC0FA8D00EB3D8E /* en */,
+				F23372E92AC0FA9200EB3D8E /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F2C203CE2A73008F005EE4EB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F2C203CF2A73008F005EE4EB /* Base */,
+				F23372DF2AC0E94E00EB3D8E /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -322,6 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -382,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

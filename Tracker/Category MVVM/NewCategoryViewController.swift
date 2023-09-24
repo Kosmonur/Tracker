@@ -22,7 +22,7 @@ final class NewCategoryViewController: UIViewController {
         categoryNameField.layer.cornerRadius = 16
         categoryNameField.indent(16)
         categoryNameField.clearButtonMode = .never
-        categoryNameField.placeholder = Constant.newCategoryNameFieldPlaceholder
+        categoryNameField.placeholder = NSLocalizedString("newCategoryNameFieldPlaceholder", comment: "")
         categoryNameField.backgroundColor = Color.ypBackground
         categoryNameField.addTarget(self,
                                     action: #selector(categoryNameChanged(_:)),
@@ -39,7 +39,7 @@ final class NewCategoryViewController: UIViewController {
         readyButton.backgroundColor = Color.ypGray
         readyButton.setTitleColor(Color.ypWhite, for: .normal)
         readyButton.titleLabel?.font = Font.medium16
-        readyButton.setTitle(Constant.readyButtonTitle, for: .normal)
+        readyButton.setTitle(NSLocalizedString("readyButtonTitle", comment: ""), for: .normal)
         readyButton.layer.cornerRadius = 16
         readyButton.isEnabled = false
         readyButton.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,7 @@ final class NewCategoryViewController: UIViewController {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
-        title = Constant.categoryNew
+        title = NSLocalizedString("categoryNew", comment: "")
         
         view.addSubview(categoryNameField)
         view.addSubview(readyButton)

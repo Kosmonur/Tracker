@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Александр Пичугин on 25.09.2023.
+  
+*/
+
+trackerTitle = "Trackers";
+rightTabBarTitle = "Statistics";
+searchPlaceholder = "Find";
+futureAlertTitle = "The future depends on what you do today";
+futureAlertMessage = "But it is impossible to fulfil today what is to be done tomorrow...";
+actionOk = "OK";
+stubStarText = "What are we tracking?";
+stubNotFoundText = "Nothing found";
+areYouSureQuestion = "Are you sure you want to delete the tracker?";
+pin = "Pin";
+unpin = "Unpin";
+edit = "Edit";
+delete = "Delete";
+isPinned = "Pinned";
+wordOneDay = "day";
+wordDay = "days";
+wordDays = "days";
+newHabitButtonTitle = "Habit";
+irregularEventButtonTitle = "Irregular event";
+newTrackerControllerTitle = "Creating a tracker";
+addCategoryButtonTitle = "Add a category";
+stubLabelText = "Habits and events can be\ncombined by meaning";
+categoryTitle = "Category";
+readyButtonTitle = "It's done";
+scheduleTitle = "Schedule";
+newTrackerNameFieldPlaceholder = "Enter the name of the tracker";
+newTrackerResrtictionLabel = "38 character limit";
+newHabit = "A new habit";
+newIrregularEvent = "New irregular event";
+everyDay = "Every day";
+cancel = "Cancel";
+create = "Create";
+buttonText = "That's technology!";
+blueLabel = "Track only\nwhat you want";
+redLabel = "Even if it's\nnot litres of water and yoga";
+categoryNew = "New category";
+newCategoryNameFieldPlaceholder = "Enter the name of the category";
+editHabbit = "Editing a habit";
+editEvent = "Editing an event";
+save = "Save";

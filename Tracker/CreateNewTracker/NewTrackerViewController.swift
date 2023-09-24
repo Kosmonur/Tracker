@@ -47,7 +47,7 @@ final class NewTrackerViewController: UIViewController {
         trackerNameField.layer.cornerRadius = 16
         trackerNameField.indent(16)
         trackerNameField.clearButtonMode = .whileEditing
-        trackerNameField.placeholder = Constant.newTrackerNameFieldPlaceholder
+        trackerNameField.placeholder = NSLocalizedString("newTrackerNameFieldPlaceholder", comment: "")
         trackerNameField.backgroundColor = Color.ypBackground
         trackerNameField.addTarget(self,
                                    action: #selector(trackerNameChanged(_:)),
@@ -60,7 +60,7 @@ final class NewTrackerViewController: UIViewController {
         let resrtictionLabel = UILabel()
         resrtictionLabel.font = Font.regular17
         resrtictionLabel.textColor = Color.ypRed
-        resrtictionLabel.text = Constant.newTrackerResrtictionLabel
+        resrtictionLabel.text = NSLocalizedString("newTrackerResrtictionLabel", comment: "")
         resrtictionLabel.translatesAutoresizingMaskIntoConstraints = false
         return resrtictionLabel
     }()
@@ -102,7 +102,7 @@ final class NewTrackerViewController: UIViewController {
         cancelButton.layer.borderColor = Color.ypRed?.cgColor
         cancelButton.layer.borderWidth = 1
         cancelButton.titleLabel?.font = Font.medium16
-        cancelButton.setTitle(Constant.cancel, for: .normal)
+        cancelButton.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         cancelButton.layer.cornerRadius = 16
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         return cancelButton
@@ -116,7 +116,7 @@ final class NewTrackerViewController: UIViewController {
         createButton.backgroundColor = Color.ypGray
         createButton.setTitleColor(Color.ypWhite, for: .normal)
         createButton.titleLabel?.font = Font.medium16
-        createButton.setTitle(Constant.create, for: .normal)
+        createButton.setTitle(NSLocalizedString("create", comment: ""), for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         return createButton
@@ -165,10 +165,10 @@ final class NewTrackerViewController: UIViewController {
     private func setupTypeTracker() {
         switch trackerType {
         case .habit:
-            title = Constant.newHabit
+            title = NSLocalizedString("newHabit", comment: "")
             tableView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         case .event:
-            title = Constant.newIrregularEvent
+            title = NSLocalizedString("newIrregularEvent", comment: "")
             tableView.heightAnchor.constraint(equalToConstant: 75).isActive = true
         }
     }
@@ -281,14 +281,14 @@ extension NewTrackerViewController: UITableViewDataSource {
         cell.textLabel?.numberOfLines = 0
         
         if indexPath.row == 0 {
-            textLabel = Constant.categoryTitle
+            textLabel = NSLocalizedString("categoryTitle", comment: "")
             if let categoryName = categoryName {
                 textLabel += "\n" + categoryName}
         } else {
-            textLabel = Constant.scheduleTitle
+            textLabel = NSLocalizedString("scheduleTitle", comment: "")
             if !sheduleList.isEmpty {
                 textLabel += "\n"
-                textLabel += sheduleList.count == WeekDay.allCases.count ? Constant.everyDay : sheduleList.map({ $0.shortName }).joined(separator: ", ")
+                textLabel += sheduleList.count == WeekDay.allCases.count ? NSLocalizedString("everyDay", comment: "") : sheduleList.map({ $0.shortName }).joined(separator: ", ")
             }
         }
         

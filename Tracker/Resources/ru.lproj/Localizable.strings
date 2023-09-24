@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Александр Пичугин on 25.09.2023.
+  
+*/
+
+trackerTitle = "Трекеры";
+rightTabBarTitle = "Статистика";
+searchPlaceholder = "Поиск";
+futureAlertTitle = "Будущее зависит от того, что вы делаете сегодня";
+futureAlertMessage = "Но сегодня нельзя выполнить то, что предстоит сделать завтра…";
+actionOk = "Ок";
+stubStarText = "Что будем отслеживать?";
+stubNotFoundText = "Ничего не найдено";
+areYouSureQuestion = "Уверены, что хотите удалить трекер?";
+pin = "Закрепить";
+unpin = "Открепить";
+edit = "Редактировать";
+delete = "Удалить";
+isPinned = "Закрепленные";
+wordOneDay = "день";
+wordDay = "дня";
+wordDays = "дней";
+newHabitButtonTitle = "Привычка";
+irregularEventButtonTitle = "Нерегулярное событие";
+newTrackerControllerTitle = "Создание трекера";
+addCategoryButtonTitle = "Добавить категорию";
+stubLabelText = "Привычки и события можно \nобъединить по смыслу";
+categoryTitle = "Категория";
+readyButtonTitle = "Готово";
+scheduleTitle = "Расписание";
+newTrackerNameFieldPlaceholder = "Введите название трекера";
+newTrackerResrtictionLabel = "Ограничение 38 символов";
+newHabit = "Новая привычка";
+newIrregularEvent = "Новое нерегулярное событие";
+everyDay = "Каждый день";
+cancel = "Отменить";
+create = "Cоздать";
+buttonText = "Вот это технологии!";
+blueLabel = "Отслеживайте только\nто, что хотите";
+redLabel = "Даже если это\nне литры воды и йога";
+categoryNew = "Новая категория";
+newCategoryNameFieldPlaceholder = "Введите название категории";
+editHabbit = "Редактирование привычки";
+editEvent = "Редактирование события";
+save = "Сохранить";

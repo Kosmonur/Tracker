@@ -12,16 +12,16 @@ final class TextHelper {
         var ended = ""
         let cheсk = days % 10
         if "1".contains("\(cheсk)") {
-            ended =  Constant.wordOneDay
+            ended = NSLocalizedString("wordOneDay", comment: "")
         }
         if "234".contains("\(cheсk)") {
-            ended =  Constant.wordDay
+            ended = NSLocalizedString("wordDay", comment: "")
         }
         if "567890".contains("\(cheсk)") {
-            ended =  Constant.wordDays
+            ended = NSLocalizedString("wordDays", comment: "")
         }
         if 11...14 ~= days % 100 {
-            ended =  Constant.wordDays
+            ended =  NSLocalizedString("wordDays", comment: "")
         }
         return ended
     }
