@@ -34,7 +34,7 @@ final class EditTrackerViewController: UIViewController {
     private var trackerType: TrackerType
     private var trackerName: String?
     private var categoryName: String?
-    private lazy var sheduleList =  tracker.schedule
+    private lazy var sheduleList = WeekDay.allCases.filter { tracker.schedule.contains($0) }
     
     private var indexOfSelectedEmoji: IndexPath?
     private var indexOfSelectedColor: IndexPath?
