@@ -169,9 +169,11 @@ final class TrackersViewController: UIViewController {
         if visibleCategories.isEmpty {
             showStub(stubImageName: "stub_not_found",
                      stubText: NSLocalizedString("stubNotFoundText", comment: ""))
+            if selectedFilter == .allTrackers || selectedFilter == .todayTrackers {
+                filterButton.isHidden = true
+            }
         } else
-        {
-            hideStub()
+        { hideStub()
             filterButton.isHidden = false
         }
     }

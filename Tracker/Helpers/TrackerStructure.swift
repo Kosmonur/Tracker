@@ -39,13 +39,13 @@ enum WeekDay: String, CaseIterable {
     
     var shortName: String {
         switch self {
-        case .monday: return "Mon"
-        case .tuesday: return "Tue"
-        case .wednesday: return "Wed"
-        case .thurshday: return "Thu"
-        case .friday: return "Fri"
-        case .saturday: return "Sat"
-        case .sunday: return "Sun"
+        case .monday: return "mon"
+        case .tuesday: return "tue"
+        case .wednesday: return "wed"
+        case .thurshday: return "thu"
+        case .friday: return "fri"
+        case .saturday: return "sat"
+        case .sunday: return "sun"
         }
     }
     
