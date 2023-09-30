@@ -12,6 +12,7 @@ enum Font {
     // bold
     static let bold19 = UIFont.systemFont(ofSize: 19, weight: .bold)
     static let bold32 = UIFont.systemFont(ofSize: 32, weight: .bold)
+    static let bold34 = UIFont.systemFont(ofSize: 34, weight: .bold)
     
     // regular
     static let regular17 = UIFont.systemFont(ofSize: 17, weight: .regular)

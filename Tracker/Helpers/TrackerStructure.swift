@@ -17,13 +17,13 @@ struct Tracker {
 }
 
 enum WeekDay: String, CaseIterable {
-    case monday = "Понедельник"
-    case tuesday = "Вторник"
-    case wednesday = "Среда"
-    case thurshday = "Четверг"
-    case friday = "Пятница"
-    case saturday = "Суббота"
-    case sunday = "Воскресенье"
+    case monday = "monday"
+    case tuesday = "tuesday"
+    case wednesday = "wednesday"
+    case thurshday = "thurshday"
+    case friday = "friday"
+    case saturday = "saturday"
+    case sunday = "sunday"
     
     var number: Int {
         switch self {
@@ -39,14 +39,22 @@ enum WeekDay: String, CaseIterable {
     
     var shortName: String {
         switch self {
-        case .monday: return "Пн"
-        case .tuesday: return "Вт"
-        case .wednesday: return "Ср"
-        case .thurshday: return "Чт"
-        case .friday: return "Пт"
-        case .saturday: return "Сб"
-        case .sunday: return "Вс"
+        case .monday: return "Mon"
+        case .tuesday: return "Tue"
+        case .wednesday: return "Wed"
+        case .thurshday: return "Thu"
+        case .friday: return "Fri"
+        case .saturday: return "Sat"
+        case .sunday: return "Sun"
         }
+    }
+    
+    var localizedValue: String {
+        return self.rawValue.localized()
+    }
+    
+    var localizedValueShort: String {
+        return self.shortName.localized()
     }
     
 }

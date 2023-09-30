@@ -126,7 +126,7 @@ extension ScheduleViewController: UITableViewDataSource {
         switchView.tag = indexPath.row
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         cell.accessoryView = switchView
-        cell.textLabel?.text = WeekDay.allCases[indexPath.row].rawValue
+        cell.textLabel?.text = WeekDay.allCases[indexPath.row].localizedValue
         
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)

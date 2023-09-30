@@ -288,7 +288,7 @@ extension NewTrackerViewController: UITableViewDataSource {
             textLabel = NSLocalizedString("scheduleTitle", comment: "")
             if !sheduleList.isEmpty {
                 textLabel += "\n"
-                textLabel += sheduleList.count == WeekDay.allCases.count ? NSLocalizedString("everyDay", comment: "") : sheduleList.map({ $0.shortName }).joined(separator: ", ")
+                textLabel += sheduleList.count == WeekDay.allCases.count ? NSLocalizedString("everyDay", comment: "") : sheduleList.map({ $0.localizedValueShort }).joined(separator: ", ")
             }
         }
         

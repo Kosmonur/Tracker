@@ -26,3 +26,10 @@ final class TextHelper {
         return ended
     }
 }
+
+extension String {
+    func localized(comment: String = "") -> String {
+        let localizedString = NSLocalizedString(self, comment: comment)
+        return localizedString
+    }
+}

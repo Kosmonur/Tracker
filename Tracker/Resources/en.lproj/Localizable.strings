@@ -7,7 +7,7 @@
 */
 
 trackerTitle = "Trackers";
-rightTabBarTitle = "Statistics";
+statisticsTitle = "Statistics";
 searchPlaceholder = "Find";
 futureAlertTitle = "The future depends on what you do today";
 futureAlertMessage = "But it is impossible to fulfil today what is to be done tomorrow...";
@@ -46,3 +46,23 @@ newCategoryNameFieldPlaceholder = "Enter the name of the category";
 editHabbit = "Editing a habit";
 editEvent = "Editing an event";
 save = "Save";
+nothingAnalyze = "Nothing to analyse yet";
+filters = "Filters";
+allTrackers = "All trackers";
+todayTrackers = "Trackers for today";
+completed = "Completed";
+notCompeted = "Unfinished";
+monday = "Monday";
+tuesday = "Tuesday";
+wednesday = "Wednesday";
+thurshday = "Thurshday";
+friday = "Friday";
+saturday = "Saturday";
+sunday = "Sunday";
+mon = "Mon";
+tue = "Tue";
+wed = "Wed";
+thu = "Thu";
+fri = "Fri";
+sat = "Sat";
+sun = "Sun";
