@@ -66,3 +66,7 @@ thu = "Thu";
 fri = "Fri";
 sat = "Sat";
 sun = "Sun";
+bestPeriod = "Best period";
+perfectDays = "Perfect days";
+trackersCompleted = "Trackers complete";
+averageCompleted = "Average value";

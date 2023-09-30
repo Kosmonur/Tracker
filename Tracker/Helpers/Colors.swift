@@ -10,6 +10,7 @@ import UIKit
 enum Color {
     
     static let colorsArray: [UIColor] = (1...18).map { UIColor(named:"Color selection \($0)") ?? UIColor.clear }
+    static let gradientColors: [UIColor] = (1...3).map { UIColor(named:"GradientColor\($0)") ?? UIColor.black }
     
     static let ypBackground = UIColor(named: "YP_Background")
     static let ypBlack = UIColor(named: "YP_Black")

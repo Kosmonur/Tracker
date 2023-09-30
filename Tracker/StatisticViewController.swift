@@ -9,6 +9,13 @@ import UIKit
 
 final class StatisticViewController: UIViewController {
     
+    private let trackerRecordStore = TrackerRecordStore.shared
+    
+    private var bestPeriod = 0
+    private var perfectDays = 0
+    private var trackersCompleted = 0
+    private var averageCompleted = 0
+    
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = Font.bold34
@@ -16,6 +23,43 @@ final class StatisticViewController: UIViewController {
         titleLabel.text = NSLocalizedString("statisticsTitle", comment: "")
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
+    }()
+    
+    private lazy var bestPeriodView: StatisticView = {
+        let bestPeriodView = StatisticView()
+        bestPeriodView.valueLabel.text = "0"
+        bestPeriodView.nameLabel.text = NSLocalizedString("bestPeriod", comment: "")
+        return bestPeriodView
+    }()
+    
+    private lazy var perfectDaysView: StatisticView = {
+        let perfectDaysView = StatisticView()
+        perfectDaysView.valueLabel.text = "0"
+        perfectDaysView.nameLabel.text = NSLocalizedString("perfectDays", comment: "")
+        return perfectDaysView
+    }()
+    
+    private lazy var trackersCompletedView: StatisticView = {
+        let trackersCompletedView = StatisticView()
+        trackersCompletedView.valueLabel.text = "0"
+        trackersCompletedView.nameLabel.text = NSLocalizedString("trackersCompleted", comment: "")
+        return trackersCompletedView
+    }()
+    
+    private lazy var averageCompletedView: StatisticView = {
+        let averageCompletedView = StatisticView()
+        averageCompletedView.valueLabel.text = "0"
+        averageCompletedView.nameLabel.text = NSLocalizedString("averageCompleted", comment: "")
+        return averageCompletedView
+    }()
+    
+    private lazy var viewStack: UIStackView = {
+        let viewStack = UIStackView()
+        viewStack.translatesAutoresizingMaskIntoConstraints = false
+        viewStack.axis = .vertical
+        viewStack.spacing = 12
+        viewStack.distribution = .equalSpacing
+        return viewStack
     }()
     
     private lazy var stub: UIImageView = {
@@ -40,26 +84,57 @@ final class StatisticViewController: UIViewController {
         
         setupContent()
         setupConstraints()
-
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        trackersCompleted = trackerRecordStore.completedTrackers.count
+        averageCompleted = (try? trackerRecordStore.averageCompleted()) ?? 0
+        
+        if bestPeriod != 0 ||
+            perfectDays != 0 ||
+            trackersCompleted != 0 ||
+            averageCompleted != 0 {
+            
+            bestPeriodView.valueLabel.text = String("\(bestPeriod)")
+            perfectDaysView.valueLabel.text = String("\(perfectDays)")
+            trackersCompletedView.valueLabel.text = String("\(trackersCompleted)")
+            averageCompletedView.valueLabel.text = String("\(averageCompleted)")
+            
+            hideStub()
+            
+        } else {
+            showStub()
+        }
     }
     
     private func showStub() {
         stub.isHidden = false
         stubLabel.isHidden = false
+        viewStack.isHidden = true
+        
     }
     
     private func hideStub() {
         stub.isHidden = true
         stubLabel.isHidden = true
+        viewStack.isHidden = false
     }
     
     private func setupContent() {
         view.backgroundColor = Color.ypWhite
-        
         view.addSubview(titleLabel)
+        
+        viewStack.addArrangedSubview(bestPeriodView)
+        viewStack.addArrangedSubview(perfectDaysView)
+        viewStack.addArrangedSubview(trackersCompletedView)
+        viewStack.addArrangedSubview(averageCompletedView)
+        view.addSubview(viewStack)
+        
         view.addSubview(stub)
         view.addSubview(stubLabel)
-
     }
     
     private func setupConstraints() {
@@ -70,6 +145,11 @@ final class StatisticViewController: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
+            viewStack.heightAnchor.constraint(equalToConstant: 90*4+12*3),
+            viewStack.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            viewStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            viewStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
             stub.widthAnchor.constraint(equalToConstant: 80),
             stub.heightAnchor.constraint(equalToConstant: 80),
             stub.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
@@ -77,8 +157,7 @@ final class StatisticViewController: UIViewController {
             
             stubLabel.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: 40+8+9),
             stubLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-
+            
         ])
     }
-
 }

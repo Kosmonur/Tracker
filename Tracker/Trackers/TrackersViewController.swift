@@ -5,16 +5,15 @@
 //  Created by Александр Пичугин on 27.07.2023.
 //
 
+
 import UIKit
 
 final class TrackersViewController: UIViewController {
     
-    weak var delegate: NewTrackerViewControllerDelegate?
-    
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerStore = TrackerStore.shared
+    private let trackerRecordStore = TrackerRecordStore.shared
     
-    private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
@@ -372,6 +371,9 @@ extension TrackersViewController: TrackerCellDelegate {
             alert.addAction(UIAlertAction(title: NSLocalizedString("delete", comment: ""),
                                           style: .destructive) { [self] _ in
                 try? self?.trackerStore.deleteTracker(trackerId)
+                try? self?.trackerRecordStore.removeRecordWithId(trackerId)
+//                let trackerRecord = TrackerRecord(idRecord: trackerId ?? UUID(), dateRecord: self?.datePicker.date ?? Date())
+//                try? self?.trackerRecordStore.removeRecord(trackerRecord)
                 
                 let newVisibleCategories = self?.visibleCategories.map { category in
                     let trackers = category.trackers.filter { $0.id != trackerId }
