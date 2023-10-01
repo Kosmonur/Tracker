@@ -8,15 +8,38 @@
 import UIKit
 import CoreData
 
+protocol TrackerStoreDelegate: AnyObject {
+    func didUpdateCategories()
+}
+
 enum TrackerStoreError: Error {
     case errorDecodingTracker
 }
 
 final class TrackerStore: NSObject {
     
-    private let context: NSManagedObjectContext
+    static let shared = TrackerStore()
+    
     private let uiColorMarshalling = UIColorMarshalling()
     private let uiScheduleMarshalling = UIScheduleMarshalling()
+    
+    weak var delegate: TrackerStoreDelegate?
+    
+    private let context: NSManagedObjectContext
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.id, ascending: true)]
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        fetchedResultsController.delegate = self
+        try? fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
     
     convenience override init() {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -45,7 +68,8 @@ final class TrackerStore: NSObject {
                        name: name,
                        color: uiColorMarshalling.color(from: color),
                        emoji: emoji,
-                       schedule: uiScheduleMarshalling.weekDays(from: data.schedule))
+                       schedule: uiScheduleMarshalling.weekDays(from: data.schedule),
+                       isPinned: data.isPinned)
     }
     
     func newTracker(_ tracker: Tracker) -> TrackerCoreData {
@@ -55,6 +79,46 @@ final class TrackerStore: NSObject {
         trackerCoreData.color = uiColorMarshalling.hexString(from: tracker.color)
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = uiScheduleMarshalling.int(from: tracker.schedule)
+        trackerCoreData.isPinned = tracker.isPinned
         return trackerCoreData
     }
+    
+    func deleteTracker(_ trackerID: UUID?) throws {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerID}) else { return }
+        context.delete(record)
+        try context.save()
+    }
+    
+    func setTrackerPinnedState(_ trackerId: UUID?, isPinned: Bool) throws {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerId}) else { return }
+        record.isPinned = isPinned
+        try context.save()
+    }
+    
+    func getTrackerFromID(_ trackerId: UUID?) throws  -> Tracker {
+        guard let record = fetchedResultsController.fetchedObjects?.first(where: {
+            $0.id == trackerId}),
+            let id = record.id,
+            let name = record.name,
+            let color = record.color,
+            let emoji = record.emoji
+        else {
+            throw TrackerStoreError.errorDecodingTracker
+        }
+        return Tracker(id: id,
+                       name: name,
+                       color: uiColorMarshalling.color(from: color),
+                       emoji: emoji,
+                       schedule: uiScheduleMarshalling.weekDays(from: record.schedule),
+                       isPinned: record.isPinned)
+    }
 }
+
+extension TrackerStore: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.didUpdateCategories()
+    }
+}
+

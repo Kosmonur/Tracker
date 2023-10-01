@@ -19,7 +19,7 @@ final class CategoryViewController: UIViewController {
         addCategoryButton.backgroundColor = Color.ypBlack
         addCategoryButton.setTitleColor(Color.ypWhite, for: .normal)
         addCategoryButton.titleLabel?.font = Font.medium16
-        addCategoryButton.setTitle(Constant.addCategoryButtonTitle, for: .normal)
+        addCategoryButton.setTitle(NSLocalizedString("addCategoryButtonTitle", comment: ""), for: .normal)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         return addCategoryButton
@@ -37,7 +37,7 @@ final class CategoryViewController: UIViewController {
         stubLabel.font = Font.medium12
         stubLabel.textColor = Color.ypBlack
         stubLabel.numberOfLines = 2
-        stubLabel.text = Constant.stubLabelText
+        stubLabel.text = NSLocalizedString("stubLabelText", comment: "")
         stubLabel.textAlignment = .center
         stubLabel.translatesAutoresizingMaskIntoConstraints = false
         return stubLabel
@@ -75,7 +75,7 @@ final class CategoryViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16,
                                                                    .foregroundColor: Color.ypBlack ?? .label]
-        title = Constant.categoryTitle
+        title = NSLocalizedString("categoryTitle", comment: "")
         
         view.addSubview(addCategoryButton)
         

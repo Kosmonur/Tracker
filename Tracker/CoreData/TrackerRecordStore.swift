@@ -18,6 +18,7 @@ enum TrackerRecordError: Error {
 
 final class TrackerRecordStore: NSObject {
     
+    static let shared = TrackerRecordStore()
     weak var delegate: TrackerRecordStoreDelegate?
     private let context: NSManagedObjectContext
     
@@ -83,6 +84,31 @@ final class TrackerRecordStore: NSObject {
         }) else { return }
         context.delete(record)
         try context.save()
+    }
+    
+    func removeRecordWithId(_ trackerId: UUID?) throws {
+        guard let record = fetchedResultsController.fetchedObjects?.filter({$0.idRecord == trackerId})
+        else { return }
+        record.forEach({context.delete($0)})
+        try context.save()
+    }
+    
+    func comletedTrackerWithId(_ trackerId: UUID) throws  -> Int {
+        completedTrackers.filter({$0.idRecord == trackerId}).count
+    }
+    
+    func averageCompleted() throws -> Int {
+        guard let dates = fetchedResultsController.fetchedObjects?.map({
+            let components = Calendar.current.dateComponents([.year, .month, .day], from: $0.dateRecord ?? Date())
+            return Calendar.current.date(from: components)
+        })
+        else {return 0}
+        let countsCompletedInOneDayArray = (dates.reduce(into: [:]) { counts, word in counts[word, default: 0] += 1 }).map({$0.value})
+
+        let arraySum = countsCompletedInOneDayArray.reduce(0, +)
+        let length = countsCompletedInOneDayArray.count
+        let average = length != 0 ? Int(Double(arraySum)/Double(length)) : 0
+        return average
     }
 }
 

@@ -19,7 +19,7 @@ final class CreateNewTrackerController: UIViewController {
         newHabitButton.backgroundColor = Color.ypBlack
         newHabitButton.setTitleColor(Color.ypWhite, for: .normal)
         newHabitButton.titleLabel?.font = Font.medium16
-        newHabitButton.setTitle(Constant.newHabitButtonTitle, for: .normal)
+        newHabitButton.setTitle(NSLocalizedString("newHabitButtonTitle", comment: ""), for: .normal)
         newHabitButton.layer.cornerRadius = 16
         newHabitButton.translatesAutoresizingMaskIntoConstraints = false
         return newHabitButton
@@ -33,7 +33,7 @@ final class CreateNewTrackerController: UIViewController {
         irregularEventButton.backgroundColor = Color.ypBlack
         irregularEventButton.setTitleColor(Color.ypWhite, for: .normal)
         irregularEventButton.titleLabel?.font = Font.medium16
-        irregularEventButton.setTitle(Constant.irregularEventButtonTitle, for: .normal)
+        irregularEventButton.setTitle(NSLocalizedString("irregularEventButtonTitle", comment: ""), for: .normal)
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
         return irregularEventButton
@@ -57,7 +57,7 @@ final class CreateNewTrackerController: UIViewController {
         view.backgroundColor = Color.ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: Font.medium16, .foregroundColor: Color.ypBlack ?? .label]
-        title = Constant.newTrackerControllerTitle
+        title = NSLocalizedString("newTrackerControllerTitle", comment: "")
         buttonsStack.addArrangedSubview(newHabitButton)
         buttonsStack.addArrangedSubview(irregularEventButton)
         view.addSubview(buttonsStack)

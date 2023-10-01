@@ -10,11 +10,14 @@ import UIKit
 protocol TrackerCellDelegate: AnyObject {
     func completeTracker(id: UUID, at indexPath: IndexPath)
     func uncompleteTracker(id: UUID, at indexPath: IndexPath)
+    func contextMenu(_ trackerId: UUID?, at indexPath: IndexPath) -> UIContextMenuConfiguration?
 }
 
 final class TrackerViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "TrackerViewCell"
+    
+    private let analyticsService = AnalyticsService.shared
     
     private lazy var viewCell: UIView = {
         let viewCell = UIView()
@@ -22,6 +25,8 @@ final class TrackerViewCell: UICollectionViewCell {
         viewCell.layer.borderColor = Color.ypCellBorderColor?.cgColor
         viewCell.layer.borderWidth = 1
         viewCell.translatesAutoresizingMaskIntoConstraints = false
+        let interaction = UIContextMenuInteraction(delegate: self)
+        viewCell.addInteraction(interaction)
         return viewCell
     }()
     
@@ -34,6 +39,13 @@ final class TrackerViewCell: UICollectionViewCell {
         emojiLabel.backgroundColor = Color.ypEmojiBgColor
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         return emojiLabel
+    }()
+    
+    private lazy var isPinned: UIImageView = {
+        let isPinned = UIImageView()
+        isPinned.image = UIImage(named: "isPinned")
+        isPinned.translatesAutoresizingMaskIntoConstraints = false
+        return isPinned
     }()
     
     private lazy var textLabel: UILabel = {
@@ -92,6 +104,7 @@ final class TrackerViewCell: UICollectionViewCell {
         contentView.addSubview(viewCell)
         viewCell.addSubview(emojiLabel)
         viewCell.addSubview(textLabel)
+        viewCell.addSubview(isPinned)
         contentView.addSubview(footerView)
         footerView.addSubview(dayLabel)
         footerView.addSubview(plusButton)
@@ -113,6 +126,11 @@ final class TrackerViewCell: UICollectionViewCell {
             textLabel.bottomAnchor.constraint(equalTo: viewCell.bottomAnchor, constant: -12),
             textLabel.leadingAnchor.constraint(equalTo: viewCell.leadingAnchor, constant: 12),
             textLabel.trailingAnchor.constraint(equalTo: viewCell.trailingAnchor, constant: -12),
+            
+            isPinned.heightAnchor.constraint(equalToConstant: 24),
+            isPinned.widthAnchor.constraint(equalToConstant: 24),
+            isPinned.topAnchor.constraint(equalTo: emojiLabel.topAnchor),
+            isPinned.leadingAnchor.constraint(equalTo: emojiLabel.trailingAnchor, constant: 103),
             
             footerView.topAnchor.constraint(equalTo: viewCell.bottomAnchor),
             footerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -137,6 +155,7 @@ final class TrackerViewCell: UICollectionViewCell {
         self.isCompletedToday = isCompletedToday
         self.trackerId = tracker.id
         self.indexPath = indexPath
+        self.isPinned.isHidden = !tracker.isPinned
         
         viewCell.backgroundColor = tracker.color
         plusButton.tintColor = tracker.color
@@ -146,30 +165,12 @@ final class TrackerViewCell: UICollectionViewCell {
         
         emojiLabel.text = tracker.emoji
         textLabel.text = tracker.name
-        
-        let correctWord: String = {
-            var ended = ""
-            let cheсk = completedDays % 10
-            if "1".contains("\(cheсk)") {
-                ended =  Constant.wordOneDay
-            }
-            if "234".contains("\(cheсk)") {
-                ended =  Constant.wordDay
-            }
-            if "567890".contains("\(cheсk)") {
-                ended =  Constant.wordDays
-            }
-            if 11...14 ~= completedDays % 100 {
-                ended =  Constant.wordDays
-            }
-            return ended
-        }()
-        
-        dayLabel.text = "\(completedDays) \(correctWord)"
+        dayLabel.text = "\(completedDays) \(TextHelper.correctDaysWord(for: completedDays))"
     }
     
     @objc
     private func tapPlusButton() {
+        analyticsService.reportEvent(event: "click", params: ["screen": "Main","item":"track"])
         guard let trackerId = trackerId,
               let indexPath = indexPath else {
             return
@@ -179,5 +180,13 @@ final class TrackerViewCell: UICollectionViewCell {
         } else {
             delegate?.completeTracker(id: trackerId, at: indexPath)
         }
+    }
+}
+
+extension TrackerViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath else { return UIContextMenuConfiguration()}
+        return delegate?.contextMenu(trackerId, at: indexPath)
     }
 }

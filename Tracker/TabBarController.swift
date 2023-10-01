@@ -14,10 +14,10 @@ final class TabBarController: UITabBarController {
         
         setupLine()
         let trackersViewController = setControllers(viewController: TrackersViewController(),
-                                                    title: Constant.trackerTitle,
+                                                    title: NSLocalizedString("trackerTitle", comment: ""),
                                                     imageName: "trackers_icon")
         let statisticViewController = setControllers(viewController: StatisticViewController(),
-                                                     title: Constant.rightTabBarTitle,
+                                                     title: NSLocalizedString("statisticsTitle", comment: ""),
                                                      imageName: "stats_icon")
         let navigationController = UINavigationController(rootViewController: trackersViewController)
         viewControllers = [navigationController, statisticViewController]

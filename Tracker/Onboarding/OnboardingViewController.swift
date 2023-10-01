@@ -17,16 +17,16 @@ final class OnboardingViewController: UIPageViewController {
         button.backgroundColor = Color.ypBlackConst
         button.setTitleColor(Color.ypWhiteConst, for: .normal)
         button.titleLabel?.font = Font.medium16
-        button.setTitle(Constant.buttonText, for: .normal)
+        button.setTitle(NSLocalizedString("buttonText", comment: ""), for: .normal)
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var pages: [UIViewController] = {
-        return [PageViewController(title: Constant.blueLabel,
+        return [PageViewController(title: NSLocalizedString("blueLabel", comment: ""),
                                    backgroundImage: UIImage (named: "back1") ?? UIImage()),
-                PageViewController(title: Constant.redLabel,
+                PageViewController(title: NSLocalizedString("redLabel", comment: ""),
                                    backgroundImage: UIImage (named: "back2") ?? UIImage())
         ]
     }()
