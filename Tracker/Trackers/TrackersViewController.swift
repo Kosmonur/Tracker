@@ -13,6 +13,7 @@ final class TrackersViewController: UIViewController {
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerStore = TrackerStore.shared
     private let trackerRecordStore = TrackerRecordStore.shared
+    private let analyticsService = AnalyticsService.shared
     
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -82,6 +83,18 @@ final class TrackersViewController: UIViewController {
         filterButton.translatesAutoresizingMaskIntoConstraints = false
         return filterButton
     }()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        analyticsService.reportEvent(event: "open", params: ["screen":"Main"])
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        analyticsService.reportEvent(event: "close", params: ["screen":"Main"])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -246,6 +259,7 @@ final class TrackersViewController: UIViewController {
         let createNewTrackerController = CreateNewTrackerController()
         createNewTrackerController.delegate = self
         let navigationController = UINavigationController(rootViewController: createNewTrackerController)
+        analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"add_track"])
         present(navigationController, animated: true)
     }
     
@@ -255,6 +269,7 @@ final class TrackersViewController: UIViewController {
         filterViewController.filterSelectionDelegate = self
         filterViewController.selectedFilter = selectedFilter
         let navigationController = UINavigationController(rootViewController: filterViewController)
+        analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"filter"])
         present(navigationController, animated: true)
     }
 }
@@ -346,6 +361,8 @@ extension TrackersViewController: TrackerCellDelegate {
         
         let editTracker = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
             
+            self?.analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"edit"])
+            
             let categoryName = try? self?.trackerCategoryStore.categoryNameIncludedTrackerWithId(trackerId)
             let editedTracker = try? self?.trackerStore.getTrackerFromID(trackerId)
             
@@ -363,6 +380,9 @@ extension TrackersViewController: TrackerCellDelegate {
         
         let deleteTracker = UIAction(title: NSLocalizedString("delete", comment: ""),
                                      attributes: .destructive) { [weak self] _ in
+            
+            self?.analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"delete"])
+            
             let alert = UIAlertController(
                 title: "",
                 message: NSLocalizedString("areYouSureQuestion", comment: ""),
@@ -372,8 +392,6 @@ extension TrackersViewController: TrackerCellDelegate {
                                           style: .destructive) { [self] _ in
                 try? self?.trackerStore.deleteTracker(trackerId)
                 try? self?.trackerRecordStore.removeRecordWithId(trackerId)
-//                let trackerRecord = TrackerRecord(idRecord: trackerId ?? UUID(), dateRecord: self?.datePicker.date ?? Date())
-//                try? self?.trackerRecordStore.removeRecord(trackerRecord)
                 
                 let newVisibleCategories = self?.visibleCategories.map { category in
                     let trackers = category.trackers.filter { $0.id != trackerId }

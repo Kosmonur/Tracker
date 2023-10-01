@@ -17,6 +17,8 @@ final class TrackerViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "TrackerViewCell"
     
+    private let analyticsService = AnalyticsService.shared
+    
     private lazy var viewCell: UIView = {
         let viewCell = UIView()
         viewCell.layer.cornerRadius = 16
@@ -168,6 +170,7 @@ final class TrackerViewCell: UICollectionViewCell {
     
     @objc
     private func tapPlusButton() {
+        analyticsService.reportEvent(event: "click", params: ["screen": "Main","item":"track"])
         guard let trackerId = trackerId,
               let indexPath = indexPath else {
             return
