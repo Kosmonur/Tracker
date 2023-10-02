@@ -170,7 +170,7 @@ final class TrackerViewCell: UICollectionViewCell {
     
     @objc
     private func tapPlusButton() {
-        analyticsService.reportEvent(event: "click", params: ["screen": "Main","item":"track"])
+        analyticsService.reportEvent(Events.clickCompeteButtonEvent)
         guard let trackerId = trackerId,
               let indexPath = indexPath else {
             return

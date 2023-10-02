@@ -87,13 +87,13 @@ final class TrackersViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        analyticsService.reportEvent(event: "open", params: ["screen":"Main"])
+        analyticsService.reportEvent(Events.openMainScreenEvent)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        analyticsService.reportEvent(event: "close", params: ["screen":"Main"])
+        analyticsService.reportEvent(Events.closeMainScreenEvent)
     }
     
     override func viewDidLoad() {
@@ -259,7 +259,7 @@ final class TrackersViewController: UIViewController {
         let createNewTrackerController = CreateNewTrackerController()
         createNewTrackerController.delegate = self
         let navigationController = UINavigationController(rootViewController: createNewTrackerController)
-        analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"add_track"])
+        analyticsService.reportEvent(Events.clickAddTrackerEvent)
         present(navigationController, animated: true)
     }
     
@@ -269,7 +269,7 @@ final class TrackersViewController: UIViewController {
         filterViewController.filterSelectionDelegate = self
         filterViewController.selectedFilter = selectedFilter
         let navigationController = UINavigationController(rootViewController: filterViewController)
-        analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"filter"])
+        analyticsService.reportEvent(Events.clickFilterButtonEvent)
         present(navigationController, animated: true)
     }
 }
@@ -361,7 +361,7 @@ extension TrackersViewController: TrackerCellDelegate {
         
         let editTracker = UIAction(title: NSLocalizedString("edit", comment: "")) { [weak self] _ in
             
-            self?.analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"edit"])
+            self?.analyticsService.reportEvent(Events.clickEditTrackerEvent)
             
             let categoryName = try? self?.trackerCategoryStore.categoryNameIncludedTrackerWithId(trackerId)
             let editedTracker = try? self?.trackerStore.getTrackerFromID(trackerId)
@@ -381,7 +381,7 @@ extension TrackersViewController: TrackerCellDelegate {
         let deleteTracker = UIAction(title: NSLocalizedString("delete", comment: ""),
                                      attributes: .destructive) { [weak self] _ in
             
-            self?.analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"delete"])
+            self?.analyticsService.reportEvent(Events.clickDeleteTrackerEvent)
             
             let alert = UIAlertController(
                 title: "",
@@ -506,3 +506,4 @@ extension TrackersViewController: FilterViewControllerDelegate {
         reloadVisibleCategories()
     }
 }
+

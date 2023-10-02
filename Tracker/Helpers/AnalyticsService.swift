@@ -8,6 +8,12 @@
 import Foundation
 import YandexMobileMetrica
 
+struct Event {
+    let name: String
+    let screen: String
+    let item: String
+}
+
 struct AnalyticsService {
     
     static let shared = AnalyticsService()
@@ -18,8 +24,11 @@ struct AnalyticsService {
         YMMYandexMetrica.activate(with: configuration)
     }
     
-    func reportEvent(event: String, params : [AnyHashable : Any]) {
-        YMMYandexMetrica.reportEvent(event, parameters: params, onFailure: { error in
+    func reportEvent(_ event: Event) {
+        let params = event.item != "" ? ["screen": event.screen, "item": event.item] : ["screen": event.screen]
+        YMMYandexMetrica.reportEvent(event.name,
+                                     parameters: params as [AnyHashable : Any],
+                                     onFailure: { error in
             print("REPORT ERROR: %@", error.localizedDescription)
         })
     }

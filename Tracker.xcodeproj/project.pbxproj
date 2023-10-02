@@ -21,6 +21,7 @@
 		F23372DB2AC0E05000EB3D8E /* TextHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23372DA2AC0E05000EB3D8E /* TextHelper.swift */; };
 		F23372E02AC0EA2D00EB3D8E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F23372E22AC0EA2D00EB3D8E /* Localizable.strings */; };
 		F23372E62AC0FA8D00EB3D8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F23372E82AC0FA8D00EB3D8E /* InfoPlist.strings */; };
+		F238D4862ACB3FCF00988599 /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F238D4852ACB3FCF00988599 /* AnalyticsEvents.swift */; };
 		F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4032A76AC9600CDD96F /* TabBarController.swift */; };
 		F24FF4062A76AFE200CDD96F /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */; };
 		F26345E82A7D695000139468 /* CreateNewTrackerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */; };
@@ -83,6 +84,7 @@
 		F23372E32AC0EA3900EB3D8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F23372E72AC0FA8D00EB3D8E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F23372E92AC0FA9200EB3D8E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F238D4852ACB3FCF00988599 /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AnalyticsEvents.swift; path = ../../../Tracker1/Tracker/Helpers/AnalyticsEvents.swift; sourceTree = "<group>"; };
 		F24FF4032A76AC9600CDD96F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F24FF4052A76AFE200CDD96F /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		F26345E72A7D694F00139468 /* CreateNewTrackerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTrackerController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				F2BC13822AA7A3BC005D6120 /* Extention.swift */,
 				F23372DA2AC0E05000EB3D8E /* TextHelper.swift */,
 				F27E432F2AC8F6CA0076BE0E /* AnalyticsService.swift */,
+				F238D4852ACB3FCF00988599 /* AnalyticsEvents.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				F2BAC2632A93FFB10009920F /* TrackerStore.swift in Sources */,
 				F22414622A859B560045E50C /* CategoryViewController.swift in Sources */,
 				F2BAC2B42AA3C0880009920F /* OnboardingViewController.swift in Sources */,
+				F238D4862ACB3FCF00988599 /* AnalyticsEvents.swift in Sources */,
 				F2BAC2652A93FFD40009920F /* TrackerCategoryStore.swift in Sources */,
 				F24FF4042A76AC9600CDD96F /* TabBarController.swift in Sources */,
 				F22C50942A79729100FE23C1 /* SupplementaryView.swift in Sources */,
