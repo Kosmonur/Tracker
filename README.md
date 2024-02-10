@@ -198,4 +198,4 @@
 3. Для хранения данных о привычках используется Core Data.
 
 # Видео с демонстрацией работы приложения
-- [Видео](https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/demo.mp4)
+- [Видео](https://disk.yandex.ru/i/KA25roi6o_j4gQ)
