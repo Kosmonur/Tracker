@@ -2,4 +2,4 @@
 *.js linguist-detectable=false
 *.html linguist-detectable=false
 *.xml linguist-detectable=false
-*.css linguist-language=Swift
+*.swift.gyb linguist-language=Swift
