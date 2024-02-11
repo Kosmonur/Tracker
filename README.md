@@ -31,7 +31,7 @@
 
 При первом входе в приложение пользователь попадает на экран онбординга.
 
-<img width="200" alt="Onboarding" src="https://raw.githubusercontent.com/Kosmonur/Tracker/main/Tracker/Assets.xcassets/Screenshots/onboarding.png">
+<img width="200" src="https://raw.githubusercontent.com/Kosmonur/Tracker/main/Tracker/Assets.xcassets/Screenshots/onboarding.png">
 
 **Экран онбординга содержит:**
 
@@ -60,7 +60,7 @@
 7. Кнопка «Отменить»;
 8. Кнопка «Создать».
 
-<img width="200" alt="Habbit" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/habbit.png">
+<img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/habbit.png">
 
 **Экран создания трекера для нерегулярного события содержит:**
 
@@ -72,7 +72,7 @@
 6. Кнопка «Отменить»;
 7. Кнопка «Создать».
 
-<img width="200" alt="Irregular" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/irregular.png">
+<img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/irregular.png">
 
 **Алгоритмы и доступные действия:**
 
@@ -101,7 +101,7 @@
 
 На главном экране пользователь может просмотреть все созданные трекеры на выбранную дату, отредактировать их и посмотреть статистику.
 
-<img width="200" alt="Mainscreen" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/mainscreen.png">
+<img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/mainscreen.png">
 
 **Главный экран содержит:**
 
@@ -126,7 +126,7 @@
 4. При нажатии на «Фильтры» всплывает шторка со списком фильтром;
    
 
-   <img width="200" alt="Filter" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/filter.png">
+   <img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/filter.png">
    
     1. Кнопка фильтрации отсутствует, если на выбранный день нет трекеров;
     2. При выборе «Все трекеры» пользователь видит все трекеры на выбранный день;
@@ -165,7 +165,7 @@
 
 Во вкладке статистики пользователь может посмотреть успешные показатели, свой прогресс и средние значения.
 
-<img width="200" alt="Statistic" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/statistic.png">
+<img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/statistic.png">
 
 **Экран статистики содержит:**
 
@@ -189,7 +189,7 @@
 
 В приложении есть темная тема, которая меняется в зависимости от настроек системы устройства.
 
-<img width="200" alt="Dark" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/dark.png">
+<img width="200" src="https://github.com/Kosmonur/Tracker/blob/main/Tracker/Assets.xcassets/Screenshots/dark.png">
 
 # Нефункциональные требования
 
